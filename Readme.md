@@ -38,6 +38,9 @@ Apply the patch:
 Get the latest version from trunk:
 
     git clone https://github.com/openpetra/openpetra.git
+    # possibly go back to a certain revision
+    git branch release2014_05 6e76e79b70e92ab783b47b60b946cd59d2b30596
+    git checkout release2014_05
 
 Get this repository:
 
@@ -46,6 +49,29 @@ Get this repository:
 Now run:
 
     ./OpenPetraPatchRemoting/patch.sh openpetra OpenPetraPatchRemoting
+
+If there are conflicts, and the patch fails, you can fix the patch and reset the openpetra directory:
+
+    git reset --hard
+    git clean -f -d
+
+To find problems and fixing them one by one:
+
+    cd openpetra
+    for f in ../OpenPetraPatchRemoting/patch/*; do echo $f; patch -p1 --dry-run < $f || break; done
+
+You can fix a file in the working directory like this example:
+
+    # apply part of the patch that is working
+    patch -p1 < ../OpenPetraPatchRemoting/patch/csharp_ICT_Petra_Server_lib_MCommon_Main.cs.patch
+    # see the .rej file: csharp/ICT/Petra/Server/lib/MCommon/Main.cs.rej
+    # now manuall fix the file
+    vi csharp/ICT/Petra/Server/lib/MCommon/Main.cs
+    # recreate the patch file
+    git diff csharp/ICT/Petra/Server/lib/MCommon/Main.cs > ../OpenPetraPatchRemoting/patch/csharp_ICT_Petra_Server_lib_MCommon_Main.cs.patch
+    # reset the file in the working directory
+    git checkout csharp/ICT/Petra/Server/lib/MCommon/Main.cs
+
 
 To verify the patch:
 --------------------
