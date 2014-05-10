@@ -1,0 +1,11 @@
+--- trunk/csharp/ICT/Petra/Server/lib/MPartner/connect/Extract.NewExtract.cs	2014-05-10 06:50:27.000000000 +0200
++++ remoting/csharp/ICT/Petra/Server/lib/MPartner/connect/Extract.NewExtract.cs	2014-05-10 06:53:13.000000000 +0200
+@@ -38,7 +38,7 @@
+     /// New Extract User Interface Connector
+     /// It contains methods to create new extracts in m_extract_master data table
+     /// </summary>
+-    public class TPartnerNewExtractUIConnector : TConfigurableMBRObject, IPartnerUIConnectorsPartnerNewExtract
++    public class TPartnerNewExtractUIConnector : IPartnerUIConnectorsPartnerNewExtract
+     {
+         Int32 FNewExtractID = -1;
+ 

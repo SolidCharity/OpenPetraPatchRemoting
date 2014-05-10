@@ -1,0 +1,20 @@
+--- trunk/csharp/ICT/Testing/lib/Reporting/test.cs	2014-05-10 06:50:27.000000000 +0200
++++ remoting/csharp/ICT/Testing/lib/Reporting/test.cs	2014-05-10 06:53:13.000000000 +0200
+@@ -4,7 +4,7 @@
+ // @Authors:
+ //       timop
+ //
+-// Copyright 2004-2011 by OM International
++// Copyright 2004-2013 by OM International
+ //
+ // This file is part of OpenPetra.org.
+ //
+@@ -65,7 +65,7 @@
+         [SetUp]
+         public void Init()
+         {
+-            new TLogging("test.log");
++            new TLogging("../../log/test.log");
+ 
+             // TODO: what about different cultures?
+             OrigCulture = new CultureInfo("en-GB", false);

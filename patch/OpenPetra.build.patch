@@ -1,0 +1,117 @@
+--- trunk/OpenPetra.build	2014-05-10 06:50:27.000000000 +0200
++++ remoting/OpenPetra.build	2014-05-10 06:53:13.000000000 +0200
+@@ -22,14 +22,16 @@
+   compileProject: compile a single project file
+       nant compileProject -D:file=delivery/projects/sharpdevelop4/Ict.Testing.ControlTestBench.csproj 
+   start: start both the local server and client
+-  startPetraServer: run a local Petra Server
+-  stopPetraServer: stop the local Petra Server
+-  startPetraClient: run the Petra Client
++  startServer: run a local OpenPetra Server
++  stopServer: stop the local OpenPetra Server
++  startClient: run the OpenPetra Client
++  startStandalone: run the OpenPetra standalone application, if generateSolution was run with -D:compileForStandalone=true
+   deleteBakFiles: delete all backup files
+   initConfigFiles: write and overwrite the config files for client, server and testing, and the version.txt
+-  test: will run the NUnit tests
++  test: will run the NUnit tests (smaller tests: test-without-display, test-main-navigation-screens, test-client)
+       nant test-without-display             runs all basic tests (excl. GUI tests)
+       nant test-main-navigation-screens     tests the opening of all screens from the main menu
++      nant test-client
+   devzip: build a zip file for developers for easy start
+ 
+ compat:
+@@ -104,7 +106,7 @@
+ 
+ <target name="translation" description="create the dlls with the i18n messages" >
+   <property name="target" value="compile" overwrite="false" />
+-  <nant inheritall="false" target="${target}" 
++  <nant inheritall="true" target="${target}" 
+         buildfile="i18n/i18n.build" />
+ </target>
+ 
+@@ -227,6 +229,7 @@
+     CodeRootDir="${dir.csharp}"
+     NamespaceMapFilename="${namespaceFile}"
+     NamespaceMap3rdParty="${namespaceFile3rdParty}"
++    CompilingForStandalone="${compileForStandalone}"
+     DependencyMapFilename="${projectDependenciesFile}"/>
+ </target>
+ 
+@@ -239,7 +242,7 @@
+     NamespaceMap3rdParty="${namespaceFile3rdParty}"
+     DependencyMapFilename="${projectDependenciesFile}"
+     ShowWarnings="false"
+-    LimitToNamespaces="Ict.Common,Ict.Common.IO,Ict.Common.DB,Ict.Tools*"/>
++    LimitToNamespaces="Ict.Common,Ict.Common.IO,Ict.Common.DB,Ict.Common.Session,Ict.Tools*"/>
+   <nant inheritall="false" target="compile" 
+         buildfile="csharp/ThirdParty/ThirdParty.build" />
+   <call target="generateProjectFilesInternal"/>
+@@ -336,12 +339,12 @@
+   <nant inheritall="true" target="previewWinform" buildfile="${path::combine(dir.csharp, 'ICT/Petra/Client/Ict.Petra.Client.build')}" verbose="${verbose}"/>
+ </target>
+ 
+-<target name="test" depends="initConfigFiles">
++<target name="test" depends="initConfigFiles, set-server-port-for-jenkins">
+   <loadtasks assembly="${Ict.Tools.NAntTasks.DLL}" unless="${task::exists('GenerateNamespaceMap')}"/>
+   <nant inheritall="false" target="test-all" buildfile="${path::combine(dir.csharp, 'ICT/Testing/ICT.Testing.build')}" verbose="${verbose}"/>
+ </target>
+ 
+-<target name="test-without-display" depends="initConfigFiles">
++<target name="test-without-display" depends="initConfigFiles, set-server-port-for-jenkins">
+   <loadtasks assembly="${Ict.Tools.NAntTasks.DLL}" unless="${task::exists('GenerateNamespaceMap')}"/>
+   <nant inheritall="false" target="test-without-display" buildfile="${path::combine(dir.csharp, 'ICT/Testing/ICT.Testing.build')}" verbose="${verbose}"/>
+ </target>
+@@ -351,20 +354,44 @@
+   <nant inheritall="false" target="test-main-navigation-screens-core" buildfile="${path::combine(dir.csharp, 'ICT/Testing/ICT.Testing.build')}" verbose="${verbose}"/>
+ </target>
+ 
+-<target name="test-main-navigation-screens" depends="initConfigFiles">
++<target name="test-main-navigation-screens" depends="initConfigFiles, set-server-port-for-jenkins">
+   <loadtasks assembly="${Ict.Tools.NAntTasks.DLL}" unless="${task::exists('GenerateNamespaceMap')}"/>
+   <nant inheritall="false" target="test-main-navigation-screens" buildfile="${path::combine(dir.csharp, 'ICT/Testing/ICT.Testing.build')}" verbose="${verbose}"/>
+ </target>
+ 
++<target name="test-client" depends="initConfigFiles, set-server-port-for-jenkins">
++  <loadtasks assembly="${Ict.Tools.NAntTasks.DLL}" unless="${task::exists('GenerateNamespaceMap')}"/>
++  <nant inheritall="false" target="test-client" buildfile="${path::combine(dir.csharp, 'ICT/Testing/ICT.Testing.build')}" verbose="${verbose}"/>
++</target>
++
+ <target name="enable-sqlite-config-for-jenkins">
+     <echo file="OpenPetra.build.config">&lt;?xml version="1.0"?>
+ &lt;project name="OpenPetra-userconfig">
+     &lt;property name="DBMS.Type" value="sqlite"/>
+     &lt;property name="DBMS.Password" value=""/>
++    &lt;property name="Server.Port" value="${Server.Port}"/>
+ &lt;/project>
+     </echo>
+ </target>
+ 
++<!-- need to set the server port here, since it is not passed when called the Unit tests, so they are not using the server port defined on the command line;
++     only applies if no local OpenPetra.build.config file exists -->
++<target name="set-server-port-for-jenkins">
++    <if test="${not file::exists('OpenPetra.build.config') and not file::exists('OpenPetra.build.config.my')}">
++        <echo file="OpenPetra.build.config">&lt;?xml version="1.0"?>
++    &lt;project name="OpenPetra-userconfig">
++        &lt;property name="Server.Port" value="${Server.Port}"/>
++        &lt;property name="PostgreSQL.Version" value="${PostgreSQL.Version}"/>
++        &lt;property name="DBMS.Type" value="${DBMS.Type}"/>
++        &lt;property name="DBMS.DBHostOrFile" value="${DBMS.DBHostOrFile}"/>
++        &lt;property name="DBMS.DBName" value="${DBMS.DBName}"/>
++        &lt;property name="DBMS.UserName" value="${DBMS.UserName}"/>
++        &lt;property name="DBMS.Password" value="${DBMS.Password}"/>
++    &lt;/project>
++        </echo>
++    </if>
++</target>
++
+ <target name="devzip">
+     <!-- calling script must get a fresh bzr tree, write OpenPetra.build.config with sqlite -->
+ 
+@@ -406,5 +433,6 @@
+ 
+     <!-- calling script must upload the zip file to sourceforge -->
+ </target>
++
+ </project>
+ 

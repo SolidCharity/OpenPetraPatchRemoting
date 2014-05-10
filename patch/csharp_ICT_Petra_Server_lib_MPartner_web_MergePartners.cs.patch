@@ -1,0 +1,10 @@
+--- trunk/csharp/ICT/Petra/Server/lib/MPartner/web/MergePartners.cs	2014-05-10 06:50:27.000000000 +0200
++++ remoting/csharp/ICT/Petra/Server/lib/MPartner/web/MergePartners.cs	2014-05-10 06:53:13.000000000 +0200
+@@ -30,6 +30,7 @@
+ using Ict.Common;
+ using Ict.Common.DB;
+ using Ict.Common.Verification;
++using Ict.Common.Remoting.Server;
+ using Ict.Petra.Server.App.Core;
+ using Ict.Petra.Server.App.Core.Security;
+ using Ict.Petra.Server.MConference.Data.Access;

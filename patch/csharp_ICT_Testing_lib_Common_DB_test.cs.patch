@@ -1,0 +1,11 @@
+--- trunk/csharp/ICT/Testing/lib/Common/DB/test.cs	2014-05-10 06:50:27.000000000 +0200
++++ remoting/csharp/ICT/Testing/lib/Common/DB/test.cs	2014-05-10 06:53:13.000000000 +0200
+@@ -76,7 +76,7 @@
+         [SetUp]
+         public void Init()
+         {
+-            new TLogging("test.log");
++            new TLogging("../../log/test.log");
+             new TAppSettingsManager("../../etc/TestServer.config");
+ 
+             EstablishDBConnection();

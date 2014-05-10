@@ -1,0 +1,13 @@
+--- trunk/csharp/ICT/Petra/ServerPlugins/AuthenticationPhpBB/authenticate.php	2014-05-10 06:50:27.000000000 +0200
++++ remoting/csharp/ICT/Petra/ServerPlugins/AuthenticationPhpBB/authenticate.php	2014-05-10 06:53:13.000000000 +0200
+@@ -43,8 +43,8 @@
+ $mycr = new mycrypt();
+ // make sure the path of secretkey.dat cannot be accessed from the outside
+ $mycr->init($SecretKeyFile);
+-$msg = base64_decode($_GET["msg"]);
+-$iv = base64_decode($_GET["msg2"]);
++$msg = base64_decode($_POST["msg"]);
++$iv = base64_decode($_POST["msg2"]);
+ $clearmsg = $mycr->decrypt($msg, $iv);
+ $pos = strpos($clearmsg, ";");
+ $username = substr($clearmsg, 0, $pos);

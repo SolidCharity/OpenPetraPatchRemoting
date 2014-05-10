@@ -1,0 +1,19 @@
+--- trunk/csharp/ICT/Petra/Server/lib/MCommon/OfficeSpecificDataLabels.cs	2014-05-10 06:50:27.000000000 +0200
++++ remoting/csharp/ICT/Petra/Server/lib/MCommon/OfficeSpecificDataLabels.cs	2014-05-10 06:53:13.000000000 +0200
+@@ -31,7 +31,6 @@
+ using Ict.Petra.Server.MCommon;
+ using Ict.Petra.Shared;
+ using Ict.Petra.Shared.Interfaces.MPartner;
+-using Ict.Petra.Shared.Interfaces.MPersonnel;
+ using Ict.Petra.Shared.Interfaces.MCommon;
+ using Ict.Petra.Shared.MCommon;
+ using Ict.Petra.Shared.MCommon.Data;
+@@ -66,7 +65,7 @@
+     ///          are also UIConnectors are feasible.
+     ///
+     /// </summary>
+-    public class TOfficeSpecificDataLabelsUIConnector : TConfigurableMBRObject, IDataElementsUIConnectorsOfficeSpecificDataLabels
++    public class TOfficeSpecificDataLabelsUIConnector : IDataElementsUIConnectorsOfficeSpecificDataLabels
+     {
+         private OfficeSpecificDataLabelsTDS FOfficeSpecificDataLabelsTDS;
+         private System.Int64 FPartnerKey;

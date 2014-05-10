@@ -1,0 +1,11 @@
+--- trunk/csharp/ICT/Testing/lib/Common/Controls/ComboboxAutoPopulated.cs	2014-05-10 06:50:27.000000000 +0200
++++ remoting/csharp/ICT/Testing/lib/Common/Controls/ComboboxAutoPopulated.cs	2014-05-10 06:53:13.000000000 +0200
+@@ -56,7 +56,7 @@
+         [SetUp]
+         public void Init()
+         {
+-            new TLogging("TestCommonControls.log");
++            new TLogging("../../log/TestCommonControls.log");
+ 
+             TPetraConnector.Connect("../../etc/TestClient.config");
+             FLedgerNumber = Convert.ToInt32(TAppSettingsManager.GetValue("LedgerNumber"));

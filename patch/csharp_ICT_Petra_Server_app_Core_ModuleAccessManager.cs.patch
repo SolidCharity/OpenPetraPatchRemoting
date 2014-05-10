@@ -1,0 +1,21 @@
+--- trunk/csharp/ICT/Petra/Server/app/Core/ModuleAccessManager.cs	2014-05-10 06:50:27.000000000 +0200
++++ remoting/csharp/ICT/Petra/Server/app/Core/ModuleAccessManager.cs	2014-05-10 06:53:13.000000000 +0200
+@@ -326,4 +326,17 @@
+         /// </summary>
+         public readonly string RequiredModulesExpression;
+     }
++
++    /// <summary>
++    /// attribute for annotation of server functions. Instantiator will check access permissions
++    /// </summary>
++    public class CheckServerAdminTokenAttribute : System.Attribute
++    {
++        /// <summary>
++        /// constructor
++        /// </summary>
++        public CheckServerAdminTokenAttribute()
++        {
++        }
++    }
+ }
+\ No newline at end of file

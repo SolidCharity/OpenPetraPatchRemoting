@@ -1,0 +1,45 @@
+--- trunk/inc/template/src/ClientServerGlue/Interface.cs	2014-05-10 06:50:27.000000000 +0200
++++ remoting/inc/template/src/ClientServerGlue/Interface.cs	2014-05-10 06:53:13.000000000 +0200
+@@ -19,28 +19,13 @@
+ 
+ namespace Ict.Petra.Shared.Interfaces.M{#MODULE}
+ {
+-    /// <summary>auto generated</summary>
+-    public interface IM{#MODULE}Namespace : IInterface
+-    {
+-        {#SUBNAMESPACES}
+-    }
+-    
+     {#INTERFACES}
+ }
+ 
+-{##SUBNAMESPACE}
+-/// <summary>access to sub namespace</summary>
+-I{#SUBNAMESPACENAME}Namespace {#SUBNAMESPACEOBJECT}
+-{
+-    get;
+-}
+-
+ {##INTERFACE}
+ /// <summary>auto generated</summary>
+ public interface {#INTERFACENAME} : IInterface
+ {
+-    {#SUBNAMESPACES}
+-    
+     {#CONTENT}
+ }
+ 
+@@ -54,4 +39,12 @@
+ {#IFDEF SETTER}
+     set;
+ {#ENDIF SETTER}
++}
++
++{##DUMMYINTERFACE}
++/// <summary>needed to make the namespace valid</summary>
++public interface DummyInterface : IInterface
++{
++    /// dummy
++    int Dummy();
+ }
+\ No newline at end of file

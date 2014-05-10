@@ -1,0 +1,20 @@
+--- trunk/csharp/ICT/Petra/Server/lib/MPartner/web/ImportExport.cs	2014-05-10 06:50:27.000000000 +0200
++++ remoting/csharp/ICT/Petra/Server/lib/MPartner/web/ImportExport.cs	2014-05-10 06:53:13.000000000 +0200
+@@ -1609,7 +1609,7 @@
+ 
+             if (APartnerKey != 0)
+             {
+-                PartnerAccessOk = TPartnerServerLookups.VerifyPartner(APartnerKey,
++                PartnerAccessOk = TPartnerServerLookups.VerifyPartnerAndGetDetails(APartnerKey,
+                     out ShortName, out PartnerClass,
+                     out IsMergedPartner, out UserCanAccessPartner);
+             }
+@@ -1630,7 +1630,7 @@
+                 {
+                     PPersonRow PersonRow = AMainDS.PPerson[0];
+                     long FamilyKey = PersonRow.FamilyKey;
+-                    PartnerAccessOk = TPartnerServerLookups.VerifyPartner(FamilyKey,
++                    PartnerAccessOk = TPartnerServerLookups.VerifyPartnerAndGetDetails(FamilyKey,
+                         out ShortName, out PartnerClass,
+                         out IsMergedPartner, out UserCanAccessPartner);
+ 

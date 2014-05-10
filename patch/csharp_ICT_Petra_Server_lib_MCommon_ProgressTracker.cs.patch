@@ -1,0 +1,20 @@
+--- trunk/csharp/ICT/Petra/Server/lib/MCommon/ProgressTracker.cs	2014-05-10 06:50:27.000000000 +0200
++++ remoting/csharp/ICT/Petra/Server/lib/MCommon/ProgressTracker.cs	2014-05-10 06:53:13.000000000 +0200
+@@ -4,7 +4,7 @@
+ // @Authors:
+ //       timop
+ //
+-// Copyright 2004-2012 by OM International
++// Copyright 2004-2013 by OM International
+ //
+ // This file is part of OpenPetra.org.
+ //
+@@ -57,7 +57,7 @@
+         [RequireModulePermission("NONE")]
+         public static bool GetCurrentState(out string ACaption, out string AStatusMessage, out int APercentageDone, out bool AJobFinished)
+         {
+-            TProgressTracker.TProgressState state = TProgressTracker.GetCurrentState(DomainManager.GClientID.ToString());
++            TProgressState state = TProgressTracker.GetCurrentState(DomainManager.GClientID.ToString());
+ 
+             ACaption = state.Caption;
+             AStatusMessage = state.StatusMessage;

@@ -1,0 +1,20 @@
+--- trunk/csharp/ICT/Testing/lib/MFinance/server/ICH/GenerateICHFileReports.test.cs	2014-05-10 06:50:27.000000000 +0200
++++ remoting/csharp/ICT/Testing/lib/MFinance/server/ICH/GenerateICHFileReports.test.cs	2014-05-10 06:53:13.000000000 +0200
+@@ -134,7 +134,7 @@
+             int PeriodNumber = 5;
+             int ICHProcessingNumber = 1;
+             int CurrencyType = 1; //base
+-            string FileName = TAppSettingsManager.GetValue("OpenPetra.PathTemp") + Path.DirectorySeparatorChar + "Test.csv";
++            string FileName = TAppSettingsManager.GetValue("Server.PathTemp") + Path.DirectorySeparatorChar + "Test.csv";
+             bool SendEmail = false;
+ 
+             TGenFilesReports.GenerateStewardshipFile(FLedgerNumber,
+@@ -161,7 +161,7 @@
+             int PeriodNumber = 5;
+             int ICHProcessingNumber = 1;
+             int CurrencyType = 1; //base
+-            string FileName = TAppSettingsManager.GetValue("OpenPetra.PathTemp") + Path.DirectorySeparatorChar + "TestGenerateICHEmail.csv";
++            string FileName = TAppSettingsManager.GetValue("Server.PathTemp") + Path.DirectorySeparatorChar + "TestGenerateICHEmail.csv";
+             bool SendEmail = true;
+ 
+             // make sure there is a valid email destination

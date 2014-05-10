@@ -1,0 +1,20 @@
+--- trunk/csharp/ICT/Testing/lib/Common/Controls/IconCache.cs	2014-05-10 06:50:27.000000000 +0200
++++ remoting/csharp/ICT/Testing/lib/Common/Controls/IconCache.cs	2014-05-10 06:53:13.000000000 +0200
+@@ -4,7 +4,7 @@
+ // @Authors:
+ //       christiank
+ //
+-// Copyright 2004-2012 by OM International
++// Copyright 2004-2013 by OM International
+ //
+ // This file is part of OpenPetra.org.
+ //
+@@ -49,7 +49,7 @@
+         public void Init()
+         {
+             Catalog.Init();
+-            new TLogging("TestCommonControls.log");
++            new TLogging("../../log/TestCommonControls.log");
+         }
+ 
+         /// <summary>

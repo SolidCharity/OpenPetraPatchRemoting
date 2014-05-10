@@ -1,0 +1,10 @@
+--- trunk/csharp/ThirdParty/Npgsql/readme.txt	2014-05-10 06:50:27.000000000 +0200
++++ remoting/csharp/ThirdParty/Npgsql/readme.txt	2014-05-10 06:53:13.000000000 +0200
+@@ -1,5 +1,5 @@
+ Npgsql is a .Net data provider for Postgresql. 
+ http://pgfoundry.org/projects/npgsql/
+-current version: Npgsql2.0.11.93-bin-mono2.0.zip
++current version: Npgsql2.0.12-bin-mono2.0.zip
+ 
+ Mono.Security.dll is a managed dll, from Mono, which is required by Npgsql
+\ No newline at end of file

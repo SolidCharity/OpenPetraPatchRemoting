@@ -1,0 +1,28 @@
+--- trunk/setup/petra0300/standalone/PetraServerAdminConsole.config	2014-05-10 06:50:27.000000000 +0200
++++ remoting/setup/petra0300/standalone/PetraServerAdminConsole.config	1970-01-01 01:00:00.000000000 +0100
+@@ -1,24 +0,0 @@
+-<configuration>
+-  <system.runtime.remoting>
+-    <application>
+-	<channels>
+-	   <channel ref="tcp">
+-		<clientProviders>
+-			<formatter ref="binary" />
+-		</clientProviders>
+-
+-	   </channel>
+-	</channels>
+-
+-	  <client>
+-		<wellknown type="Ict.Common.Remoting.Shared.IServerAdminInterface, Ict.Common.Remoting.Shared"
+-				   url="tcp://localhost:9000/Servermanager" />
+-	  </client>
+-
+-    </application>
+-  </system.runtime.remoting>
+-  <appSettings>
+-    <add key="ServerAdmin.LogFile" value="../tmp30/ServerAdmin.log" />
+-  </appSettings>
+-  
+-</configuration>
+\ No newline at end of file

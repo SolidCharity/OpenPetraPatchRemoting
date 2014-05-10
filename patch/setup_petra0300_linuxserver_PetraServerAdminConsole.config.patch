@@ -1,0 +1,14 @@
+--- trunk/setup/petra0300/linuxserver/PetraServerAdminConsole.config	2014-05-10 06:50:27.000000000 +0200
++++ remoting/setup/petra0300/linuxserver/PetraServerAdminConsole.config	2014-05-10 06:53:13.000000000 +0200
+@@ -1,5 +1,8 @@
+ <configuration>
+   <appSettings>
+-    <add key="ServerAdmin.LogFile" value="temp.log" />
++    <add key="Server.PathTemp" value="/home/USERNAME/tmp/" />
++    <add key="ServerAdmin.LogFile" value="/home/USERNAME/log/temp.log" />
++    <add key="OpenPetra.HTTPServer" value="http://DOMAINNAME/openpetraOPENPETRA_PORT"/>
++    <add key="HTTPUtils.PostRequests" value="1" />
+   </appSettings>
+-</configuration>
+\ No newline at end of file
++</configuration>

@@ -1,0 +1,14 @@
+--- trunk/csharp/ICT/Common/Logging.cs	2014-05-10 06:50:27.000000000 +0200
++++ remoting/csharp/ICT/Common/Logging.cs	2014-05-10 06:53:13.000000000 +0200
+@@ -2,9 +2,9 @@
+ // DO NOT REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ //
+ // @Authors:
+-//       christiank
++//       christiank, timop
+ //
+-// Copyright 2004-2011 by OM International
++// Copyright 2004-2014 by OM International
+ //
+ // This file is part of OpenPetra.org.
+ //

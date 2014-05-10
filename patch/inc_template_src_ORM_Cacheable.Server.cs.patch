@@ -1,0 +1,16 @@
+--- trunk/inc/template/src/ORM/Cacheable.Server.cs	2014-05-10 06:50:27.000000000 +0200
++++ remoting/inc/template/src/ORM/Cacheable.Server.cs	2014-05-10 06:53:13.000000000 +0200
+@@ -145,11 +145,10 @@
+ 
+         /// RefreshCacheableTable
+         [RequireModulePermission("NONE")]
+-        public static void RefreshCacheableTable(TCacheable{#SUBMODULE}TablesEnum ACacheableTable,
+-                                          out System.Data.DataTable ADataTable)
++        public static System.Data.DataTable RefreshCacheableTableAndGet(TCacheable{#SUBMODULE}TablesEnum ACacheableTable)
+         {
+             System.Type TmpType;
+-            ADataTable = GetCacheableTableInternal(ACacheableTable, "", true, out TmpType);
++            return GetCacheableTableInternal(ACacheableTable, "", true, out TmpType);
+         }
+ 
+         /// SaveChangedStandardCacheableTable

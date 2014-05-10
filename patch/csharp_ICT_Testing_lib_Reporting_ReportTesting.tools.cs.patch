@@ -1,0 +1,11 @@
+--- trunk/csharp/ICT/Testing/lib/Reporting/ReportTesting.tools.cs	2014-05-10 06:50:27.000000000 +0200
++++ remoting/csharp/ICT/Testing/lib/Reporting/ReportTesting.tools.cs	2014-05-10 06:53:13.000000000 +0200
+@@ -113,7 +113,7 @@
+ 
+             ReportGenerator.Start(Parameters.ToDataTable());
+ 
+-            while (ReportGenerator.AsyncExecProgressServerSide.ProgressState == TAsyncExecProgressState.Aeps_Executing)
++            while (!ReportGenerator.Progress.JobFinished)
+             {
+                 Thread.Sleep(500);
+             }

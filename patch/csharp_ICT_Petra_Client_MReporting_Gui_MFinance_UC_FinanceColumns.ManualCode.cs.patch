@@ -1,0 +1,11 @@
+--- trunk/csharp/ICT/Petra/Client/MReporting/Gui/MFinance/UC_FinanceColumns.ManualCode.cs	2014-05-10 06:50:27.000000000 +0200
++++ remoting/csharp/ICT/Petra/Client/MReporting/Gui/MFinance/UC_FinanceColumns.ManualCode.cs	2014-05-10 06:53:13.000000000 +0200
+@@ -160,7 +160,7 @@
+             /* load available ledgers into listbox */
+             DataTable LedgerTable;
+ 
+-            TRemote.MFinance.Cacheable.WebConnectors.RefreshCacheableTable(TCacheableFinanceTablesEnum.LedgerNameList, out LedgerTable);
++            LedgerTable = TRemote.MFinance.Cacheable.WebConnectors.RefreshCacheableTableAndGet(TCacheableFinanceTablesEnum.LedgerNameList);
+ 
+             LedgerTable.Columns.Add("Selection", Type.GetType("System.Boolean"));
+ 

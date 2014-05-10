@@ -1,0 +1,5 @@
+--- trunk/csharp/ICT/Testing/exe/Remoting/IctCommonRemoting/Service/OutputType.cfg	2014-05-10 06:50:27.000000000 +0200
++++ remoting/csharp/ICT/Testing/exe/Remoting/IctCommonRemoting/Service/OutputType.cfg	1970-01-01 01:00:00.000000000 +0100
+@@ -1 +0,0 @@
+-library
+\ No newline at end of file
