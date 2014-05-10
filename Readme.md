@@ -65,7 +65,7 @@ You can fix a file in the working directory like this example:
     # apply part of the patch that is working
     patch -p1 < ../OpenPetraPatchRemoting/patch/csharp_ICT_Petra_Server_lib_MCommon_Main.cs.patch
     # see the .rej file: csharp/ICT/Petra/Server/lib/MCommon/Main.cs.rej
-    # now manuall fix the file
+    # now manually fix the file
     vi csharp/ICT/Petra/Server/lib/MCommon/Main.cs
     # recreate the patch file
     git diff csharp/ICT/Petra/Server/lib/MCommon/Main.cs > ../OpenPetraPatchRemoting/patch/csharp_ICT_Petra_Server_lib_MCommon_Main.cs.patch
