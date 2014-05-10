@@ -2,7 +2,7 @@
 Repo=$1
 if [ -z $Repo ]
 then
-  echo "Please pass parameter for valid Patch directory, eg. OpenPetraPatchRemoting"
+  echo "Please pass parameter for valid Patch directory, eg. OpenPetraPatchSomething"
   exit 1
 fi
 rm -Rf $Repo/patch
@@ -19,19 +19,19 @@ while read line; do
     splitBySpace=( $line )
     len="${#splitBySpace[@]}"
     path=${splitBySpace[$len-1]}
-    #remove remoting/ from path
-    path=${path:9}
+    #remove patched/ from path
+    path=${path:8}
     filename=`echo $path | sed "s#/#_#g"`.patch
     echo $filename
-    diff -uNr trunk/$path remoting/$path > $Repo/patch/$filename
+    diff -uNr before/$path patched/$path > $Repo/patch/$filename
   fi
   if [[ "${line:0:12}" == "Binary files" ]]
   then
     splitBySpace=( $line )
     len="${#splitBySpace[@]}"
     path=${splitBySpace[$len-2]}
-    #remove remoting/ from path
-    filename=${path:9}
+    #remove patched/ from path
+    filename=${path:8}
     filename=`echo $filename | sed "s#/#__#g"`
     if [ -f $path ]
     then
@@ -42,4 +42,4 @@ while read line; do
       touch $Repo/delete/$filename
     fi
   fi
-done < <(diff -uNr -x .bzr trunk remoting )
+done < <(diff -uNr -x .bzr before patched )

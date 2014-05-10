@@ -15,14 +15,14 @@ First download the trunk that the current remoting branch was derived from:
     wget -O trunk.tar.gz \
       http://bazaar.launchpad.net/~openpetracore/openpetraorg/trunkhosted/tarball/2514
     tar xzf trunk.tar.gz
-    mv \~openpetracore/openpetraorg/trunkhosted trunk
+    mv \~openpetracore/openpetraorg/trunkhosted before
 
 Now download the current remoting branch:
 
     wget -O remoting.tar.gz \
       http://bazaar.launchpad.net/~christian-k/openpetraorg/20140211_replace_net_remoting/tarball/2426
     tar xzf remoting.tar.gz
-    mv \~christian-k/openpetraorg/20140211_replace_net_remoting remoting
+    mv \~christian-k/openpetraorg/20140211_replace_net_remoting patched
 
 Now clone this repository:
 
