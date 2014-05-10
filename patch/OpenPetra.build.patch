@@ -1,6 +1,8 @@
---- trunk/OpenPetra.build	2014-05-10 06:50:27.000000000 +0200
-+++ remoting/OpenPetra.build	2014-05-10 06:53:13.000000000 +0200
-@@ -22,14 +22,16 @@
+diff --git a/OpenPetra.build b/OpenPetra.build
+index 4fbd7cd..d4bc6a6 100644
+--- a/OpenPetra.build
++++ b/OpenPetra.build
+@@ -22,14 +22,16 @@ list of available commands:
    compileProject: compile a single project file
        nant compileProject -D:file=delivery/projects/sharpdevelop4/Ict.Testing.ControlTestBench.csproj 
    start: start both the local server and client
@@ -21,24 +23,24 @@
    devzip: build a zip file for developers for easy start
  
  compat:
-@@ -104,7 +106,7 @@
- 
- <target name="translation" description="create the dlls with the i18n messages" >
+@@ -114,7 +116,7 @@ useful parameters
+   <echo message="Target translation started at: ${datetime::now()}" /> 
+   
    <property name="target" value="compile" overwrite="false" />
 -  <nant inheritall="false" target="${target}" 
 +  <nant inheritall="true" target="${target}" 
          buildfile="i18n/i18n.build" />
- </target>
- 
-@@ -227,6 +229,7 @@
+         
+   <echo message="Target translation finished at: ${datetime::now()}" /> 
+@@ -285,6 +287,7 @@ useful parameters
      CodeRootDir="${dir.csharp}"
      NamespaceMapFilename="${namespaceFile}"
      NamespaceMap3rdParty="${namespaceFile3rdParty}"
 +    CompilingForStandalone="${compileForStandalone}"
      DependencyMapFilename="${projectDependenciesFile}"/>
- </target>
- 
-@@ -239,7 +242,7 @@
+     
+   <echo message="Target generateNamespaceMap finished at: ${datetime::now()}" />         
+@@ -301,7 +304,7 @@ useful parameters
      NamespaceMap3rdParty="${namespaceFile3rdParty}"
      DependencyMapFilename="${projectDependenciesFile}"
      ShowWarnings="false"
@@ -47,44 +49,60 @@
    <nant inheritall="false" target="compile" 
          buildfile="csharp/ThirdParty/ThirdParty.build" />
    <call target="generateProjectFilesInternal"/>
-@@ -336,12 +339,12 @@
-   <nant inheritall="true" target="previewWinform" buildfile="${path::combine(dir.csharp, 'ICT/Petra/Client/Ict.Petra.Client.build')}" verbose="${verbose}"/>
+@@ -441,7 +444,7 @@ useful parameters
+   <echo message="Target previewWinform (outer) finished at: ${datetime::now()}" />
  </target>
  
 -<target name="test" depends="initConfigFiles">
 +<target name="test" depends="initConfigFiles, set-server-port-for-jenkins">
+   <echo message="Target test started at: ${datetime::now()}" />
+   
    <loadtasks assembly="${Ict.Tools.NAntTasks.DLL}" unless="${task::exists('GenerateNamespaceMap')}"/>
-   <nant inheritall="false" target="test-all" buildfile="${path::combine(dir.csharp, 'ICT/Testing/ICT.Testing.build')}" verbose="${verbose}"/>
+@@ -450,7 +453,7 @@ useful parameters
+   <echo message="Target test finished at: ${datetime::now()}" />
  </target>
  
 -<target name="test-without-display" depends="initConfigFiles">
 +<target name="test-without-display" depends="initConfigFiles, set-server-port-for-jenkins">
+   <echo message="Target test-without-display (outer) started at: ${datetime::now()}" />
+   
    <loadtasks assembly="${Ict.Tools.NAntTasks.DLL}" unless="${task::exists('GenerateNamespaceMap')}"/>
-   <nant inheritall="false" target="test-without-display" buildfile="${path::combine(dir.csharp, 'ICT/Testing/ICT.Testing.build')}" verbose="${verbose}"/>
+@@ -459,7 +462,7 @@ useful parameters
+   <echo message="Target test-without-display (outer) finished at: ${datetime::now()}" />
  </target>
-@@ -351,20 +354,44 @@
-   <nant inheritall="false" target="test-main-navigation-screens-core" buildfile="${path::combine(dir.csharp, 'ICT/Testing/ICT.Testing.build')}" verbose="${verbose}"/>
+ 
+-<target name="test-client" depends="initConfigFiles">
++<target name="test-client" depends="initConfigFiles, set-server-port-for-jenkins">
+   <echo message="Target test-client (outer) started at: ${datetime::now()}" />
+   
+   <loadtasks assembly="${Ict.Tools.NAntTasks.DLL}" unless="${task::exists('GenerateNamespaceMap')}"/>
+@@ -468,7 +471,7 @@ useful parameters
+   <echo message="Target test-client (outer) finished at: ${datetime::now()}" />
+ </target>
+ 
+-<target name="test-main-navigation-screens-core" depends="initConfigFiles">
++<target name="test-main-navigation-screens-core" depends="initConfigFiles, set-server-port-for-jenkins">
+   <echo message="Target test-main-navigation-screens-core (outer) started at: ${datetime::now()}" />
+   
+   <loadtasks assembly="${Ict.Tools.NAntTasks.DLL}" unless="${task::exists('GenerateNamespaceMap')}"/>
+@@ -477,7 +480,7 @@ useful parameters
+   <echo message="Target test-main-navigation-screens-core (outer) finished at: ${datetime::now()}" />
  </target>
  
 -<target name="test-main-navigation-screens" depends="initConfigFiles">
 +<target name="test-main-navigation-screens" depends="initConfigFiles, set-server-port-for-jenkins">
+   <echo message="Target test-main-navigation-screens (outer) started at: ${datetime::now()}" />
+   
    <loadtasks assembly="${Ict.Tools.NAntTasks.DLL}" unless="${task::exists('GenerateNamespaceMap')}"/>
-   <nant inheritall="false" target="test-main-navigation-screens" buildfile="${path::combine(dir.csharp, 'ICT/Testing/ICT.Testing.build')}" verbose="${verbose}"/>
- </target>
- 
-+<target name="test-client" depends="initConfigFiles, set-server-port-for-jenkins">
-+  <loadtasks assembly="${Ict.Tools.NAntTasks.DLL}" unless="${task::exists('GenerateNamespaceMap')}"/>
-+  <nant inheritall="false" target="test-client" buildfile="${path::combine(dir.csharp, 'ICT/Testing/ICT.Testing.build')}" verbose="${verbose}"/>
-+</target>
-+
- <target name="enable-sqlite-config-for-jenkins">
-     <echo file="OpenPetra.build.config">&lt;?xml version="1.0"?>
+@@ -493,12 +496,31 @@ useful parameters
  &lt;project name="OpenPetra-userconfig">
      &lt;property name="DBMS.Type" value="sqlite"/>
      &lt;property name="DBMS.Password" value=""/>
 +    &lt;property name="Server.Port" value="${Server.Port}"/>
  &lt;/project>
      </echo>
+     
+     <echo message="Target enable-sqlite-config-for-jenkins finished at: ${datetime::now()}" />
  </target>
  
 +<!-- need to set the server port here, since it is not passed when called the Unit tests, so they are not using the server port defined on the command line;
@@ -106,11 +124,11 @@
 +</target>
 +
  <target name="devzip">
-     <!-- calling script must get a fresh bzr tree, write OpenPetra.build.config with sqlite -->
- 
-@@ -406,5 +433,6 @@
- 
-     <!-- calling script must upload the zip file to sourceforge -->
+     <echo message="Target devzip started at: ${datetime::now()}" />
+     
+@@ -544,5 +566,6 @@ useful parameters
+     
+     <echo message="Target devzip finished at: ${datetime::now()}" />
  </target>
 +
  </project>

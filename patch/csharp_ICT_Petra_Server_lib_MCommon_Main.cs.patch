@@ -1,5 +1,7 @@
---- trunk/csharp/ICT/Petra/Server/lib/MCommon/Main.cs	2014-05-10 06:50:27.000000000 +0200
-+++ remoting/csharp/ICT/Petra/Server/lib/MCommon/Main.cs	2014-05-10 06:53:13.000000000 +0200
+diff --git a/csharp/ICT/Petra/Server/lib/MCommon/Main.cs b/csharp/ICT/Petra/Server/lib/MCommon/Main.cs
+index 99bc6bf..3d0d4c9 100644
+--- a/csharp/ICT/Petra/Server/lib/MCommon/Main.cs
++++ b/csharp/ICT/Petra/Server/lib/MCommon/Main.cs
 @@ -4,7 +4,7 @@
  // @Authors:
  //       christiank, timop
@@ -9,7 +11,7 @@
  //
  // This file is part of OpenPetra.org.
  //
-@@ -27,7 +27,6 @@
+@@ -27,7 +27,6 @@ using System.Collections.Specialized;
  using System.Data;
  using System.Data.Common;
  using System.Data.Odbc;
@@ -17,7 +19,7 @@
  using Ict.Common;
  using Ict.Common.Data;
  using Ict.Common.DB;
-@@ -35,7 +34,9 @@
+@@ -35,7 +34,9 @@ using Ict.Common.Exceptions;
  using Ict.Common.Remoting.Server;
  using Ict.Common.Remoting.Shared;
  using Ict.Common.Remoting.Client;
@@ -27,7 +29,7 @@
  using Ict.Petra.Shared.MPartner.Partner.Data;
  using Ict.Petra.Server.MPartner.Partner.Data.Access;
  using Npgsql;
-@@ -253,10 +254,9 @@
+@@ -253,10 +254,9 @@ namespace Ict.Petra.Server.MCommon
      /// in a separate Thread!
      ///
      /// </summary>
@@ -40,7 +42,7 @@
  
          /// <summary>An instance of TAsyncFindParameters containing parameters for the query execution</summary>
          TAsyncFindParameters FFindParameters;
-@@ -296,17 +296,12 @@
+@@ -296,17 +296,12 @@ namespace Ict.Petra.Server.MCommon
              }
          }
  
@@ -61,7 +63,7 @@
              }
          }
  
-@@ -371,10 +366,25 @@
+@@ -371,10 +366,25 @@ namespace Ict.Petra.Server.MCommon
          /// <returns>void</returns>
          public void ExecuteQuery()
          {
@@ -89,7 +91,7 @@
  
                  // Create SQL statement and execute it to return all records
                  ExecuteFullQuery();
-@@ -384,7 +394,7 @@
+@@ -384,7 +394,7 @@ namespace Ict.Petra.Server.MCommon
                  TLogging.Log(this.GetType().FullName + ".ExecuteQuery:  Exception occured: " + exp.ToString());
  
                  // Inform the caller that something has gone wrong...
@@ -98,7 +100,7 @@
  
                  /*
                   *     WE MUST 'SWALLOW' ANY EXCEPTION HERE, OTHERWISE THE WHOLE
-@@ -396,6 +406,11 @@
+@@ -396,6 +406,11 @@ namespace Ict.Petra.Server.MCommon
                   *
                   */
              }
@@ -110,7 +112,7 @@
          }
  
          private void ExecuteFullQuery()
-@@ -461,32 +476,18 @@
+@@ -467,16 +482,16 @@ namespace Ict.Petra.Server.MCommon
                      TLogging.Log(this.GetType().FullName + ".ExecuteFullQuery: Query got cancelled; general NpgsqlException occured: " + Exp.ToString());
                  }
  
@@ -118,7 +120,6 @@
 -                FAsyncExecProgress.ProgressState = TAsyncExecProgressState.Aeps_Stopped;
 +                TProgressTracker.SetCurrentState(FProgressID, "Query cancelled!", 0.0m);
 +                TProgressTracker.CancelJob(FProgressID);
-+
                  return;
              }
              catch (Exception Exp)
@@ -130,9 +131,12 @@
 +                TProgressTracker.SetCurrentState(FProgressID, "Query cancelled!", 0.0m);
 +                TProgressTracker.CancelJob(FProgressID);
  
--                return;
--            }
--
+                 return;
+             }
+@@ -488,30 +503,13 @@ namespace Ict.Petra.Server.MCommon
+                 }
+             }
+ 
 -            /*
 -             * Check if query execution cancellation was requested - this is only a back-stop for the corner case where
 -             * the user cancelled the query after the query execution was finished by the DB (if the user had cancelled
@@ -145,10 +149,12 @@
 -
 -                FAsyncExecProgress.ProgressInformation = "Query cancelled!";
 -                FAsyncExecProgress.ProgressState = TAsyncExecProgressState.Aeps_Stopped;
- 
-                 return;
-             }
-@@ -496,9 +497,8 @@
+-
+-                return;
+-            }
+-
+             TLogging.LogAtLevel(7,
+                 (this.GetType().FullName + ".ExecuteFullQuery: FDataAdapter.Fill finished. FTotalRecords: " + FTotalRecords.ToString()));
  
              FPageDataTable = FTmpDataTable.Clone();
              FPageDataTable.TableName = FFindParameters.FSearchName;
@@ -160,7 +166,7 @@
          }
  
          /// <summary>
-@@ -578,9 +578,8 @@
+@@ -591,9 +589,8 @@ namespace Ict.Petra.Server.MCommon
                  }
              }
  
@@ -172,7 +178,7 @@
              return FPageDataTable;
          }
  
-@@ -648,26 +647,39 @@
+@@ -661,26 +658,39 @@ namespace Ict.Petra.Server.MCommon
          /// <returns>void</returns>
          public void StopQuery()
          {
@@ -223,9 +229,9 @@
              }
              catch (Exception exp)
              {
-@@ -762,142 +774,6 @@
-         #endregion
+@@ -772,142 +782,6 @@ namespace Ict.Petra.Server.MCommon
      }
+     #endregion
  
 -    #region TAsynchronousExecutionProgress
 -
@@ -366,3 +372,10 @@
      #region TDynamicSearchHelper
  
      /// <summary>
+@@ -1254,4 +1128,4 @@ namespace Ict.Petra.Server.MCommon
+             return resultTable;
+         }
+     }
+-}
+\ No newline at end of file
++}

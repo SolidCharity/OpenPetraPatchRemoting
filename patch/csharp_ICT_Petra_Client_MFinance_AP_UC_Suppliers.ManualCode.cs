@@ -1,8 +1,8 @@
-diff --git a/csharp/ICT/Petra/Client/MFinance/Gui/AP/APSupplierTransactions.ManualCode.cs b/csharp/ICT/Petra/Client/MFinance/Gui/AP/APSupplierTransactions.ManualCode.cs
-index da2eb77..0a8581b 100644
---- a/csharp/ICT/Petra/Client/MFinance/Gui/AP/APSupplierTransactions.ManualCode.cs
-+++ b/csharp/ICT/Petra/Client/MFinance/Gui/AP/APSupplierTransactions.ManualCode.cs
-@@ -324,7 +324,7 @@ namespace Ict.Petra.Client.MFinance.Gui.AP
+diff --git a/csharp/ICT/Petra/Client/MFinance/Gui/AP/UC_Suppliers.ManualCode.cs b/csharp/ICT/Petra/Client/MFinance/Gui/AP/UC_Suppliers.ManualCode.cs
+index 27acfa4..edbe7b5 100644
+--- a/csharp/ICT/Petra/Client/MFinance/Gui/AP/UC_Suppliers.ManualCode.cs
++++ b/csharp/ICT/Petra/Client/MFinance/Gui/AP/UC_Suppliers.ManualCode.cs
+@@ -229,7 +229,7 @@ namespace Ict.Petra.Client.MFinance.Gui.AP
          /// <returns>void</returns>
          private void SearchFinishedCheckThread()
          {
@@ -11,16 +11,16 @@ index da2eb77..0a8581b 100644
  
              // Check whether this thread should still execute
              while (FKeepUpSearchFinishedCheck)
-@@ -336,7 +336,7 @@ namespace Ict.Petra.Client.MFinance.Gui.AP
+@@ -241,7 +241,7 @@ namespace Ict.Petra.Client.MFinance.Gui.AP
                  {
                      /* The next line of code calls a function on the PetraServer
                       * > causes a bit of data traffic everytime! */
--                    ThreadStatus = FFindObject.AsyncExecProgress.ProgressState;
-+                    ThreadStatus = FFindObject.AsyncExecProgress.Progress;
+-                    ThreadStatus = FMainForm.SupplierFindObject.AsyncExecProgress.ProgressState;
++                    ThreadStatus = FMainForm.SupplierFindObject.Progress;
                  }
                  catch (NullReferenceException)
                  {
-@@ -348,34 +348,32 @@ namespace Ict.Petra.Client.MFinance.Gui.AP
+@@ -253,34 +253,32 @@ namespace Ict.Petra.Client.MFinance.Gui.AP
                      throw;
                  }
  
@@ -74,9 +74,9 @@ index da2eb77..0a8581b 100644
                  }
  
                  // Loop again while FKeepUpSearchFinishedCheck is true ...
-@@ -1247,4 +1245,4 @@ namespace Ict.Petra.Client.MFinance.Gui.AP
- 
-         #endregion
+@@ -662,4 +660,4 @@ namespace Ict.Petra.Client.MFinance.Gui.AP
+             return false;
+         }
      }
 -}
 \ No newline at end of file

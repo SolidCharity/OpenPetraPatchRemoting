@@ -9,10 +9,11 @@
  //
  // This file is part of OpenPetra.org.
  //
-@@ -39,6 +39,7 @@
+@@ -39,7 +39,8 @@
  using Ict.Common.DB.DBCaching;
  using Ict.Common.DB.Exceptions;
  using Ict.Common.IO;
+ using Npgsql;
 +using Ict.Common.Session;
  
  namespace Ict.Common.DB
