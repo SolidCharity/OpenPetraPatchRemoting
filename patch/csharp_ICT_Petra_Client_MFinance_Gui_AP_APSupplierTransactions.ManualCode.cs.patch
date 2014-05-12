@@ -16,7 +16,7 @@ index da2eb77..0a8581b 100644
                      /* The next line of code calls a function on the PetraServer
                       * > causes a bit of data traffic everytime! */
 -                    ThreadStatus = FFindObject.AsyncExecProgress.ProgressState;
-+                    ThreadStatus = FFindObject.AsyncExecProgress.Progress;
++                    ThreadStatus = FFindObject.Progress;
                  }
                  catch (NullReferenceException)
                  {
