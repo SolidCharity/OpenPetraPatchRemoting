@@ -42,4 +42,4 @@ while read line; do
       touch $Repo/delete/$filename
     fi
   fi
-done < <(diff -uNr -x .bzr before patched )
+done < <(diff -uNr -x .bzr -x .git before patched )
