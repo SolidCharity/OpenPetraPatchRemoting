@@ -1,5 +1,5 @@
---- trunk/inc/nant/OpenPetra.common.xml	2014-05-10 06:50:27.000000000 +0200
-+++ remoting/inc/nant/OpenPetra.common.xml	2014-05-10 06:53:13.000000000 +0200
+--- before/inc/nant/OpenPetra.common.xml	2014-05-15 21:53:13.000000000 +0200
++++ patched/inc/nant/OpenPetra.common.xml	2014-05-15 21:56:00.000000000 +0200
 @@ -226,7 +226,7 @@
  <property name="projectfiles.templates-list" value="sharpdevelop4,monodevelop2,vs2010" overwrite="false" />
  <property name="devenv-msbuild" value="sharpdevelop4" overwrite="false" />

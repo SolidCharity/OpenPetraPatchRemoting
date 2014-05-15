@@ -1,5 +1,5 @@
---- trunk/setup/petra0300/linuxclient/PetraClientRemote.config	2014-05-10 06:50:27.000000000 +0200
-+++ remoting/setup/petra0300/linuxclient/PetraClientRemote.config	2014-05-10 06:53:13.000000000 +0200
+--- before/setup/petra0300/linuxclient/PetraClientRemote.config	2014-05-15 21:53:13.000000000 +0200
++++ patched/setup/petra0300/linuxclient/PetraClientRemote.config	2014-05-15 21:56:00.000000000 +0200
 @@ -1,32 +1,14 @@
  <configuration>
 -  <system.runtime.remoting>

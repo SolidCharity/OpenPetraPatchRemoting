@@ -1,6 +1,6 @@
---- trunk/csharp/ICT/Petra/Client/MPartner/Gui/UC_PartnerFind_ByPartnerDetails.cs	2014-05-10 06:50:27.000000000 +0200
-+++ remoting/csharp/ICT/Petra/Client/MPartner/Gui/UC_PartnerFind_ByPartnerDetails.cs	2014-05-10 06:53:13.000000000 +0200
-@@ -1320,7 +1320,7 @@
+--- before/csharp/ICT/Petra/Client/MPartner/Gui/UC_PartnerFind_ByPartnerDetails.cs	2014-05-15 21:53:13.000000000 +0200
++++ patched/csharp/ICT/Petra/Client/MPartner/Gui/UC_PartnerFind_ByPartnerDetails.cs	2014-05-15 21:56:00.000000000 +0200
+@@ -1348,7 +1348,7 @@
                  Application.DoEvents();
  
                  // Stop asynchronous search operation
@@ -9,7 +9,7 @@
              }
          }
  
-@@ -1716,7 +1716,7 @@
+@@ -1744,7 +1744,7 @@
                  // Enable/disable according to how the search operation ended
                  if (Convert.ToBoolean(AEnable))
                  {
@@ -18,7 +18,7 @@
                      {
                          // Search operation ended without interruption
                          if (FPagedDataTable.Rows.Count > 0)
-@@ -1907,54 +1907,36 @@
+@@ -1935,54 +1935,36 @@
          /// <returns>void</returns>
          private void SearchFinishedCheckThread()
          {

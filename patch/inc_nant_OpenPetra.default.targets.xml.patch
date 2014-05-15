@@ -1,5 +1,5 @@
---- trunk/inc/nant/OpenPetra.default.targets.xml	2014-05-10 06:50:27.000000000 +0200
-+++ remoting/inc/nant/OpenPetra.default.targets.xml	2014-05-10 06:53:13.000000000 +0200
+--- before/inc/nant/OpenPetra.default.targets.xml	2014-05-15 21:53:13.000000000 +0200
++++ patched/inc/nant/OpenPetra.default.targets.xml	2014-05-15 21:56:00.000000000 +0200
 @@ -38,31 +38,34 @@
    </copy>
  </target>

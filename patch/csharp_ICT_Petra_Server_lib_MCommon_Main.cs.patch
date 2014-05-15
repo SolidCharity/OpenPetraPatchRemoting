@@ -1,7 +1,5 @@
-diff --git a/csharp/ICT/Petra/Server/lib/MCommon/Main.cs b/csharp/ICT/Petra/Server/lib/MCommon/Main.cs
-index 99bc6bf..3d0d4c9 100644
---- a/csharp/ICT/Petra/Server/lib/MCommon/Main.cs
-+++ b/csharp/ICT/Petra/Server/lib/MCommon/Main.cs
+--- before/csharp/ICT/Petra/Server/lib/MCommon/Main.cs	2014-05-15 21:53:13.000000000 +0200
++++ patched/csharp/ICT/Petra/Server/lib/MCommon/Main.cs	2014-05-15 21:56:00.000000000 +0200
 @@ -4,7 +4,7 @@
  // @Authors:
  //       christiank, timop
@@ -11,7 +9,7 @@ index 99bc6bf..3d0d4c9 100644
  //
  // This file is part of OpenPetra.org.
  //
-@@ -27,7 +27,6 @@ using System.Collections.Specialized;
+@@ -27,7 +27,6 @@
  using System.Data;
  using System.Data.Common;
  using System.Data.Odbc;
@@ -19,7 +17,7 @@ index 99bc6bf..3d0d4c9 100644
  using Ict.Common;
  using Ict.Common.Data;
  using Ict.Common.DB;
-@@ -35,7 +34,9 @@ using Ict.Common.Exceptions;
+@@ -35,7 +34,9 @@
  using Ict.Common.Remoting.Server;
  using Ict.Common.Remoting.Shared;
  using Ict.Common.Remoting.Client;
@@ -29,7 +27,7 @@ index 99bc6bf..3d0d4c9 100644
  using Ict.Petra.Shared.MPartner.Partner.Data;
  using Ict.Petra.Server.MPartner.Partner.Data.Access;
  using Npgsql;
-@@ -253,10 +254,9 @@ namespace Ict.Petra.Server.MCommon
+@@ -253,10 +254,9 @@
      /// in a separate Thread!
      ///
      /// </summary>
@@ -42,7 +40,7 @@ index 99bc6bf..3d0d4c9 100644
  
          /// <summary>An instance of TAsyncFindParameters containing parameters for the query execution</summary>
          TAsyncFindParameters FFindParameters;
-@@ -296,17 +296,12 @@ namespace Ict.Petra.Server.MCommon
+@@ -296,17 +296,12 @@
              }
          }
  
@@ -63,7 +61,7 @@ index 99bc6bf..3d0d4c9 100644
              }
          }
  
-@@ -371,10 +366,25 @@ namespace Ict.Petra.Server.MCommon
+@@ -371,10 +366,25 @@
          /// <returns>void</returns>
          public void ExecuteQuery()
          {
@@ -91,7 +89,7 @@ index 99bc6bf..3d0d4c9 100644
  
                  // Create SQL statement and execute it to return all records
                  ExecuteFullQuery();
-@@ -384,7 +394,7 @@ namespace Ict.Petra.Server.MCommon
+@@ -384,7 +394,7 @@
                  TLogging.Log(this.GetType().FullName + ".ExecuteQuery:  Exception occured: " + exp.ToString());
  
                  // Inform the caller that something has gone wrong...
@@ -100,7 +98,7 @@ index 99bc6bf..3d0d4c9 100644
  
                  /*
                   *     WE MUST 'SWALLOW' ANY EXCEPTION HERE, OTHERWISE THE WHOLE
-@@ -396,6 +406,11 @@ namespace Ict.Petra.Server.MCommon
+@@ -396,6 +406,11 @@
                   *
                   */
              }
@@ -112,7 +110,7 @@ index 99bc6bf..3d0d4c9 100644
          }
  
          private void ExecuteFullQuery()
-@@ -467,16 +482,16 @@ namespace Ict.Petra.Server.MCommon
+@@ -467,16 +482,16 @@
                      TLogging.Log(this.GetType().FullName + ".ExecuteFullQuery: Query got cancelled; general NpgsqlException occured: " + Exp.ToString());
                  }
  
@@ -133,7 +131,7 @@ index 99bc6bf..3d0d4c9 100644
  
                  return;
              }
-@@ -488,30 +503,13 @@ namespace Ict.Petra.Server.MCommon
+@@ -488,30 +503,13 @@
                  }
              }
  
@@ -166,7 +164,7 @@ index 99bc6bf..3d0d4c9 100644
          }
  
          /// <summary>
-@@ -591,9 +589,8 @@ namespace Ict.Petra.Server.MCommon
+@@ -591,9 +589,8 @@
                  }
              }
  
@@ -178,7 +176,7 @@ index 99bc6bf..3d0d4c9 100644
              return FPageDataTable;
          }
  
-@@ -661,26 +658,39 @@ namespace Ict.Petra.Server.MCommon
+@@ -661,26 +658,39 @@
          /// <returns>void</returns>
          public void StopQuery()
          {
@@ -229,7 +227,7 @@ index 99bc6bf..3d0d4c9 100644
              }
              catch (Exception exp)
              {
-@@ -772,142 +782,6 @@ namespace Ict.Petra.Server.MCommon
+@@ -772,142 +782,6 @@
      }
      #endregion
  
@@ -372,10 +370,3 @@ index 99bc6bf..3d0d4c9 100644
      #region TDynamicSearchHelper
  
      /// <summary>
-@@ -1254,4 +1128,4 @@ namespace Ict.Petra.Server.MCommon
-             return resultTable;
-         }
-     }
--}
-\ No newline at end of file
-+}

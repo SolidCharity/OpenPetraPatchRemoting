@@ -1,5 +1,5 @@
---- trunk/csharp/ICT/Testing/lib/MFinance/server/ICH/GenerateICHFileReports.test.cs	2014-05-10 06:50:27.000000000 +0200
-+++ remoting/csharp/ICT/Testing/lib/MFinance/server/ICH/GenerateICHFileReports.test.cs	2014-05-10 06:53:13.000000000 +0200
+--- before/csharp/ICT/Testing/lib/MFinance/server/ICH/GenerateICHFileReports.test.cs	2014-05-15 21:53:13.000000000 +0200
++++ patched/csharp/ICT/Testing/lib/MFinance/server/ICH/GenerateICHFileReports.test.cs	2014-05-15 21:56:00.000000000 +0200
 @@ -134,7 +134,7 @@
              int PeriodNumber = 5;
              int ICHProcessingNumber = 1;

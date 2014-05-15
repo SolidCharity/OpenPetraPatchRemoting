@@ -1,5 +1,5 @@
---- trunk/csharp/ICT/Testing/lib/NUnitPetraClient/connectPetra.cs	2014-05-10 06:50:27.000000000 +0200
-+++ remoting/csharp/ICT/Testing/lib/NUnitPetraClient/connectPetra.cs	2014-05-10 06:53:13.000000000 +0200
+--- before/csharp/ICT/Testing/lib/NUnitPetraClient/connectPetra.cs	2014-05-15 21:53:13.000000000 +0200
++++ patched/csharp/ICT/Testing/lib/NUnitPetraClient/connectPetra.cs	2014-05-15 21:56:00.000000000 +0200
 @@ -4,7 +4,7 @@
  // @Authors:
  //       timop
@@ -90,7 +90,13 @@
 -                    out WelcomeMessage,
 -                    out SystemEnabled,
 -                    out LoginError);
--
++            ConnectionResult = ((TConnectionManagement)TConnectionManagement.GConnectionManagement).ConnectToServer(
++                AUserName.ToUpper(), APassword,
++                out ProcessID,
++                out WelcomeMessage,
++                out SystemEnabled,
++                out LoginError);
+ 
 -                if (!ConnectionResult)
 -                {
 -                    TLogging.Log("Connection to PetraServer failed! ConnectionResult: " + ConnectionResult + " Error: " + LoginError);
@@ -118,13 +124,6 @@
 -                }
 -            }
 -            catch (EServerConnectionGeneralException)
-+            ConnectionResult = ((TConnectionManagement)TConnectionManagement.GConnectionManagement).ConnectToServer(
-+                AUserName.ToUpper(), APassword,
-+                out ProcessID,
-+                out WelcomeMessage,
-+                out SystemEnabled,
-+                out LoginError);
-+
 +            if (ConnectionResult != eLoginEnum.eLoginSucceeded)
              {
 -                throw;

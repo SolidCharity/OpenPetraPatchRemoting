@@ -1,5 +1,5 @@
---- trunk/csharp/ThirdParty/GNU/intl.cs	1970-01-01 01:00:00.000000000 +0100
-+++ remoting/csharp/ThirdParty/GNU/intl.cs	2014-05-10 06:53:13.000000000 +0200
+--- before/csharp/ThirdParty/GNU/intl.cs	1970-01-01 01:00:00.000000000 +0100
++++ patched/csharp/ThirdParty/GNU/intl.cs	2014-05-15 21:56:00.000000000 +0200
 @@ -0,0 +1,592 @@
 +/* GNU gettext for C#
 + * Copyright (C) 2003, 2005, 2007 Free Software Foundation, Inc.

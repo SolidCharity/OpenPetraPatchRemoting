@@ -1,5 +1,5 @@
---- trunk/csharp/ICT/Petra/PetraServerConsole/Main.cs	2014-05-10 06:50:27.000000000 +0200
-+++ remoting/csharp/ICT/Petra/PetraServerConsole/Main.cs	1970-01-01 01:00:00.000000000 +0100
+--- before/csharp/ICT/Petra/PetraServerConsole/Main.cs	2014-05-15 21:53:13.000000000 +0200
++++ patched/csharp/ICT/Petra/PetraServerConsole/Main.cs	1970-01-01 01:00:00.000000000 +0100
 @@ -1,747 +0,0 @@
 -//
 -// DO NOT REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.

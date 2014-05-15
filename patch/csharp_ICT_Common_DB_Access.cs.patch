@@ -1,5 +1,5 @@
---- trunk/csharp/ICT/Common/DB/Access.cs	2014-05-10 06:50:27.000000000 +0200
-+++ remoting/csharp/ICT/Common/DB/Access.cs	2014-05-10 06:53:13.000000000 +0200
+--- before/csharp/ICT/Common/DB/Access.cs	2014-05-15 21:53:13.000000000 +0200
++++ patched/csharp/ICT/Common/DB/Access.cs	2014-05-15 21:56:00.000000000 +0200
 @@ -4,7 +4,7 @@
  // @Authors:
  //       christiank, timop
@@ -9,8 +9,7 @@
  //
  // This file is part of OpenPetra.org.
  //
-@@ -39,7 +39,8 @@
- using Ict.Common.DB.DBCaching;
+@@ -40,6 +40,7 @@
  using Ict.Common.DB.Exceptions;
  using Ict.Common.IO;
  using Npgsql;
@@ -18,7 +17,7 @@
  
  namespace Ict.Common.DB
  {
-@@ -80,58 +81,18 @@
+@@ -81,58 +82,18 @@
          /// <summary>DebugLevel for tracing (most verbose log output): is 10 (was 4 before)</summary>
          public const Int32 DB_DEBUGLEVEL_TRACE = 10;
  
@@ -80,7 +79,7 @@
              }
          }
      }
-@@ -454,7 +415,7 @@
+@@ -455,7 +416,7 @@
          /// <param name="APassword">Password of the User which should be used for connecting to the DB server</param>
          /// <param name="AConnectionString">If this is not empty, it is prefered over the Dsn and Username and Password</param>
          /// <returns>void</returns>
@@ -89,7 +88,7 @@
          public void EstablishDBConnection(TDBType ADataBaseType,
              String ADsnOrServer,
              String ADBPort,
-@@ -504,17 +465,17 @@
+@@ -505,17 +466,17 @@
  
                  FSqlConnection = CurrentConnectionInstance.GetConnection(
                      FDataBaseRDBMS,
@@ -114,7 +113,7 @@
                  }
              }
              else
-@@ -526,7 +487,7 @@
+@@ -527,7 +488,7 @@
              {
                  // always log to console and log file, which database we are connecting to.
                  // see https://sourceforge.net/apps/mantisbt/openpetraorg/view.php?id=156
@@ -123,7 +122,7 @@
  
                  FSqlConnection.Open();
                  FDataBaseRDBMS.InitConnection(FSqlConnection);
-@@ -545,7 +506,7 @@
+@@ -546,7 +507,7 @@
                  LogException(exp,
                      String.Format("Exception occured while establishing a connection to Database Server. DB Type: {0}", FDbType));
  
@@ -132,7 +131,7 @@
              }
  
              // only check database version once when working with multiple connections
-@@ -599,7 +560,7 @@
+@@ -600,7 +561,7 @@
          /// Closes the DB connection.
          /// </summary>
          /// <returns>void</returns>
@@ -141,7 +140,7 @@
          /// already/still closed connection.</exception>
          public void CloseDBConnection()
          {
-@@ -613,7 +574,7 @@
+@@ -614,7 +575,7 @@
          /// Closes the DB connection.
          /// </summary>
          /// <returns>void</returns>
@@ -150,7 +149,7 @@
          /// already/still closed connection.</exception>
          private void CloseDBConnectionInternal()
          {
-@@ -1442,7 +1403,7 @@
+@@ -1443,7 +1404,7 @@
                      //
                      // Reconnect to the database
                      //

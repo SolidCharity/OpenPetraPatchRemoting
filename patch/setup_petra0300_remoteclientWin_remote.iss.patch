@@ -1,5 +1,5 @@
---- trunk/setup/petra0300/remoteclientWin/remote.iss	2014-05-10 06:50:27.000000000 +0200
-+++ remoting/setup/petra0300/remoteclientWin/remote.iss	2014-05-10 06:53:13.000000000 +0200
+--- before/setup/petra0300/remoteclientWin/remote.iss	2014-05-15 21:53:13.000000000 +0200
++++ patched/setup/petra0300/remoteclientWin/remote.iss	2014-05-15 21:56:00.000000000 +0200
 @@ -174,9 +174,4 @@
      ReplaceInTextFile(ExpandConstant('{userappdata}/OpenPetra{#ORGNAME}/etc30/PetraClientRemote.config'), 'PETRAHOST', strServer, true);
      ReplaceInTextFile(ExpandConstant('{userappdata}/OpenPetra{#ORGNAME}/etc30/PetraClientRemote.config'), 'PETRAPORT', IntToStr(NetPort), true);

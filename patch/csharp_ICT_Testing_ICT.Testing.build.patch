@@ -1,7 +1,5 @@
-diff --git a/csharp/ICT/Testing/ICT.Testing.build b/csharp/ICT/Testing/ICT.Testing.build
-index c510b16..e547066 100644
---- a/csharp/ICT/Testing/ICT.Testing.build
-+++ b/csharp/ICT/Testing/ICT.Testing.build
+--- before/csharp/ICT/Testing/ICT.Testing.build	2014-05-15 21:53:13.000000000 +0200
++++ patched/csharp/ICT/Testing/ICT.Testing.build	2014-05-15 21:56:00.000000000 +0200
 @@ -3,14 +3,23 @@
  
  <include buildfile="../../../inc/nant/OpenPetra.csharp.xml"/> 

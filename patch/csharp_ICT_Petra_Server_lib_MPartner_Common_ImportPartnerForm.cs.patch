@@ -1,5 +1,5 @@
---- trunk/csharp/ICT/Petra/Server/lib/MPartner/Common/ImportPartnerForm.cs	2014-05-10 06:50:27.000000000 +0200
-+++ remoting/csharp/ICT/Petra/Server/lib/MPartner/Common/ImportPartnerForm.cs	2014-05-10 06:53:13.000000000 +0200
+--- before/csharp/ICT/Petra/Server/lib/MPartner/Common/ImportPartnerForm.cs	2014-05-15 21:53:13.000000000 +0200
++++ patched/csharp/ICT/Petra/Server/lib/MPartner/Common/ImportPartnerForm.cs	2014-05-15 21:56:00.000000000 +0200
 @@ -33,6 +33,7 @@
  using Ict.Common.DB;
  using Ict.Common.IO;

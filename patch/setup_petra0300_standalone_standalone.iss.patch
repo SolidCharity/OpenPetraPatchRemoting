@@ -1,5 +1,5 @@
---- trunk/setup/petra0300/standalone/standalone.iss	2014-05-10 06:50:27.000000000 +0200
-+++ remoting/setup/petra0300/standalone/standalone.iss	2014-05-10 06:53:13.000000000 +0200
+--- before/setup/petra0300/standalone/standalone.iss	2014-05-15 21:53:13.000000000 +0200
++++ patched/setup/petra0300/standalone/standalone.iss	2014-05-15 21:56:00.000000000 +0200
 @@ -44,10 +44,7 @@
  Source: ..\..\..\delivery\bin\Ict.Petra.Client*.dll; DestDir: {app}/bin30; Flags: ignoreversion
  Source: ..\..\..\delivery\bin\Ict.Petra.Shared*.dll; DestDir: {app}/bin30; Flags: ignoreversion

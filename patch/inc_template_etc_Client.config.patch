@@ -1,5 +1,5 @@
---- trunk/inc/template/etc/Client.config	2014-05-10 06:50:27.000000000 +0200
-+++ remoting/inc/template/etc/Client.config	2014-05-10 06:53:13.000000000 +0200
+--- before/inc/template/etc/Client.config	2014-05-15 21:53:13.000000000 +0200
++++ patched/inc/template/etc/Client.config	2014-05-15 21:56:00.000000000 +0200
 @@ -1,22 +1,6 @@
  <configuration>
 -  <system.runtime.remoting>

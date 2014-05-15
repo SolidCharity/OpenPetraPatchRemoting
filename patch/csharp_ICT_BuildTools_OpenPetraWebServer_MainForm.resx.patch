@@ -1,5 +1,5 @@
---- trunk/csharp/ICT/BuildTools/OpenPetraWebServer/MainForm.resx	1970-01-01 01:00:00.000000000 +0100
-+++ remoting/csharp/ICT/BuildTools/OpenPetraWebServer/MainForm.resx	2014-05-10 06:53:13.000000000 +0200
+--- before/csharp/ICT/BuildTools/OpenPetraWebServer/MainForm.resx	1970-01-01 01:00:00.000000000 +0100
++++ patched/csharp/ICT/BuildTools/OpenPetraWebServer/MainForm.resx	2014-05-15 21:56:00.000000000 +0200
 @@ -0,0 +1,342 @@
 +<?xml version="1.0" encoding="utf-8"?>
 +<root>

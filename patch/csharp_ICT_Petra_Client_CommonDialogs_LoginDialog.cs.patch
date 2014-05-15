@@ -1,5 +1,5 @@
---- trunk/csharp/ICT/Petra/Client/CommonDialogs/LoginDialog.cs	2014-05-10 06:50:27.000000000 +0200
-+++ remoting/csharp/ICT/Petra/Client/CommonDialogs/LoginDialog.cs	2014-05-10 06:53:13.000000000 +0200
+--- before/csharp/ICT/Petra/Client/CommonDialogs/LoginDialog.cs	2014-05-15 21:53:13.000000000 +0200
++++ patched/csharp/ICT/Petra/Client/CommonDialogs/LoginDialog.cs	2014-05-15 21:56:00.000000000 +0200
 @@ -4,7 +4,7 @@
  // @Authors:
  //       markusm, timop
@@ -9,7 +9,7 @@
  //
  // This file is part of OpenPetra.org.
  //
-@@ -66,10 +66,7 @@
+@@ -67,10 +67,7 @@
  
          private readonly String StrPetraLoginFormTitle = Catalog.GetString("OpenPetra Login");
          private readonly String StrDetailsInLogfile = Catalog.GetString("For details see the log file");
@@ -21,7 +21,7 @@
  
          #endregion
  
-@@ -81,12 +78,20 @@
+@@ -82,12 +79,20 @@
          private Int32 FProcessID;
          private Boolean FConnectionEstablished;
  
@@ -45,7 +45,7 @@
          }
  
          /// <summary>
-@@ -318,8 +323,8 @@
+@@ -323,8 +328,8 @@
              {
                  this.Cursor = Cursors.Default;
  
@@ -56,21 +56,21 @@
                  {
                      // this message box shows if the password is wrong
                      // otherwise there has already been a message box usually
-@@ -330,79 +335,42 @@
+@@ -335,79 +340,42 @@
  
          private bool ConnectToPetraServer(String AUserName, String APassWord, out String AError)
          {
 -            bool ReturnValue = false;
 +            eLoginEnum ReturnValue = eLoginEnum.eLoginFailedForUnspecifiedError;
-+
+ 
+-            AError = "";
+-            try
 +            ReturnValue = ((TConnectionManagement)TConnectionManagement.GConnectionManagement).ConnectToServer(AUserName, APassWord,
 +                out FProcessID,
 +                out FWelcomeMessage,
 +                out FSystemEnabled,
 +                out AError);
- 
--            AError = "";
--            try
++
 +            if (ReturnValue == eLoginEnum.eLoginSucceeded)
              {
 -                ReturnValue = ((TConnectionManagement)TConnectionManagement.GConnectionManagement).ConnectToServer(AUserName, APassWord,
@@ -159,7 +159,7 @@
                  // on Standalone, we can find the Server.log file, and check the last 10 lines for "System.Exception: Unsupported upgrade"
                  string ServerLog = Path.GetDirectoryName(TLogging.GetLogFileName()) + Path.DirectorySeparatorChar + "Server.log";
  
-@@ -432,67 +400,65 @@
+@@ -437,67 +405,65 @@
  
                      if (countExceptionLine > 0)
                      {

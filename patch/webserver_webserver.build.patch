@@ -1,5 +1,5 @@
---- trunk/webserver/webserver.build	2014-05-10 06:50:27.000000000 +0200
-+++ remoting/webserver/webserver.build	2014-05-10 06:53:13.000000000 +0200
+--- before/webserver/webserver.build	2014-05-15 21:53:13.000000000 +0200
++++ patched/webserver/webserver.build	2014-05-15 21:56:00.000000000 +0200
 @@ -213,19 +213,6 @@
            tofile="${path::combine(dir.webserver, 'SimpleHost.exe')}" 
            overwrite="false"/>
