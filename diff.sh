@@ -25,20 +25,30 @@ while read line; do
       #remove patched/ from path
       strlen=${#patched}
       path=${path:$strlen+1}
-      filename=$path.patch
+      filename=$path
       mkdir -p `dirname $Repo/patch/$filename`
-      diff -uNr $before/$path $patched/$path > $Repo/patch/$filename
-      if [ -f $Repo/patchOld/$filename ]
+      diff -uNr $before/$path $patched/$path > $Repo/patch/$filename.patch
+      if [ ! -f $patched/$path ]
       then
-         linesDifferent=`diff $Repo/patch/$filename $Repo/patchOld/$filename | wc -l`
+        rm -f $Repo/patch/$filename.patch
+        if [ -f $Repo/patchOld/$filename.delete ]
+        then
+          mv $Repo/patchOld/$filename.delete $Repo/patch/$filename.delete
+        else
+          echo "removing $path"
+          touch $Repo/patch/$filename.delete
+        fi
+      elif [ -f $Repo/patchOld/$filename.patch ]
+      then
+         linesDifferent=`diff $Repo/patch/$filename.patch $Repo/patchOld/$filename.patch | wc -l`
          if [ $linesDifferent -eq 6 -o $linesDifferent -eq 0 ]
          then
-           mv $Repo/patchOld/$filename $Repo/patch/$filename
+           mv $Repo/patchOld/$filename.patch $Repo/patch/$filename.patch
          else
-           echo $filename
+           echo "patching " $filename
          fi
       else
-        echo $filename
+        echo "patching " $filename
       fi
     fi
   elif [[ "${line:0:12}" == "Binary files" ]]
