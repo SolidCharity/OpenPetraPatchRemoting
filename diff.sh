@@ -7,11 +7,12 @@ then
   echo "Please pass parameters for valid Patch directory, eg. OpenPetraPatchSomething before patched"
   exit 1
 fi
-rm -Rf $Repo/patch
+if [ -d $Repo/patch ]
+then
+  mv $Repo/patch $Repo/patchOld
+fi
 mkdir -p $Repo/patch
-rm -Rf $Repo/binary
 mkdir -p $Repo/binary
-rm -Rf $Repo/delete
 mkdir -p $Repo/delete
 filename=
 while read line; do
@@ -29,6 +30,10 @@ while read line; do
       filename=`echo $path | sed "s#/#_#g"`.patch
       echo $filename
       diff -uNr $before/$path $patched/$path > $Repo/patch/$filename
+      if [ `diff $Repo/patch/$filename $Repo/patchOld/$filename | wc -l ` -eq 6 ]
+      then
+        mv $Repo/patchOld/$filename $Repo/patch/$filename
+      fi
     fi
   else if [[ "${line:0:12}" == "Binary files" ]]
    then
@@ -50,3 +55,4 @@ while read line; do
    fi
   fi
 done < <(diff -uNr -x .bzr -x .git $before $patched )
+rm -Rf $Repo/patchOld
