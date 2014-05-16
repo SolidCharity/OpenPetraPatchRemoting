@@ -30,7 +30,7 @@ Now clone this repository:
 
 Now run:
 
-    ./OpenPetraPatchRemoting/diff.sh OpenPetraPatchRemoting
+    ./OpenPetraPatchRemoting/diff.sh OpenPetraPatchRemoting before patched
 
 Apply the patch:
 ----------------
