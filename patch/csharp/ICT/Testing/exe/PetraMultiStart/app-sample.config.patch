@@ -1,0 +1,43 @@
+--- openpetraNow.freeze2014_05/csharp/ICT/Testing/exe/PetraMultiStart/app-sample.config	2014-05-16 08:51:15.000000000 +0200
++++ openpetraNow.PatchRemoting/csharp/ICT/Testing/exe/PetraMultiStart/app-sample.config	2014-05-15 22:04:07.000000000 +0200
+@@ -4,26 +4,23 @@
+ <configuration>
+   <system.runtime.remoting>
+     <application>
+-      <channels>
+-        <channel ref="tcp">
+-          <clientProviders>
+-            <formatter ref="binary" />
+-          </clientProviders>
+-        </channel>
+-      </channels>
+-
+-	  <client>
+-		<wellknown type="Ict.Common.Remoting.Shared.IServerAdminInterface, Ict.Common.Remoting.Shared"
+-				   url="tcp://localhost:9000/Servermanager" />
+-	  </client>
++        <channels>
++           <channel ref="tcp">
++                <clientProviders>
++                        <formatter ref="binary" />
++                </clientProviders>
++
++           </channel>
++        </channels>
++
++          <client>
++                <wellknown type="Ict.Petra.Shared.Interfaces.ServerAdminInterface.IServerAdminInterface, Ict.Petra.Shared.Interfaces.ServerAdminInterface"
++                                   url="tcp://localhost:9000/Servermanager" />
++          </client>
+ 
+     </application>
+   </system.runtime.remoting>
+-
+   <appSettings>
+-
+-
+-
+-  <add key="testscript" value="multistart.testing" />
++  	<add key="testscript" value="multistart.testing" />
+   </appSettings>
+ </configuration>

@@ -1,0 +1,11 @@
+--- openpetraNow.freeze2014_05/csharp/ICT/Testing/lib/Common/DB/test.cs	2014-05-16 08:51:15.000000000 +0200
++++ openpetraNow.PatchRemoting/csharp/ICT/Testing/lib/Common/DB/test.cs	2014-05-15 22:04:07.000000000 +0200
+@@ -76,7 +76,7 @@
+         [SetUp]
+         public void Init()
+         {
+-            new TLogging("test.log");
++            new TLogging("../../log/test.log");
+             new TAppSettingsManager("../../etc/TestServer.config");
+ 
+             EstablishDBConnection();

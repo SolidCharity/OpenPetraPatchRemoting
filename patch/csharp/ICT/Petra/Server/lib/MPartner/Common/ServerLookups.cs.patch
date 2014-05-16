@@ -1,0 +1,11 @@
+--- openpetraNow.freeze2014_05/csharp/ICT/Petra/Server/lib/MPartner/Common/ServerLookups.cs	2014-05-16 08:51:15.000000000 +0200
++++ openpetraNow.PatchRemoting/csharp/ICT/Petra/Server/lib/MPartner/Common/ServerLookups.cs	2014-05-15 22:04:07.000000000 +0200
+@@ -167,7 +167,7 @@
+         /// access this partner</param>
+         /// <returns>true if Partner was found in DB or Partner key = 0, otherwise false</returns>
+         [RequireModulePermission("PTNRUSER")]
+-        public static Boolean VerifyPartner(Int64 APartnerKey,
++        public static Boolean VerifyPartnerAndGetDetails(Int64 APartnerKey,
+             out String APartnerShortName,
+             out TPartnerClass APartnerClass,
+             out Boolean AIsMergedPartner,

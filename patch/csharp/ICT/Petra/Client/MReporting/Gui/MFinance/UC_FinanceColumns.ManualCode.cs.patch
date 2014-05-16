@@ -1,0 +1,11 @@
+--- openpetraNow.freeze2014_05/csharp/ICT/Petra/Client/MReporting/Gui/MFinance/UC_FinanceColumns.ManualCode.cs	2014-05-16 08:51:15.000000000 +0200
++++ openpetraNow.PatchRemoting/csharp/ICT/Petra/Client/MReporting/Gui/MFinance/UC_FinanceColumns.ManualCode.cs	2014-05-15 22:04:07.000000000 +0200
+@@ -160,7 +160,7 @@
+             /* load available ledgers into listbox */
+             DataTable LedgerTable;
+ 
+-            TRemote.MFinance.Cacheable.WebConnectors.RefreshCacheableTable(TCacheableFinanceTablesEnum.LedgerNameList, out LedgerTable);
++            LedgerTable = TRemote.MFinance.Cacheable.WebConnectors.RefreshCacheableTableAndGet(TCacheableFinanceTablesEnum.LedgerNameList);
+ 
+             LedgerTable.Columns.Add("Selection", Type.GetType("System.Boolean"));
+ 

@@ -1,0 +1,10 @@
+--- openpetraNow.freeze2014_05/csharp/ICT/Petra/Server/lib/MPartner/Common/ImportPartnerForm.cs	2014-05-16 08:51:15.000000000 +0200
++++ openpetraNow.PatchRemoting/csharp/ICT/Petra/Server/lib/MPartner/Common/ImportPartnerForm.cs	2014-05-15 22:04:07.000000000 +0200
+@@ -33,6 +33,7 @@
+ using Ict.Common.DB;
+ using Ict.Common.IO;
+ using Ict.Common.Verification;
++using Ict.Common.Remoting.Server;
+ using Ict.Petra.Server.MCommon.Data.Cascading;
+ using Ict.Petra.Server.App.Core;
+ using Ict.Petra.Server.MPartner.Common;

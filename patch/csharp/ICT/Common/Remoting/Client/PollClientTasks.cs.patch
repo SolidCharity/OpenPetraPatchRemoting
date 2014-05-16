@@ -1,0 +1,109 @@
+--- openpetraNow.freeze2014_05/csharp/ICT/Common/Remoting/Client/PollClientTasks.cs	2014-05-16 08:51:14.000000000 +0200
++++ openpetraNow.PatchRemoting/csharp/ICT/Common/Remoting/Client/PollClientTasks.cs	2014-05-15 22:04:07.000000000 +0200
+@@ -2,9 +2,9 @@
+ // DO NOT REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ //
+ // @Authors:
+-//       christiank
++//       christiank, timop
+ //
+-// Copyright 2004-2012 by OM International
++// Copyright 2004-2013 by OM International
+ //
+ // This file is part of OpenPetra.org.
+ //
+@@ -29,6 +29,7 @@
+ using System.Windows.Forms;
+ 
+ using Ict.Common;
++using Ict.Common.IO;
+ using Ict.Common.Remoting.Shared;
+ 
+ namespace Ict.Common.Remoting.Client
+@@ -52,9 +53,6 @@
+         /// <summary>Needs to be true as long as the thread should still execute</summary>
+         private bool FKeepPollingClientTasks;
+ 
+-        /// <summary>Reference to Serverside Object</summary>
+-        private IPollClientTasksInterface FRemotePollClientTasks;
+-
+         #region TPollClientTasks
+ 
+         /// <summary>
+@@ -62,20 +60,16 @@
+         ///
+         /// </summary>
+         /// <param name="AClientID">ClientID of the PetraClient</param>
+-        /// <param name="ARemotePollClientTasks">Reference to the instantiated Server-side
+-        /// TPollClientTasks Object that will get called regularly.
+-        /// </param>
+-        /// <returns>void</returns>
+-        public TPollClientTasks(Int32 AClientID, IPollClientTasksInterface ARemotePollClientTasks)
++        public TPollClientTasks(Int32 AClientID)
+         {
+             Thread TheThread;
+ 
+             FClientID = AClientID;
+-            FRemotePollClientTasks = ARemotePollClientTasks;
+             FKeepPollingClientTasks = true;
+ 
+             // Start PollClientTasksThread
+             TheThread = new Thread(new ThreadStart(PollClientTasksThread));
++            TheThread.Name = "PollClientTasksThread" + Guid.NewGuid().ToString();
+             TheThread.Start();
+         }
+ 
+@@ -95,6 +89,16 @@
+         }
+ 
+         /// <summary>
++        /// poll the client tasks from the server, and let the server know that this client is still connected
++        /// </summary>
++        private DataTable RemotePollClientTasks()
++        {
++            // TODORemoting --- The following call breaks NUnitForms Tests 'at random'!
++            // return (DataTable)THttpConnector.CallWebConnector("SessionManager", "PollClientTasks", null, "binary")[0];
++            return null;
++        }
++
++        /// <summary>
+         /// Thread that calls a Method of the server-side Class TPollClientTasks in
+         /// regular intervals.
+         ///
+@@ -121,7 +125,7 @@
+                     // and it's AppDomain alive.
+                     // The value of the AClientTasksDataTable parameter is always null, except when
+                     // the Server has a queued ClientTask that the Client needs to read.
+-                    ClientTasksDataTable = FRemotePollClientTasks.PollClientTasks();
++                    ClientTasksDataTable = RemotePollClientTasks();
+ 
+                     if (ClientTasksDataTable != null)
+                     {
+@@ -131,6 +135,7 @@
+                         // without the risk of being interrupted!
+                         ClientTasksQueueInstance = new TClientTasksQueue(FClientID, ClientTasksDataTable);
+                         ClientTaskQueueThread = new Thread(new ThreadStart(ClientTasksQueueInstance.QueueClientTasks));
++                        ClientTaskQueueThread.Name = "ClientTaskQueueThread" + Guid.NewGuid().ToString();
+                         ClientTaskQueueThread.Start();
+                     }
+                 }
+@@ -150,11 +155,18 @@
+                 }
+                 catch (Exception Exp)
+                 {
++                    if (Exp.Message == THTTPUtils.SESSION_ALREADY_CLOSED)
++                    {
++                        // TODORemoting close the client
++                        return;
++                    }
++
+                     TLogging.Log("Exception in TPollClientTasks.PollClientTasksThread: " + Exp.ToString(), TLoggingType.ToLogfile);
+                 }
+ 
+                 // Sleep for some time. After that, this function is called again automatically.
+-                Thread.Sleep(TClientSettings.ServerPollIntervalInSeconds * 1000);
++                TLogging.LogAtLevel(10, "PollClientTasks sleeping for " + TClientSettings.ServerPollIntervalInSeconds + " seconds");
++                Thread.Sleep(TimeSpan.FromSeconds(TClientSettings.ServerPollIntervalInSeconds));
+             }
+ 
+             // Thread stops here and doesn't get called again automatically.

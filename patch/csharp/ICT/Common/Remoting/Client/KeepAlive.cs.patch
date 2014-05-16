@@ -1,0 +1,19 @@
+--- openpetraNow.freeze2014_05/csharp/ICT/Common/Remoting/Client/KeepAlive.cs	2014-05-16 08:51:14.000000000 +0200
++++ openpetraNow.PatchRemoting/csharp/ICT/Common/Remoting/Client/KeepAlive.cs	2014-05-15 22:04:07.000000000 +0200
+@@ -69,6 +69,7 @@
+ 
+             // Start KeepAliveThread
+             TheThread = new Thread(new ThreadStart(KeepAliveThread));
++            TheThread.Name = "KeepAliveThread" + Guid.NewGuid().ToString();
+             TheThread.Start();
+         }
+ 
+@@ -135,7 +136,7 @@
+             {
+                 Register((IKeepAlive)ARemotedObject);
+             }
+-            else
++            else if (!TClientSettings.RunAsStandalone)
+             {
+                 TLogging.Log("KeepAlive Register: " + ARemotedObject.GetType().ToString() + " does not implement IKeepAlive");
+             }

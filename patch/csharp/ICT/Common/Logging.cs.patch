@@ -1,0 +1,14 @@
+--- openpetraNow.freeze2014_05/csharp/ICT/Common/Logging.cs	2014-05-16 08:51:14.000000000 +0200
++++ openpetraNow.PatchRemoting/csharp/ICT/Common/Logging.cs	2014-05-15 22:04:07.000000000 +0200
+@@ -2,9 +2,9 @@
+ // DO NOT REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ //
+ // @Authors:
+-//       christiank
++//       christiank, timop
+ //
+-// Copyright 2004-2011 by OM International
++// Copyright 2004-2014 by OM International
+ //
+ // This file is part of OpenPetra.org.
+ //

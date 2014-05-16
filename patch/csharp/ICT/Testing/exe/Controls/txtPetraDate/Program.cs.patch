@@ -1,0 +1,20 @@
+--- openpetraNow.freeze2014_05/csharp/ICT/Testing/exe/Controls/txtPetraDate/Program.cs	2014-05-16 08:51:15.000000000 +0200
++++ openpetraNow.PatchRemoting/csharp/ICT/Testing/exe/Controls/txtPetraDate/Program.cs	2014-05-15 22:04:07.000000000 +0200
+@@ -4,7 +4,7 @@
+ // @Authors:
+ //       timop
+ //
+-// Copyright 2004-2012 by OM International
++// Copyright 2004-2013 by OM International
+ //
+ // This file is part of OpenPetra.org.
+ //
+@@ -43,7 +43,7 @@
+             Application.SetCompatibleTextRenderingDefault(true);
+ 
+ 
+-            new TLogging("TextBoxNumberFormatting.log");
++            new TLogging("../../log/TextBoxNumberFormatting.log");
+             Application.Run(new MainForm());
+         }
+     }

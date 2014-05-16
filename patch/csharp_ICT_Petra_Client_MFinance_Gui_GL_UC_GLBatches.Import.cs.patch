@@ -1,8 +1,0 @@
---- before/csharp/ICT/Petra/Client/MFinance/Gui/GL/UC_GLBatches.Import.cs	2014-05-12 11:47:39.000000000 +0200
-+++ patched/csharp/ICT/Petra/Client/MFinance/Gui/GL/UC_GLBatches.Import.cs	2014-05-15 21:56:00.000000000 +0200
-@@ -1,4 +1,4 @@
--//
-+﻿//
- // DO NOT REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
- //
- // @Authors:

@@ -1,0 +1,5 @@
+--- openpetraNow.freeze2014_05/csharp/ICT/Petra/Server/app/WebService/serverMPersonnel.asmx	1970-01-01 01:00:00.000000000 +0100
++++ openpetraNow.PatchRemoting/csharp/ICT/Petra/Server/app/WebService/serverMPersonnel.asmx	2014-05-15 22:04:07.000000000 +0200
+@@ -0,0 +1 @@
++<%@ WebService Language="C#" Class="Ict.Petra.Server.App.WebService.TMPersonnelWebService" %>
+\ No newline at end of file

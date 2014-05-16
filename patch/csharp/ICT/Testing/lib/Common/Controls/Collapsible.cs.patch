@@ -1,0 +1,20 @@
+--- openpetraNow.freeze2014_05/csharp/ICT/Testing/lib/Common/Controls/Collapsible.cs	2014-05-16 08:51:15.000000000 +0200
++++ openpetraNow.PatchRemoting/csharp/ICT/Testing/lib/Common/Controls/Collapsible.cs	2014-05-15 22:04:07.000000000 +0200
+@@ -5,7 +5,7 @@
+ //       Seth Bird (sethb)
+ //       christiank
+ //
+-// Copyright 2004-2012 by OM International
++// Copyright 2004-2013 by OM International
+ //
+ // This file is part of OpenPetra.org.
+ //
+@@ -106,7 +106,7 @@
+         [SetUp]
+         public void Setup()
+         {
+-            new TLogging("TestCommonControls.log");
++            new TLogging("../../log/TestCommonControls.log");
+ 
+             this.FPnl = new TPnlCollapsible(new object[] { THostedControlKind.hckUserControl, HOSTEDUSERCONTROL });
+             assertIsStable(FPnl);

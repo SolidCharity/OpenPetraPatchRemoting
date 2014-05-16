@@ -1,0 +1,16 @@
+--- openpetraNow.freeze2014_05/inc/template/src/ORM/Cacheable.Server.cs	2014-05-16 08:51:15.000000000 +0200
++++ openpetraNow.PatchRemoting/inc/template/src/ORM/Cacheable.Server.cs	2014-05-15 22:04:07.000000000 +0200
+@@ -145,11 +145,10 @@
+ 
+         /// RefreshCacheableTable
+         [RequireModulePermission("NONE")]
+-        public static void RefreshCacheableTable(TCacheable{#SUBMODULE}TablesEnum ACacheableTable,
+-                                          out System.Data.DataTable ADataTable)
++        public static System.Data.DataTable RefreshCacheableTableAndGet(TCacheable{#SUBMODULE}TablesEnum ACacheableTable)
+         {
+             System.Type TmpType;
+-            ADataTable = GetCacheableTableInternal(ACacheableTable, "", true, out TmpType);
++            return GetCacheableTableInternal(ACacheableTable, "", true, out TmpType);
+         }
+ 
+         /// SaveChangedStandardCacheableTable

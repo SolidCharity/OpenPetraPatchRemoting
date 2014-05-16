@@ -1,0 +1,24 @@
+--- openpetraNow.freeze2014_05/csharp/ICT/BuildTools/OpenPetraWebServer/ServerHelp/styles.css	1970-01-01 01:00:00.000000000 +0100
++++ openpetraNow.PatchRemoting/csharp/ICT/BuildTools/OpenPetraWebServer/ServerHelp/styles.css	2014-05-15 22:04:07.000000000 +0200
+@@ -0,0 +1,21 @@
++﻿body
++{
++    font-family: Tahoma; 
++    font-size: 12pt;
++}
++h1
++{
++    font-family: Tahoma; 
++    font-size: 18pt;
++    color: highlight;
++}
++h4
++{
++    font-family: Tahoma; 
++    font-size: 14pt;
++    color: highlight;
++}
++.seeAlso
++{
++     font-size: 10pt;
++}

@@ -1,0 +1,11 @@
+--- openpetraNow.freeze2014_05/csharp/ICT/Petra/Server/lib/MFinance/AP/AP.EditSupplier.cs	2014-05-16 08:51:15.000000000 +0200
++++ openpetraNow.PatchRemoting/csharp/ICT/Petra/Server/lib/MFinance/AP/AP.EditSupplier.cs	2014-05-15 22:04:07.000000000 +0200
+@@ -59,7 +59,7 @@
+     ///          However, Server Objects that derive from these objects and that
+     ///          are also UIConnectors are feasible.
+     ///</summary>
+-    public class TSupplierEditUIConnector : TConfigurableMBRObject, IAPUIConnectorsSupplierEdit
++    public class TSupplierEditUIConnector : IAPUIConnectorsSupplierEdit
+     {
+         /// <summary>
+         /// constructor

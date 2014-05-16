@@ -1,0 +1,10 @@
+--- openpetraNow.freeze2014_05/csharp/ICT/Petra/Server/app/Core/DBAccess.cs	2014-05-16 08:51:15.000000000 +0200
++++ openpetraNow.PatchRemoting/csharp/ICT/Petra/Server/app/Core/DBAccess.cs	2014-05-15 22:04:07.000000000 +0200
+@@ -22,7 +22,6 @@
+ // along with OpenPetra.org.  If not, see <http://www.gnu.org/licenses/>.
+ //
+ using System;
+-using System.Runtime.Serialization;
+ using Ict.Common;
+ using Ict.Common.DB;
+ using Ict.Common.DB.DBCaching;

@@ -1,0 +1,20 @@
+--- openpetraNow.freeze2014_05/inc/nanttasks/GenerateProjectFiles.cs	2014-05-16 08:51:15.000000000 +0200
++++ openpetraNow.PatchRemoting/inc/nanttasks/GenerateProjectFiles.cs	2014-05-15 22:04:07.000000000 +0200
+@@ -272,7 +272,7 @@
+                     "Ict.Common,Ict.Petra.Shared,Ict.Petra.Client,Ict.Petra.ClientPlugins,Ict.Petra.PetraClient");
+                 WriteSolutionFile(FTemplateDir, ide.Trim(),
+                     "OpenPetra.Tools.sln",
+-                    "Ict.Common,Ict.Tools");
++                    "Ict.Common.csproj,Ict.Common.IO,Ict.Tools");
+                 WriteSolutionFile(FTemplateDir, ide.Trim(),
+                     "OpenPetra.Testing.sln",
+                     "Ict.Common,Ict.Petra,Ict.Testing");
+@@ -447,7 +447,7 @@
+ 
+                 foreach (string incNamespace in IncludeNamespaces)
+                 {
+-                    if (projectName.StartsWith(incNamespace))
++                    if (projectName.StartsWith(incNamespace) || (projectName + ".csproj" == incNamespace))
+                     {
+                         includeProject = true;
+                         break;

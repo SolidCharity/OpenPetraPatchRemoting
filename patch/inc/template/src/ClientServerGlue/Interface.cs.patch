@@ -1,0 +1,45 @@
+--- openpetraNow.freeze2014_05/inc/template/src/ClientServerGlue/Interface.cs	2014-05-16 08:51:15.000000000 +0200
++++ openpetraNow.PatchRemoting/inc/template/src/ClientServerGlue/Interface.cs	2014-05-15 22:04:07.000000000 +0200
+@@ -19,28 +19,13 @@
+ 
+ namespace Ict.Petra.Shared.Interfaces.M{#MODULE}
+ {
+-    /// <summary>auto generated</summary>
+-    public interface IM{#MODULE}Namespace : IInterface
+-    {
+-        {#SUBNAMESPACES}
+-    }
+-    
+     {#INTERFACES}
+ }
+ 
+-{##SUBNAMESPACE}
+-/// <summary>access to sub namespace</summary>
+-I{#SUBNAMESPACENAME}Namespace {#SUBNAMESPACEOBJECT}
+-{
+-    get;
+-}
+-
+ {##INTERFACE}
+ /// <summary>auto generated</summary>
+ public interface {#INTERFACENAME} : IInterface
+ {
+-    {#SUBNAMESPACES}
+-    
+     {#CONTENT}
+ }
+ 
+@@ -54,4 +39,12 @@
+ {#IFDEF SETTER}
+     set;
+ {#ENDIF SETTER}
++}
++
++{##DUMMYINTERFACE}
++/// <summary>needed to make the namespace valid</summary>
++public interface DummyInterface : IInterface
++{
++    /// dummy
++    int Dummy();
+ }
+\ No newline at end of file

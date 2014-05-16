@@ -1,5 +1,5 @@
---- before/OpenPetra.build	2014-05-15 21:53:13.000000000 +0200
-+++ patched/OpenPetra.build	2014-05-15 21:56:00.000000000 +0200
+--- openpetraNow.freeze2014_05/OpenPetra.build	2014-05-16 08:51:14.000000000 +0200
++++ openpetraNow.PatchRemoting/OpenPetra.build	2014-05-16 08:52:04.000000000 +0200
 @@ -22,14 +22,16 @@
    compileProject: compile a single project file
        nant compileProject -D:file=delivery/projects/sharpdevelop4/Ict.Testing.ControlTestBench.csproj 

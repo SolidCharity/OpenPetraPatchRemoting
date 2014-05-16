@@ -1,0 +1,9 @@
+--- openpetraNow.freeze2014_05/inc/template/etc/web-sqlite.config	2014-05-15 21:54:25.000000000 +0200
++++ openpetraNow.PatchRemoting/inc/template/etc/web-sqlite.config	2014-05-16 10:42:17.000000000 +0200
+@@ -126,4 +126,4 @@
+          </dependentAssembly>
+       </assemblyBinding>
+   </runtime>
+-</configuration>
+\ No newline at end of file
++</configuration>

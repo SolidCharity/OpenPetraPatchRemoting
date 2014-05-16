@@ -1,0 +1,11 @@
+--- openpetraNow.freeze2014_05/csharp/ICT/Petra/Client/app/Core/ServerLookups.cs	2014-05-16 08:51:15.000000000 +0200
++++ openpetraNow.PatchRemoting/csharp/ICT/Petra/Client/app/Core/ServerLookups.cs	2014-05-15 22:04:07.000000000 +0200
+@@ -204,7 +204,7 @@
+                 out Boolean AIsMergedPartner,
+                 out Boolean AUserCanAccessPartner)
+             {
+-                return TRemote.MPartner.Partner.ServerLookups.WebConnectors.VerifyPartner(APartnerKey,
++                return TRemote.MPartner.Partner.ServerLookups.WebConnectors.VerifyPartnerAndGetDetails(APartnerKey,
+                     out APartnerShortName,
+                     out APartnerClass,
+                     out AIsMergedPartner,

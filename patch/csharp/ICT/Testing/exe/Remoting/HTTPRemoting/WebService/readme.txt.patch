@@ -1,0 +1,8 @@
+--- openpetraNow.freeze2014_05/csharp/ICT/Testing/exe/Remoting/HTTPRemoting/WebService/readme.txt	1970-01-01 01:00:00.000000000 +0100
++++ openpetraNow.PatchRemoting/csharp/ICT/Testing/exe/Remoting/HTTPRemoting/WebService/readme.txt	2014-05-15 22:04:07.000000000 +0200
+@@ -0,0 +1,4 @@
++to test the server:
++you have to copy the file serverSample.asmx to the delivery directory,
++and start the server, eg. nant startServer.
++Then start Ict.Testing.HTTPRemoting.Client.exe from delivery\bin
+\ No newline at end of file

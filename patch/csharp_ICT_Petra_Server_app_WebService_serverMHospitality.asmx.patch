@@ -1,5 +1,0 @@
---- before/csharp/ICT/Petra/Server/app/WebService/serverMHospitality.asmx	1970-01-01 01:00:00.000000000 +0100
-+++ patched/csharp/ICT/Petra/Server/app/WebService/serverMHospitality.asmx	2014-05-15 21:56:00.000000000 +0200
-@@ -0,0 +1 @@
-+<%@ WebService Language="C#" Class="Ict.Petra.Server.App.WebService.TMHospitalityWebService" %>
-\ No newline at end of file

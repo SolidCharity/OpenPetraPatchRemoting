@@ -1,0 +1,21 @@
+--- openpetraNow.freeze2014_05/csharp/ICT/Petra/Server/app/Core/ModuleAccessManager.cs	2014-05-16 08:51:15.000000000 +0200
++++ openpetraNow.PatchRemoting/csharp/ICT/Petra/Server/app/Core/ModuleAccessManager.cs	2014-05-15 22:04:07.000000000 +0200
+@@ -326,4 +326,17 @@
+         /// </summary>
+         public readonly string RequiredModulesExpression;
+     }
++
++    /// <summary>
++    /// attribute for annotation of server functions. Instantiator will check access permissions
++    /// </summary>
++    public class CheckServerAdminTokenAttribute : System.Attribute
++    {
++        /// <summary>
++        /// constructor
++        /// </summary>
++        public CheckServerAdminTokenAttribute()
++        {
++        }
++    }
+ }
+\ No newline at end of file

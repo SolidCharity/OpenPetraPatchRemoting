@@ -1,0 +1,10 @@
+--- openpetraNow.freeze2014_05/csharp/ICT/Common/Remoting/Client/ClientTasksBase.cs	2014-05-16 08:51:14.000000000 +0200
++++ openpetraNow.PatchRemoting/csharp/ICT/Common/Remoting/Client/ClientTasksBase.cs	2014-05-15 22:04:07.000000000 +0200
+@@ -79,6 +79,7 @@
+                 ClientTaskInstance = (TClientTaskInstanceBase)Activator.CreateInstance(ClientTasksInstanceType);
+                 ClientTaskInstance.ClientTask = NewEntryRow;
+                 ClientTaskThread = new Thread(new ThreadStart(ClientTaskInstance.Execute));
++                ClientTaskThread.Name = "ClientTasks" + Guid.NewGuid().ToString();
+                 ClientTaskThread.Start();
+             }
+         }

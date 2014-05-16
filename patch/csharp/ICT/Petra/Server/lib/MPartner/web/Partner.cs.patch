@@ -1,0 +1,10 @@
+--- openpetraNow.freeze2014_05/csharp/ICT/Petra/Server/lib/MPartner/web/Partner.cs	2014-05-16 08:51:15.000000000 +0200
++++ openpetraNow.PatchRemoting/csharp/ICT/Petra/Server/lib/MPartner/web/Partner.cs	2014-05-15 22:04:07.000000000 +0200
+@@ -28,6 +28,7 @@
+ using Ict.Common;
+ using Ict.Common.Verification;
+ using Ict.Common.DB;
++using Ict.Common.Remoting.Server;
+ using Ict.Petra.Shared;
+ using Ict.Petra.Shared.MFinance.Account.Data;
+ using Ict.Petra.Shared.MFinance.Gift.Data;

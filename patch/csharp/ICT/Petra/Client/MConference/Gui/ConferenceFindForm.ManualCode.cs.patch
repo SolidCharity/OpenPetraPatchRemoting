@@ -1,0 +1,11 @@
+--- openpetraNow.freeze2014_05/csharp/ICT/Petra/Client/MConference/Gui/ConferenceFindForm.ManualCode.cs	2014-05-16 08:51:15.000000000 +0200
++++ openpetraNow.PatchRemoting/csharp/ICT/Petra/Client/MConference/Gui/ConferenceFindForm.ManualCode.cs	2014-05-15 22:04:07.000000000 +0200
+@@ -4,7 +4,7 @@
+ // @Authors:
+ //       berndr, peters
+ //
+-// Copyright 2004-2011 by OM International
++// Copyright 2004-2013 by OM International
+ //
+ // This file is part of OpenPetra.org.
+ //

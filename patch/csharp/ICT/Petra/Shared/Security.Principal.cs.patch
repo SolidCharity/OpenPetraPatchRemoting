@@ -1,0 +1,12 @@
+--- openpetraNow.freeze2014_05/csharp/ICT/Petra/Shared/Security.Principal.cs	2014-05-16 08:51:15.000000000 +0200
++++ openpetraNow.PatchRemoting/csharp/ICT/Petra/Shared/Security.Principal.cs	2014-05-15 22:04:07.000000000 +0200
+@@ -23,8 +23,8 @@
+ //
+ using System;
+ using System.Data;
+-using System.Security.Principal;
+ using System.Runtime.Serialization;
++using System.Security.Principal;
+ using Ict.Common;
+ using Ict.Common.Exceptions;
+ using Ict.Petra.Shared.Security;

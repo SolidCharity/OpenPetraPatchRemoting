@@ -1,0 +1,33 @@
+--- openpetraNow.freeze2014_05/csharp/ICT/Common/Remoting/Server/ClientTasksManager.cs	2014-05-16 08:51:14.000000000 +0200
++++ openpetraNow.PatchRemoting/csharp/ICT/Common/Remoting/Server/ClientTasksManager.cs	2014-05-15 22:04:07.000000000 +0200
+@@ -4,7 +4,7 @@
+ // @Authors:
+ //       christiank, timop
+ //
+-// Copyright 2004-2011 by OM International
++// Copyright 2004-2013 by OM International
+ //
+ // This file is part of OpenPetra.org.
+ //
+@@ -189,9 +189,10 @@
+             NewEntry["TaskPercentDone"] = '0';
+             NewEntry["TaskStatus"] = "New";
+             FClientTasksNewDataTable.Rows.Add(NewEntry);
+-            return Convert.ToInt32(NewEntry["TaskID"]);
+ 
+-            // Console.WriteLine('Added new Task ''' + ATaskCode + '''; TaskID: ' + Result.ToString);
++            // TLogging.LogAtLevel(1, "Added new Task '" + ATaskCode + "'; TaskID: " + NewEntry["TaskID"].ToString());
++
++            return Convert.ToInt32(NewEntry["TaskID"]);
+         }
+ 
+         /// <summary>
+@@ -246,7 +247,7 @@
+             DataTable ReturnValue;
+             DataRow FetchedEntryRow;
+ 
+-            // Console.WriteLine('get_ClientTasksNewDataTable called.');
++            // TLogging.Log("Get_ClientTasksNewDataTable called.");
+             // TODO 1 ochristiank cClient Tasks : Make this process threadsave.
+             ReturnValue = FClientTasksNewDataTable.Copy();
+ 

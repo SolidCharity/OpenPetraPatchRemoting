@@ -1,0 +1,11 @@
+--- openpetraNow.freeze2014_05/csharp/ICT/Petra/Server/lib/MSysMan/TableMaintenance.cs	2014-05-16 08:51:15.000000000 +0200
++++ openpetraNow.PatchRemoting/csharp/ICT/Petra/Server/lib/MSysMan/TableMaintenance.cs	2014-05-15 22:04:07.000000000 +0200
+@@ -37,7 +37,7 @@
+     /// <summary>
+     /// User Interface Connector for table maintenance
+     /// </summary>
+-    public class TSysManTableMaintenanceUIConnector : TConfigurableMBRObject, ISysManUIConnectorsTableMaintenance
++    public class TSysManTableMaintenanceUIConnector : ISysManUIConnectorsTableMaintenance
+     {
+         /// <summary>
+         /// Constructor

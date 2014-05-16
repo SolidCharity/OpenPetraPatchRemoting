@@ -1,0 +1,32 @@
+--- openpetraNow.freeze2014_05/csharp/ICT/Testing/lib/MFinance/ExchangeRates/CorporateRate.test.cs	2014-05-16 08:51:15.000000000 +0200
++++ openpetraNow.PatchRemoting/csharp/ICT/Testing/lib/MFinance/ExchangeRates/CorporateRate.test.cs	2014-05-15 22:04:07.000000000 +0200
+@@ -4,7 +4,7 @@
+ // @Authors:
+ //       AlanP
+ //
+-// Copyright 2004-2012 by OM International
++// Copyright 2004-2013 by OM International
+ //
+ // This file is part of OpenPetra.org.
+ //
+@@ -68,7 +68,7 @@
+         /// </summary>
+         public override void Setup()
+         {
+-            new TLogging("TestClient.log");
++            new TLogging("../../log/TestClient.log");
+ 
+             FConnectedToServer = false;
+             try
+@@ -76,9 +76,9 @@
+                 TPetraConnector.Connect("../../etc/TestClient.config");
+                 FConnectedToServer = true;
+             }
+-            catch (Exception)
++            catch (Exception Exc)
+             {
+-                Assert.Fail("Failed to connect to the Petra Server.  Have you forgotten to launch the Server Console");
++                Assert.Fail("Failed to connect to the Petra Server.  Have you forgotten to launch the Server Console? Exception: \r\n" + Exc.ToString());
+             }
+         }
+ 
