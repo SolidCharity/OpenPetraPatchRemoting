@@ -23,6 +23,19 @@ do
   # remove .binary, 7 characters
   filename=${filename:0:${#filename}-7}
   echo "patching binary file $filename"
+  mkdir -p `dirname $filename`
+  cp $f $filename
+done
+
+for f in `find $curDir/$PatchRepo/patch -name *.add`
+do
+  path=$curDir/$PatchRepo/patch/
+  strlenPath=${#path}
+  filename=${f:$strlenPath}
+  # remove .add, 4 characters
+  filename=${filename:0:${#filename}-4}
+  echo "adding file $filename"
+  mkdir -p `dirname $filename`
   cp $f $filename
 done
 

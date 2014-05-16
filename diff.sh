@@ -30,6 +30,7 @@ while read line; do
       diff -uNr $before/$path $patched/$path > $Repo/patch/$filename.patch
       if [ ! -f $patched/$path ]
       then
+        # file was deleted
         rm -f $Repo/patch/$filename.patch
         if [ -f $Repo/patchOld/$filename.delete ]
         then
@@ -37,6 +38,17 @@ while read line; do
         else
           echo "removing $path"
           touch $Repo/patch/$filename.delete
+        fi
+      elif [ ! -f $before/$path ]
+      then
+        # file was added
+        rm -f $Repo/patch/$filename.patch
+        if [ -f $Repo/patchOld/$filename.add ] && [ `diff $Repo/patchOld/$filename.add $patched/$path | wc -l` -eq 0 ]
+        then
+          mv $Repo/patchOld/$filename.add $Repo/patch/$filename.add
+        else
+          echo "adding $path"
+          cp $patched/$path $Repo/patch/$filename.add
         fi
       elif [ -f $Repo/patchOld/$filename.patch ]
       then
