@@ -79,7 +79,7 @@ Apply the patch to trunk where the patch is based on, as described above.
 
 Then run:
 
-    diff -uNr -x .bzr -x .git openpetra remoting
+    diff -uNr -x .bzr -x .git -x *.orig openpetra remoting
 
 There should not be any difference.
 

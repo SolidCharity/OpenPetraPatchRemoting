@@ -12,8 +12,6 @@ then
   mv $Repo/patch $Repo/patchOld
 fi
 mkdir -p $Repo/patch
-mkdir -p $Repo/binary
-mkdir -p $Repo/delete
 filename=
 while read line; do
   if [[ "${line:0:9}" == "diff -uNr" ]]
@@ -27,32 +25,53 @@ while read line; do
       #remove patched/ from path
       strlen=${#patched}
       path=${path:$strlen+1}
-      filename=`echo $path | sed "s#/#_#g"`.patch
-      echo $filename
+      filename=$path.patch
+      mkdir -p `dirname $Repo/patch/$filename`
       diff -uNr $before/$path $patched/$path > $Repo/patch/$filename
-      if [ `diff $Repo/patch/$filename $Repo/patchOld/$filename | wc -l ` -eq 6 ]
+      if [ -f $Repo/patchOld/$filename ]
       then
-        mv $Repo/patchOld/$filename $Repo/patch/$filename
+         linesDifferent=`diff $Repo/patch/$filename $Repo/patchOld/$filename | wc -l`
+         if [ $linesDifferent -eq 6 -o $linesDifferent -eq 0 ]
+         then
+           mv $Repo/patchOld/$filename $Repo/patch/$filename
+         else
+           echo $filename
+         fi
+      else
+        echo $filename
       fi
     fi
-  else if [[ "${line:0:12}" == "Binary files" ]]
-   then
+  elif [[ "${line:0:12}" == "Binary files" ]]
+  then
     splitBySpace=( $line )
     len="${#splitBySpace[@]}"
     path=${splitBySpace[$len-2]}
     #remove patched/ from path
     strlen=${#patched}
     filename=${path:$strlen+1}
-    filename=`echo $filename | sed "s#/#__#g"`
+    mkdir -p `dirname $Repo/patch/$filename`
     if [ -f $path ]
     then
-      echo "binary file $path"
-      cp $path $Repo/binary/$filename
+      cp $path $Repo/patch/$filename.binary
+      if [ -f $Repo/patchOld/$filename.binary ]
+      then
+        linesDifferent=`diff $Repo/patch/$filename.binary $Repo/patchOld/$filename.binary | wc -l`
+        if [ $linesDifferent -eq 6 -o $linesDifferent -eq 0 ]
+        then
+          mv $Repo/patchOld/$filename.binary $Repo/patch/$filename.binary
+        else
+          echo $filename.binary
+        fi
+      else
+        echo $filename.binary
+      fi 
+    elif [ -f $Repo/patchOld/$filename.delete ]
+    then
+      mv $Repo/patchOld/$filename.delete $Repo/patch/$filename.delete
     else
       echo "removing $path"
-      touch $Repo/delete/$filename
+      touch $Repo/patch/$filename.delete
     fi
-   fi
   fi
 done < <(diff -uNr -x .bzr -x .git $before $patched )
 rm -Rf $Repo/patchOld

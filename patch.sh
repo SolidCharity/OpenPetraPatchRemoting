@@ -10,32 +10,30 @@ then
 fi
 
 cd $curDir/$TrunkRepo
-for f in $curDir/$PatchRepo/patch/*; do patch -p1 < $f; done
+for f in `find $curDir/$PatchRepo/patch -name *.patch`
+do 
+  patch -p1 < $f
+done
 
-if [ -d $curDir/$PatchRepo/binary ]
-then
-  cd $curDir/$PatchRepo/binary
-  for f in *
-  do
-    if [[ "$f" != "*" ]]
-    then
-      path=`echo $f | sed "s#__#/#g"`
-      echo "Patching " $path
-      cp -f $f $curDir/$TrunkRepo/$path
-    fi
-  done 
-fi
+for f in `find $curDir/$PatchRepo/patch -name *.binary`
+do
+  path=$curDir/$PatchRepo/patch/
+  strlenPath=${#path}
+  filename=${f:$strlenPath}
+  # remove .binary, 7 characters
+  filename=${filename:0:${#filename}-7}
+  echo "patching binary file $filename"
+  cp $f $filename
+done
 
-if [ -d $curDir/$PatchRepo/delete ]
-then
-  cd $curDir/$PatchRepo/delete
-  for f in *
-  do
-    if [[ "$f" != "*" ]]
-    then
-      path=`echo $f | sed "s#__#/#g"`
-      echo "Deleting " $path
-      rm -f $curDir/$TrunkRepo/$path
-    fi
-  done
-fi
+for f in `find $curDir/$PatchRepo/patch -name *.delete`
+do
+  path=$curDir/$PatchRepo/patch/
+  strlenPath=${#path}
+  filename=${f:$strlenPath}
+  # remove .delete, 7 characters
+  filename=${filename:0:${#filename}-7}
+  echo "deleting binary file $filename"
+  rm -f $filename
+done
+
