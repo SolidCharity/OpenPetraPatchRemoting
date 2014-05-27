@@ -1,5 +1,0 @@
---- openpetraNow.freeze2014_05/csharp/ICT/Testing/exe/Remoting/IctCommonRemoting/Shared/OutputType.cfg	2014-05-16 08:51:15.000000000 +0200
-+++ openpetraNow.PatchRemoting/csharp/ICT/Testing/exe/Remoting/IctCommonRemoting/Shared/OutputType.cfg	1970-01-01 01:00:00.000000000 +0100
-@@ -1 +0,0 @@
--library
-\ No newline at end of file
