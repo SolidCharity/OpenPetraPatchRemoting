@@ -5,7 +5,7 @@
  //       timop
  //
 -// Copyright 2004-2012 by OM International
-+// Copyright 2004-2013 by OM International
++// Copyright 2004-2014 by OM International
  //
  // This file is part of OpenPetra.org.
  //
@@ -161,7 +161,7 @@
              }
              catch (System.Net.WebException e)
              {
-@@ -75,37 +177,132 @@
+@@ -75,37 +177,139 @@
                          e.Message, TLoggingType.ToLogfile);
                  }
              }
@@ -182,7 +182,14 @@
 +                }
 +                else
 +                {
-+                    TLogging.Log(" " + k + " = " + parameters[k]);
++                    if (parameters[k].Length < 2000)
++                    {
++                        TLogging.Log(" " + k + " = " + parameters[k]);
++                    }
++                    else
++                    {
++                        TLogging.Log(" " + k + " = " + parameters[k].Substring(0, 1000) + " [..]");
++                    }
 +                }
 +            }
 +        }
