@@ -4,7 +4,7 @@
 // @Authors:
 //       timop
 //
-// Copyright 2004-2013 by OM International
+// Copyright 2004-2014 by OM International
 //
 // This file is part of OpenPetra.org.
 //
@@ -184,6 +184,9 @@ namespace Ict.Petra.Server.App.Core.ServerAdmin.WebConnectors
         [CheckServerAdminToken]
         public static bool RestoreDatabaseFromYmlGZ(string AYmlGzData)
         {
+            // set the client id to avoid problems with missing ClientID for InitProgressTracker during restore of database
+            DomainManager.GClientID = -1;
+
             return TServerManagerBase.TheServerManager.RestoreDatabaseFromYmlGZ(AYmlGzData);
         }
 
