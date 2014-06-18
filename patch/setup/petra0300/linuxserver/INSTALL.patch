@@ -1,6 +1,6 @@
 --- openpetraNow.freeze2014_05/setup/petra0300/linuxserver/INSTALL	2014-05-16 08:51:15.000000000 +0200
 +++ openpetraNow.PatchRemoting/setup/petra0300/linuxserver/INSTALL	2014-06-05 22:04:07.000000000 +0200
-@@ -1,42 +1,59 @@
+@@ -1,42 +1,62 @@
  required packages:
   sudo (for the initialisation of the database)
 - mono-2.0-runtime (>= Mono 2.6.7), also winforms (Ict.Common.* dlls depend on it)
@@ -43,6 +43,9 @@
 -then run: . setup.sh
 +Move the contents of this directory to eg. /usr/local/openpetraorg.
 +Copy the file openpetraorg-server.sh to /etc/init.d/openpetra-server, and change the configuration parameters in the head of that file.
++Create symbolic links:
++  ln -s /usr/local/openpetraorg/asmx /var/www/openpetra
++  ln -s /usr/local/openpetraorg/bin30 /var/www/openpetra/bin
 +Download one of the available base or demo databases from https://sourceforge.net/projects/openpetraorg/files/openpetraorg/demodata/
 +and save it to /usr/local/openpetraorg/db30/base.yml.gz
  
