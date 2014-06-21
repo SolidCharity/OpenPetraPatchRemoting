@@ -12,7 +12,7 @@ fi
 cd $curDir/$TrunkRepo
 for f in `find $curDir/$PatchRepo/patch -name *.patch`
 do 
-  patch -p1 < $f
+  patch -p1 < $f || exit -1
 done
 
 for f in `find $curDir/$PatchRepo/patch -name *.binary`
