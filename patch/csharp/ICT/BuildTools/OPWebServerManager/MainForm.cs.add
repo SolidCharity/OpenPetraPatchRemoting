@@ -40,10 +40,10 @@ namespace Ict.Tools.OPWebServerManager
         private int _tickCount = 0;
         private bool _awaitingResponses = false;
         private bool _refreshOnCompletion = false;
-        
+
         private WebServerListener _webServerListener = null;
-        private List<string> _responses = new List<string>();
-        private Dictionary<string, Dictionary<string, string>> _availableCommands;
+        private List <string>_responses = new List <string>();
+        private Dictionary <string, Dictionary <string, string>>_availableCommands;
 
         /// <summary>
         /// Constructor
@@ -69,7 +69,7 @@ namespace Ict.Tools.OPWebServerManager
         {
             PrepareToListen();
 
-            _availableCommands = new Dictionary<string, Dictionary<string, string>>();
+            _availableCommands = new Dictionary <string, Dictionary <string, string>>();
 
             // Create a new listener to handle the responses
             _webServerListener = new WebServerListener(this);
@@ -152,6 +152,7 @@ namespace Ict.Tools.OPWebServerManager
                 foreach (string response in _responses)
                 {
                     string info;
+
                     if (!ParseIncomingMessage(response, out info))
                     {
                         lblResponse.Text += info;
@@ -234,6 +235,7 @@ namespace Ict.Tools.OPWebServerManager
             }
 
             int pos = IncomingMessage.IndexOf(';');
+
             if (pos == -1)
             {
                 ExtraInfo = "Badly formed response";
@@ -243,10 +245,12 @@ namespace Ict.Tools.OPWebServerManager
             string command = IncomingMessage.Substring(0, pos);
             string[] parameters = IncomingMessage.Split(';');
 
-            Dictionary<string, string> dicParams = new Dictionary<string, string>();
+            Dictionary <string, string>dicParams = new Dictionary <string, string>();
+
             foreach (string p in parameters)
             {
                 string[] kvp = p.Split('=');
+
                 if (kvp.Length > 1)
                 {
                     dicParams.Add(kvp[0], kvp[1]);
@@ -260,13 +264,15 @@ namespace Ict.Tools.OPWebServerManager
                     row.SubItems.Add(dicParams["Status"]);
                     row.SubItems.Add(dicParams["PhysicalPath"]);
                     row.Tag = dicParams["ReplyTo"];
+
                     if (listWebServers.Items.Count == 0)
                     {
                         row.Selected = true;
                     }
+
                     listWebServers.Items.Add(row);
 
-                    Dictionary<string, string> dicCommands = new Dictionary<string, string>();
+                    Dictionary <string, string>dicCommands = new Dictionary <string, string>();
                     string shutdown = string.Format("ShutdownRequest;WebPort={0};ReplyTo={1};EOF=1", dicParams["WebPort"], _webServerListener.Port);
                     dicCommands.Add("ShutdownRequest", shutdown);
                     string stop = string.Format("StopRequest;WebPort={0};ReplyTo={1};EOF=1", dicParams["WebPort"], _webServerListener.Port);
@@ -310,14 +316,18 @@ namespace Ict.Tools.OPWebServerManager
         private void btnFindServers_Click(object sender, EventArgs e)
         {
             string message = "Is there a OP WebServer out there?;ReplyTo={0};EOF=1";
+
             _refreshOnCompletion = false;
             SendMessage(message, -1);
         }
 
         private void shutdownAllMainMenuItem_Click(object sender, EventArgs e)
         {
-            string confirmMessage = "This action will shutdown all Open Petra web server applications that are running in the system tray.  Do you want to proceeed?";
-            if (MessageBox.Show(confirmMessage, this.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == System.Windows.Forms.DialogResult.No)
+            string confirmMessage =
+                "This action will shutdown all Open Petra web server applications that are running in the system tray.  Do you want to proceeed?";
+
+            if (MessageBox.Show(confirmMessage, this.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question,
+                    MessageBoxDefaultButton.Button2) == System.Windows.Forms.DialogResult.No)
             {
                 return;
             }
@@ -334,8 +344,11 @@ namespace Ict.Tools.OPWebServerManager
                 return;
             }
 
-            string confirmMessage = "This action will shutdown the selected Open Petra web server application that is running in the system tray.  Do you want to proceeed?";
-            if (MessageBox.Show(confirmMessage, this.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == System.Windows.Forms.DialogResult.No)
+            string confirmMessage =
+                "This action will shutdown the selected Open Petra web server application that is running in the system tray.  Do you want to proceeed?";
+
+            if (MessageBox.Show(confirmMessage, this.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question,
+                    MessageBoxDefaultButton.Button2) == System.Windows.Forms.DialogResult.No)
             {
                 return;
             }
@@ -408,7 +421,9 @@ namespace Ict.Tools.OPWebServerManager
             if (e.CloseReason == CloseReason.UserClosing)
             {
                 string confirmMessage = "Are you sure you want to close the application?";
-                if (MessageBox.Show(confirmMessage, this.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == System.Windows.Forms.DialogResult.No)
+
+                if (MessageBox.Show(confirmMessage, this.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question,
+                        MessageBoxDefaultButton.Button2) == System.Windows.Forms.DialogResult.No)
                 {
                     e.Cancel = true;
                 }

@@ -1,5 +1,5 @@
 --- openpetraNow.freeze2014_05/csharp/ICT/BuildTools/DevelopersAssistant/MainForm.cs	2014-06-23 12:34:11.000000000 +0200
-+++ openpetraNow.PatchRemoting/csharp/ICT/BuildTools/DevelopersAssistant/MainForm.cs	2014-06-23 15:12:51.000000000 +0200
++++ openpetraNow.PatchRemoting/csharp/ICT/BuildTools/DevelopersAssistant/MainForm.cs	2014-06-23 15:15:47.000000000 +0200
 @@ -4,7 +4,7 @@
  // @Authors:
  //       alanp
@@ -203,9 +203,9 @@
          {
              OutputText.ResetOutput();
 -            TickTimer.Enabled = false;
--            int NumFailures = 0;
--            int NumWarnings = 0;
--
+             int NumFailures = 0;
+             int NumWarnings = 0;
+ 
 -            // Check if we are up to date with the server state - someone may have started it manually at a cmd window
 -            GetServerState();
 -
@@ -236,9 +236,9 @@
 -        {
 -            OutputText.ResetOutput();
 -            TickTimer.Enabled = false;
-             int NumFailures = 0;
-             int NumWarnings = 0;
- 
+-            int NumFailures = 0;
+-            int NumWarnings = 0;
+-
 -            // Check if we are up to date with the server state - someone may have stopped it manually at a cmd window
 -            GetServerState();
 -
@@ -483,7 +483,7 @@
          }
  
          private void btnRunSequence_Click(object sender, EventArgs e)
-@@ -1372,6 +1168,18 @@
+@@ -1372,6 +1168,20 @@
              _localSettings.DoPostBuildOnPetraClient = dlg.chkDoPostBuild.Checked;
          }
  
@@ -492,7 +492,9 @@
 +            string pathToManager = Path.Combine(txtBranchLocation.Text, "delivery\\bin\\Ict.Tools.OPWebServerManager.exe");
 +
 +            Process managerProcess = new System.Diagnostics.Process();
++
 +            managerProcess.StartInfo = new System.Diagnostics.ProcessStartInfo(pathToManager);
++
 +            if (!managerProcess.Start())
 +            {
 +                MessageBox.Show(String.Format("Failed to start the Manager application.  The path is '{0}'", pathToManager), Program.APP_TITLE);
@@ -502,7 +504,7 @@
          /******************************************************************************************************************************************
          *
          * Helper functions
-@@ -1411,14 +1219,6 @@
+@@ -1411,14 +1221,6 @@
                      bOk = NantExecutor.StopServer(WorkingFolder);
                      break;
  
@@ -517,7 +519,7 @@
                  default:
                      bOk = NantExecutor.RunGenericNantTarget(WorkingFolder, Task.TargetName);
                      break;
-@@ -1458,7 +1258,8 @@
+@@ -1458,7 +1260,8 @@
              OutputText.AppendText(OutputText.OutputStream.Both, String.Format("~~~~~~~~~~~~~~~~ {0} ...\r\n", task.LogText));
              dlg.Refresh();
  
@@ -527,7 +529,7 @@
              {
                  // It ran successfully - let us check the output ...
                  OutputText.AddLogFileOutput(txtBranchLocation.Text + @"\csharp\ICT\Petra\Client\opda.txt", ref NumFailures, ref NumWarnings);
-@@ -1468,69 +1269,9 @@
+@@ -1468,69 +1271,9 @@
                  NumFailures++;
              }
  
@@ -597,7 +599,7 @@
          // Generic method to run previewWinform because it is in a different disk location to all the rest and takes additional parameters.
          private void RunPreviewWinform(ref int NumFailures, ref int NumWarnings)
          {
-@@ -1565,7 +1306,6 @@
+@@ -1565,7 +1308,6 @@
              DateTime dtStart = DateTime.UtcNow;
  
              OutputText.ResetOutput();
@@ -605,7 +607,7 @@
              bool bShowOutputTab = false;
  
              for (int i = 0; i < Sequence.Count; i++)
-@@ -1651,8 +1391,6 @@
+@@ -1651,8 +1393,6 @@
              {
                  FlashWindow.Flash(this, 5);
              }
@@ -614,7 +616,7 @@
          }
  
          // Call this method at the end of a task or sequence of tasks to initialise the verbose output warnings handler.
-@@ -1755,12 +1493,7 @@
+@@ -1755,12 +1495,7 @@
          {
              // We just check for our magic number to see if we have been activated by another instance
  
@@ -628,7 +630,7 @@
              {
                  System.Diagnostics.Trace.WriteLine(String.Format("Start server: Message received - {0}", message.Msg));
                  linkLabelStartServer_LinkClicked(null, null);
-@@ -1770,59 +1503,5 @@
+@@ -1770,59 +1505,5 @@
                  base.WndProc(ref message);
              }
          }

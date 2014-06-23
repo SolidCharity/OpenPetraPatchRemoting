@@ -33,7 +33,7 @@ namespace Ict.Tools.OPWebServerManager
         private bool _executeImmediateAction = false;
         private ImmediateActions _immediateAction = ImmediateActions.None;
         private int _port = 0;
-        
+
         /// <summary>
         /// Returns true if the command line has an immediate action to execute
         /// </summary>
@@ -84,7 +84,7 @@ namespace Ict.Tools.OPWebServerManager
                     return false;
                 }
 
-                return (_port > 0);
+                return _port > 0;
             }
         }
 
@@ -105,12 +105,15 @@ namespace Ict.Tools.OPWebServerManager
                         case "shutdownall":
                             _immediateAction = ImmediateActions.ShutdownAll;
                             break;
+
                         case "shutdown":
                             _immediateAction = ImmediateActions.Shutdown;
                             break;
+
                         case "start":
                             _immediateAction = ImmediateActions.Start;
                             break;
+
                         case "stop":
                             _immediateAction = ImmediateActions.Stop;
                             break;
@@ -119,6 +122,7 @@ namespace Ict.Tools.OPWebServerManager
                 else if (arg.StartsWith("-port:"))
                 {
                     int port;
+
                     if (Int32.TryParse(arg.Substring(6), out port))
                     {
                         _port = port;

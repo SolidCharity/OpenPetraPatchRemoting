@@ -106,10 +106,12 @@ namespace Ict.Tools.OpenPetraWebServer
             get
             {
                 System.Text.StringBuilder sb = new System.Text.StringBuilder();
+
                 foreach (string s in _commandArgs)
                 {
                     sb.AppendFormat("{0}  ", s);
                 }
+
                 return sb.ToString().Trim();
             }
         }
@@ -254,6 +256,7 @@ namespace Ict.Tools.OpenPetraWebServer
             {
                 // Create a log file and a console log
                 string pathToLogFile;
+
                 if (args.UseFullUI)
                 {
                     pathToLogFile = Path.Combine(args.LogfilePath, "Ict.Tools.OpenPetraWebServer.log");
@@ -378,6 +381,7 @@ namespace Ict.Tools.OpenPetraWebServer
                     case RunStyles.SmallUI:
                         ((SmallUIForm)myForm).OnNewLogMessage();
                         break;
+
                     case RunStyles.FullUI:
                         ((MainForm)myForm).OnNewLogMessage();
                         break;

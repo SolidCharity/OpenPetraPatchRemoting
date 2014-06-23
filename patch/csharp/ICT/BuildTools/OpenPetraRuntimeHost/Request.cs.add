@@ -193,6 +193,7 @@ namespace Ict.Tools.OpenPetraRuntimeHost
                 // If for some reason you need to include logging this request, comment the next line out
                 // and add a line bool saveThisRequest = true;  - but DO NOT COMMIT YOUR CHANGE !!!!!!!!!
                 bool saveThisRequest = (this._url != "/serverSessionManager.asmx/PollClientTasks");
+
                 if (saveThisRequest)
                 {
                     lock (_logfileLock)
@@ -688,9 +689,7 @@ namespace Ict.Tools.OpenPetraRuntimeHost
                     else
                     {
                         expandedBytes[pos++] = (byte)'%';
-                        // uncrustify has problems with right shift bit operator b >> 4
-                        // therefore using division instead (2^4=16)
-                        expandedBytes[pos++] = (byte)IntToHex[(b / 16) & 0xf];
+                        expandedBytes[pos++] = (byte)IntToHex[(b > > 4) & 0xf];
                         expandedBytes[pos++] = (byte)IntToHex[b & 0xf];
                     }
                 }

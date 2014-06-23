@@ -326,6 +326,7 @@ namespace Ict.Tools.OpenPetraWebServer
         {
             serverLog.Text = String.Format("Server Log (Port {0})", _webSite.Port.ToString());
             serverLog.Refresh();
+
             if (serverLog.WindowState == FormWindowState.Minimized)
             {
                 serverLog.WindowState = FormWindowState.Normal;

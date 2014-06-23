@@ -72,7 +72,7 @@ namespace Ict.Tools.OPWebServerManager
         private WebServerListener _webServerListener = null;
         private int _tickCount = 0;
         private bool _awaitingResponses = false;
-        private List<string> _responses = null;
+        private List <string>_responses = null;
 
         /// <summary>
         /// The main constructor
@@ -94,7 +94,7 @@ namespace Ict.Tools.OPWebServerManager
         {
             progressResponses.Value = 0;
             _tickCount = 0;
-            _responses = new List<string>();
+            _responses = new List <string>();
             responseTimer.Start();
 
             System.Diagnostics.Trace.WriteLine("Starting listener...");
@@ -104,20 +104,24 @@ namespace Ict.Tools.OPWebServerManager
             _webServerListener.StartListening();
 
             string messageToSend = String.Empty;
+
             switch (_runtimeAction)
             {
                 case ImmediateActions.ShutdownAll:
                     messageToSend = String.Format("GeneralShutdownRequest;ReplyTo={0};EOF=1", _webServerListener.Port.ToString());
                     lblStatus.Text = "Trying to shutdown all Open Petra web servers";
                     break;
+
                 case ImmediateActions.Shutdown:
                     messageToSend = String.Format("ShutdownRequest;WebPort={0};ReplyTo={1};EOF=1", _port, _webServerListener.Port.ToString());
                     lblStatus.Text = "Trying to shutdown the Open Petra web server on port " + _port.ToString();
                     break;
+
                 case ImmediateActions.Start:
                     messageToSend = String.Format("StartRequest;WebPort={0};ReplyTo={1};EOF=1", _port, _webServerListener.Port.ToString());
                     lblStatus.Text = "Trying to start the Open Petra web server on port " + _port.ToString();
                     break;
+
                 case ImmediateActions.Stop:
                     messageToSend = String.Format("StopRequest;WebPort={0};ReplyTo={1};EOF=1", _port, _webServerListener.Port.ToString());
                     lblStatus.Text = "Trying to stop the Open Petra web server on port " + _port.ToString();
@@ -197,6 +201,7 @@ namespace Ict.Tools.OPWebServerManager
             if (_responses.Count > 0)
             {
                 lblStatus.Text = String.Empty;
+
                 foreach (string response in _responses)
                 {
                     string info;
@@ -227,6 +232,7 @@ namespace Ict.Tools.OPWebServerManager
             }
 
             int pos = IncomingMessage.IndexOf(';');
+
             if (pos == -1)
             {
                 ExtraInfo = "Badly formed response" + Environment.NewLine;
@@ -236,10 +242,12 @@ namespace Ict.Tools.OPWebServerManager
             string command = IncomingMessage.Substring(0, pos);
             string[] parameters = IncomingMessage.Split(';');
 
-            Dictionary<string, string> dicParams = new Dictionary<string, string>();
+            Dictionary <string, string>dicParams = new Dictionary <string, string>();
+
             foreach (string p in parameters)
             {
                 string[] kvp = p.Split('=');
+
                 if (kvp.Length > 1)
                 {
                     dicParams.Add(kvp[0], kvp[1]);

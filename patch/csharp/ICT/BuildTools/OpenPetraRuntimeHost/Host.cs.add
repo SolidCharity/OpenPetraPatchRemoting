@@ -100,7 +100,13 @@ namespace Ict.Tools.OpenPetraRuntimeHost
         /// <summary>
         /// Main method for configuring the host
         /// </summary>
-        public void Configure(Server server, int port, string virtualPath, string physicalPath, string defaultPage, bool allowRemoteConnection, bool logPageRequests)
+        public void Configure(Server server,
+            int port,
+            string virtualPath,
+            string physicalPath,
+            string defaultPage,
+            bool allowRemoteConnection,
+            bool logPageRequests)
         {
             _server = server;
 
@@ -123,6 +129,7 @@ namespace Ict.Tools.OpenPetraRuntimeHost
                 _logfilePath = Path.Combine(HttpRuntime.AppDomainAppPath, "httpLog", "HttpRequest.log");
 
                 string logFileFolder = Path.GetDirectoryName(_logfilePath);
+
                 if (!Directory.Exists(logFileFolder))
                 {
                     Directory.CreateDirectory(logFileFolder);

@@ -40,6 +40,7 @@ namespace Ict.Tools.OPWebServerManager
             {
                 components.Dispose();
             }
+
             base.Dispose(disposing);
         }
 
@@ -57,30 +58,30 @@ namespace Ict.Tools.OPWebServerManager
             this.progressResponses = new System.Windows.Forms.ProgressBar();
             this.responseTimer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
-            // 
+            //
             // lblStatus
-            // 
+            //
             this.lblStatus.Location = new System.Drawing.Point(13, 13);
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(387, 49);
             this.lblStatus.TabIndex = 0;
             this.lblStatus.Text = "Status";
-            // 
+            //
             // progressResponses
-            // 
+            //
             this.progressResponses.Location = new System.Drawing.Point(12, 65);
             this.progressResponses.Maximum = 2500;
             this.progressResponses.Name = "progressResponses";
             this.progressResponses.Size = new System.Drawing.Size(388, 17);
             this.progressResponses.TabIndex = 1;
-            // 
+            //
             // responseTimer
-            // 
+            //
             this.responseTimer.Interval = 200;
             this.responseTimer.Tick += new System.EventHandler(this.responseTimer_Tick);
-            // 
+            //
             // ImmediateExecuteForm
-            // 
+            //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(412, 94);
@@ -95,7 +96,6 @@ namespace Ict.Tools.OPWebServerManager
             this.Text = "OpenPetra Development Web Server Manager";
             this.Shown += new System.EventHandler(this.ImmediateExecuteForm_Shown);
             this.ResumeLayout(false);
-
         }
 
         #endregion

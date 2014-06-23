@@ -1,4 +1,27 @@
-﻿using System;
+﻿//
+// DO NOT REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+//
+// @Authors:
+//       >>>> Put your full name or just a shortname here <<<<
+//
+// Copyright 2004-2013 by OM International
+//
+// This file is part of OpenPetra.org.
+//
+// OpenPetra.org is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// OpenPetra.org is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with OpenPetra.org.  If not, see <http://www.gnu.org/licenses/>.
+//
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -139,6 +162,7 @@ namespace Ict.Tools.OpenPetraWebServer
         private string HandleResponse(string IncomingMessage, out int ReplyPort)
         {
             string returnValue = String.Empty;
+
             ReplyPort = 0;
 
             // Is the string terminated?
@@ -148,6 +172,7 @@ namespace Ict.Tools.OpenPetraWebServer
             }
 
             int pos = IncomingMessage.IndexOf(';');
+
             if (pos == -1)
             {
                 return returnValue;
@@ -156,10 +181,12 @@ namespace Ict.Tools.OpenPetraWebServer
             string command = IncomingMessage.Substring(0, pos);
             string[] parameters = IncomingMessage.Split(';');
 
-            Dictionary<string, string> paramDic = new Dictionary<string, string>();
+            Dictionary <string, string>paramDic = new Dictionary <string, string>();
+
             foreach (string p in parameters)
             {
                 string[] kvp = p.Split('=');
+
                 if (kvp.Length > 1)
                 {
                     paramDic.Add(kvp[0], kvp[1]);
@@ -169,6 +196,7 @@ namespace Ict.Tools.OpenPetraWebServer
             string myWebPorts = String.Empty;
             string physicalPath = String.Empty;
             string started = String.Empty;
+
             foreach (WebSite ws in _webSites.Values)
             {
                 if (myWebPorts.Length > 0)
@@ -189,21 +217,23 @@ namespace Ict.Tools.OpenPetraWebServer
             switch (command)
             {
                 case "Is there a OP WebServer out there?":
+
                     if (paramDic.ContainsKey("ReplyTo"))
                     {
                         ReplyPort = Convert.ToInt32(paramDic["ReplyTo"]);
                     }
 
-                    returnValue = String.Format("ServerInfo;ReplyTo={0};WebPort={1};CommandArgs={2};PhysicalPath={3};Status={4};EOF=1", 
-                        _listenerPort.ToString(),
-                        myWebPorts, 
-                        Program.CommandLineParams,
-                        physicalPath,
-                        _guiForm.IsServerStarted() ? "Started" : "Stopped");
+                    returnValue = String.Format("ServerInfo;ReplyTo={0};WebPort={1};CommandArgs={2};PhysicalPath={3};Status={4};EOF=1",
+                    _listenerPort.ToString(),
+                    myWebPorts,
+                    Program.CommandLineParams,
+                    physicalPath,
+                    _guiForm.IsServerStarted() ? "Started" : "Stopped");
 
                     break;
 
                 case "GeneralShutdownRequest":
+
                     if (paramDic.ContainsKey("ReplyTo"))
                     {
                         ReplyPort = Convert.ToInt32(paramDic["ReplyTo"]);
@@ -214,6 +244,7 @@ namespace Ict.Tools.OpenPetraWebServer
                     break;
 
                 case "ShutdownRequest":
+
                     if (paramDic.ContainsKey("WebPort"))
                     {
                         if (!matchMyWebPorts.Contains("+" + paramDic["WebPort"] + "+"))
@@ -232,6 +263,7 @@ namespace Ict.Tools.OpenPetraWebServer
                     break;
 
                 case "StartRequest":
+
                     if (paramDic.ContainsKey("WebPort"))
                     {
                         if (!matchMyWebPorts.Contains("+" + paramDic["WebPort"] + "+"))
@@ -250,6 +282,7 @@ namespace Ict.Tools.OpenPetraWebServer
                     break;
 
                 case "StopRequest":
+
                     if (paramDic.ContainsKey("WebPort"))
                     {
                         if (!matchMyWebPorts.Contains("+" + paramDic["WebPort"] + "+"))

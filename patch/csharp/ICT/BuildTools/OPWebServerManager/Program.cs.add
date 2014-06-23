@@ -49,11 +49,12 @@ namespace Ict.Tools.OPWebServerManager
         {
             // Parse the command line (if any)
             CommandLineArgs commandLineArgs = new CommandLineArgs();
+
             commandLineArgs.ParseCommandLine(args);
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            
+
             // Start the correct GUI depending on the command line
             if (commandLineArgs.ExecuteImmediateAction)
             {

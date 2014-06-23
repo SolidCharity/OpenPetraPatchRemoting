@@ -37,10 +37,10 @@ namespace Ict.Tools.OpenPetraWebServer
         /// The command line can be blank - in which case the full UI is used
         /// or it can have one optional parameter
         /// "path-to-exe" [-logfile:"full-path-to-logfile"]
-        /// 
+        ///
         /// or it can have parameters as follows - in which case the simplified UI is shown with one instance per port
         ///
-        /// "path-to-exe" -physicalPath:"fully-qualified-physical-path" -port:portNumber 
+        /// "path-to-exe" -physicalPath:"fully-qualified-physical-path" -port:portNumber
         ///       [-virtualPath:virtualPath] [-defaultPage:defaultPage] [-r:true] [-quiet:true] [-logfile:"full-path-to-logfolder"] [-logPageRequests:true] [-maxRuntime:NN]
         ///
 
@@ -235,7 +235,7 @@ namespace Ict.Tools.OpenPetraWebServer
                     _logfilePath = Path.Combine(pathToMe, "log");
                 }
             }
-            
+
             // If the folder does not exists we do not create it
             if (!Directory.Exists(_logfilePath))
             {
