@@ -45,6 +45,9 @@ namespace Ict.Tools.OpenPetraRuntimeHost
         string _physicalClientScriptPath;
         string _lowerCasedClientScriptPathWithTrailingSlash;
 
+        string _logfilePath = String.Empty;
+        StreamWriter _logfileWriter = null;
+
         /// <summary>
         /// Returns true if remote connection is allowed
         /// </summary>
@@ -84,9 +87,20 @@ namespace Ict.Tools.OpenPetraRuntimeHost
         }
 
         /// <summary>
+        /// The streamwriter object used for logging page requests
+        /// </summary>
+        public StreamWriter LogfileWriter
+        {
+            get
+            {
+                return _logfileWriter;
+            }
+        }
+
+        /// <summary>
         /// Main method for configuring the host
         /// </summary>
-        public void Configure(Server server, int port, string virtualPath, string physicalPath, string defaultPage, bool allowRemoteConnection)
+        public void Configure(Server server, int port, string virtualPath, string physicalPath, string defaultPage, bool allowRemoteConnection, bool logPageRequests)
         {
             _server = server;
 
@@ -102,6 +116,20 @@ namespace Ict.Tools.OpenPetraRuntimeHost
             _physicalPath = physicalPath;
             _physicalClientScriptPath = HttpRuntime.AspClientScriptPhysicalPath + "\\";
             _lowerCasedClientScriptPathWithTrailingSlash = CultureInfo.InvariantCulture.TextInfo.ToLower(HttpRuntime.AspClientScriptVirtualPath + "/");
+
+            if (logPageRequests)
+            {
+                // Make a log folder beneath the web site's root folder and store our request log there
+                _logfilePath = Path.Combine(HttpRuntime.AppDomainAppPath, "httpLog", "HttpRequest.log");
+
+                string logFileFolder = Path.GetDirectoryName(_logfilePath);
+                if (!Directory.Exists(logFileFolder))
+                {
+                    Directory.CreateDirectory(logFileFolder);
+                }
+
+                _logfileWriter = new StreamWriter(_logfilePath);
+            }
         }
 
         /// <summary>
@@ -168,6 +196,12 @@ namespace Ict.Tools.OpenPetraRuntimeHost
 
             // Make sure all the pending calls complete before this Object is unregistered.
             WaitForPendingCallsToFinish();
+
+            if (_logfileWriter != null)
+            {
+                _logfileWriter.Close();
+                _logfileWriter.Dispose();
+            }
 
             HostingEnvironment.UnregisterObject(this);
         }

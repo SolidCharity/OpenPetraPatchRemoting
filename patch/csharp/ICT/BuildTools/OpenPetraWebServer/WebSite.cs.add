@@ -40,6 +40,7 @@ namespace Ict.Tools.OpenPetraWebServer
         private string _virtualPath = "";
         private string _defaultPage = "";
         private string _url = "";
+        private bool _logPageRequests = false;
 
         /// <summary>
         /// The runtime host server associated with this site
@@ -119,6 +120,21 @@ namespace Ict.Tools.OpenPetraWebServer
                 }
 
                 MakeUrl();
+            }
+        }
+
+        /// <summary>
+        /// Set to true if the web site should log page requests to a file
+        /// </summary>
+        public bool LogPageRequests
+        {
+            get
+            {
+                return _logPageRequests;
+            }
+            set
+            {
+                _logPageRequests = value;
             }
         }
 
@@ -266,6 +282,14 @@ namespace Ict.Tools.OpenPetraWebServer
                     ws.DefaultPage = a.Value;
                 }
 
+                ws.LogPageRequests = false;
+                a = n.Attributes["logpagerequests"];
+
+                if (a != null)
+                {
+                    ws.LogPageRequests = a.Value != "0";
+                }
+
                 Add(siteKey, ws);
             }
         }
@@ -327,6 +351,13 @@ namespace Ict.Tools.OpenPetraWebServer
                 {
                     a = xmlDoc.CreateAttribute("defaultpage");
                     a.Value = kvp.Value.DefaultPage;
+                    nextSite.Attributes.Append(a);
+                }
+
+                if (kvp.Value.LogPageRequests)
+                {
+                    a = xmlDoc.CreateAttribute("logpagerequests");
+                    a.Value = "1";
                     nextSite.Attributes.Append(a);
                 }
 

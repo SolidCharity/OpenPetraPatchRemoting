@@ -57,14 +57,25 @@ namespace Ict.Tools.OpenPetraWebServer
             SW_MAX = 11
         };
 
+        enum RunStyles
+        {
+            None,
+            FullUI,
+            SmallUI,
+            HelpUI
+        };
+
         private const string APPLICATION_TITLE = "Open Petra Web Server";
         public const string SHUTDOWN_MESSAGE = "Are you sure you want to stop the Open Petra Web Server application?";
         public const string BALLOON_MESSAGE = "The web server is still running in the system tray.";
         public const int HELP_PORT = 57912;
+        public const int SERVER_MANAGER_BASE_PORT = 57915;
 
+        private static string[] _commandArgs;
         private static string _Version = "";
         private static string _ApplicationTitleAndVersion = APPLICATION_TITLE;
         private static string _ConfigFilePath = System.Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+        private static RunStyles _RunStyle;
 
         public static string ApplicationTitle {
             get
@@ -90,6 +101,18 @@ namespace Ict.Tools.OpenPetraWebServer
                 return _ConfigFilePath;
             }
         }
+        public static string CommandLineParams
+        {
+            get
+            {
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                foreach (string s in _commandArgs)
+                {
+                    sb.AppendFormat("{0}  ", s);
+                }
+                return sb.ToString().Trim();
+            }
+        }
 
         public static uint UM_ACTIVATE_APP = 0x2123;
         public static uint UM_CLOSE_APP = 0x2124;
@@ -107,12 +130,22 @@ namespace Ict.Tools.OpenPetraWebServer
         [STAThread]
         static void Main(string[] args)
         {
-            new TAppSettingsManager(false);
-            new TLogging("Ict.Tools.OpenPetraWebServer.log");
+            _commandArgs = args;
 
-            if (args.Length == 0)
+            new TAppSettingsManager(false);
+
+            // Read the default working parameters using TAppSettings.  If a config file exists, the settings in the file will be used.
+            CommandLineArgs commandLineArgs = new CommandLineArgs();
+
+            // Read the actual command line for any further over-rides
+            commandLineArgs.ParseCommandLine(args);
+            CreateLog(commandLineArgs);
+
+            _RunStyle = RunStyles.None;
+
+            if (commandLineArgs.UseFullUI)
             {
-                TLogging.Log("There are no command line parameters");
+                TLogging.Log("Using the full UI");
 
                 // Find out if there is an existing instance
                 Process curProcess = Process.GetCurrentProcess();
@@ -127,9 +160,11 @@ namespace Ict.Tools.OpenPetraWebServer
 
                     _ConfigFilePath += @"\OM_International\OpenPetraWebServer.cfg.xml";
 
+                    _RunStyle = RunStyles.FullUI;
                     Application.EnableVisualStyles();
                     Application.SetCompatibleTextRenderingDefault(false);
-                    Application.Run(new MainForm());
+                    myForm = new MainForm();
+                    Application.Run(myForm);
                 }
                 else
                 {
@@ -142,14 +177,11 @@ namespace Ict.Tools.OpenPetraWebServer
                         SendMessage(hWnd, UM_ACTIVATE_APP, IntPtr.Zero, IntPtr.Zero);
                     }
 
-                    TLogging.Log("there is already another process with application title " + APPLICATION_TITLE);
+                    TLogging.Log("There is already another process with application title " + APPLICATION_TITLE);
                 }
             }
             else
             {
-                // We use a command line driven option
-                CommandLineArgs commandLineArgs = new CommandLineArgs(args);
-
                 if (commandLineArgs.IsValid)
                 {
                     // Command line is valid so we will use the Small UI
@@ -183,6 +215,7 @@ namespace Ict.Tools.OpenPetraWebServer
                             new Thread(stopThread).Start();
                         }
 
+                        _RunStyle = RunStyles.SmallUI;
                         TLogging.Log("Ict.Tools.OpenPetraWebServer is now running on port " + commandLineArgs.Port.ToString() + "...");
                         TLogging.Log("    Command line was: " + Environment.CommandLine);
                         Application.EnableVisualStyles();
@@ -191,14 +224,16 @@ namespace Ict.Tools.OpenPetraWebServer
                             commandLineArgs.VirtualPath,
                             commandLineArgs.Port,
                             commandLineArgs.DefaultPage,
-                            commandLineArgs.AcceptRemoteConnection);
+                            commandLineArgs.AcceptRemoteConnection,
+                            commandLineArgs.LogPageRequests);
                         Application.Run(myForm);
                     }
                 }
                 else
                 {
                     // Command line is invalid so we will use the Command Line Help form
-                    TLogging.Log("The command line arguments don't make sense! " + Environment.CommandLine);
+                    TLogging.Log("The command line arguments don't make sense! " + Environment.CommandLine, TLoggingType.ToConsole);
+                    _RunStyle = RunStyles.HelpUI;
                     Application.EnableVisualStyles();
                     Application.SetCompatibleTextRenderingDefault(false);
                     Application.Run(new CommandLineHelp());
@@ -206,6 +241,33 @@ namespace Ict.Tools.OpenPetraWebServer
             }
 
             TLogging.Log("Ict.Tools.OpenPetraWebServer has finished");
+        }
+
+        static private void CreateLog(CommandLineArgs args)
+        {
+            if (args.LogfilePath == String.Empty)
+            {
+                // Create a console-only log
+                new TLogging();
+            }
+            else
+            {
+                // Create a log file and a console log
+                string pathToLogFile;
+                if (args.UseFullUI)
+                {
+                    pathToLogFile = Path.Combine(args.LogfilePath, "Ict.Tools.OpenPetraWebServer.log");
+                }
+                else
+                {
+                    pathToLogFile = Path.Combine(args.LogfilePath, "Ict.Tools.OpenPetraWebServer." + args.Port.ToString() + ".log");
+                }
+
+                new TLogging(pathToLogFile);
+            }
+
+            // Direct the console logging to our server log form
+            TLogging.SendConsoleOutputToString(OnNewLoggingMessage);
         }
 
         static private void StopApplication(Int16 AStopAfterMinutes)
@@ -234,13 +296,19 @@ namespace Ict.Tools.OpenPetraWebServer
 
             bool inUse = false;
 
-            IPAddress ipAddress = IPAddress.Loopback;
-
             try
             {
-                TcpListener tcpListener = new TcpListener(ipAddress, PortNumber);
-                tcpListener.Start();
-                tcpListener.Stop();
+                //Create a socket on the current IPv4 address
+                Socket TestSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
+                // Create an IP end point
+                IPEndPoint localIP = new IPEndPoint(IPAddress.Parse("127.0.0.1"), PortNumber);
+
+                // Bind that port
+                TestSocket.Bind(localIP);
+
+                // Cleanup
+                TestSocket.Close();
             }
             catch (SocketException)
             {
@@ -299,6 +367,22 @@ namespace Ict.Tools.OpenPetraWebServer
             }
 
             return webSite;
+        }
+
+        public static void OnNewLoggingMessage()
+        {
+            if (myForm != null)
+            {
+                switch (_RunStyle)
+                {
+                    case RunStyles.SmallUI:
+                        ((SmallUIForm)myForm).OnNewLogMessage();
+                        break;
+                    case RunStyles.FullUI:
+                        ((MainForm)myForm).OnNewLogMessage();
+                        break;
+                }
+            }
         }
     }
 }

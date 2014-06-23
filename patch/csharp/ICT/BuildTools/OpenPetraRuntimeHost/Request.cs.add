@@ -52,6 +52,7 @@ namespace Ict.Tools.OpenPetraRuntimeHost
         Server _server;
         Host _host;
         Connection _connection;
+        Object _logfileLock = new Object();
 
         // security permission to Assert remoting calls to _connection
         IStackWalk _connectionPermission = new PermissionSet(PermissionState.Unrestricted);
@@ -185,6 +186,23 @@ namespace Ict.Tools.OpenPetraRuntimeHost
             }
 
             ParseRequestLine();
+
+            if (_host.LogfileWriter != null)
+            {
+                // We log all url's EXCEPT PollClientTasks because that gets requested every few seconds
+                // If for some reason you need to include logging this request, comment the next line out
+                // and add a line bool saveThisRequest = true;  - but DO NOT COMMIT YOUR CHANGE !!!!!!!!!
+                bool saveThisRequest = (this._url != "/serverSessionManager.asmx/PollClientTasks");
+                if (saveThisRequest)
+                {
+                    lock (_logfileLock)
+                    {
+                        DateTime dtNow = DateTime.Now;
+                        _host.LogfileWriter.WriteLine("{0} {1}: {2}  {3}", dtNow.ToShortDateString(), dtNow.ToLongTimeString(), this._verb, this._url);
+                        _host.LogfileWriter.Flush();
+                    }
+                }
+            }
 
             // Check for bad path
             if (IsBadPath())

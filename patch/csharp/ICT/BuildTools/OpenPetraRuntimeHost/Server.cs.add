@@ -35,6 +35,7 @@ namespace Ict.Tools.OpenPetraRuntimeHost
         string _physicalPath;
         string _defaultPage;
         bool _allowRemoteConnection;
+        bool _logPageRequests;
 
         bool _shutdownInProgress;
         Socket _socket;
@@ -43,13 +44,14 @@ namespace Ict.Tools.OpenPetraRuntimeHost
         /// <summary>
         /// Main server constructor
         /// </summary>
-        public Server(int port, string virtualPath, string physicalPath, string defaultPage, bool allowRemoteConnection)
+        public Server(int port, string virtualPath, string physicalPath, string defaultPage, bool allowRemoteConnection, bool logPageRequests)
         {
             _port = port;
             _virtualPath = virtualPath;
             _physicalPath = physicalPath.EndsWith("\\", StringComparison.Ordinal) ? physicalPath : physicalPath + "\\";
             _defaultPage = defaultPage;
             _allowRemoteConnection = allowRemoteConnection;
+            _logPageRequests = logPageRequests;
         }
 
         /// <summary>
@@ -254,7 +256,7 @@ namespace Ict.Tools.OpenPetraRuntimeHost
                     if (host == null)
                     {
                         host = (Host)CreateWorkerAppDomainWithHost(_virtualPath, _physicalPath, typeof(Host));
-                        host.Configure(this, _port, _virtualPath, _physicalPath, _defaultPage, _allowRemoteConnection);
+                        host.Configure(this, _port, _virtualPath, _physicalPath, _defaultPage, _allowRemoteConnection, _logPageRequests);
                         _host = host;
                     }
                 }
