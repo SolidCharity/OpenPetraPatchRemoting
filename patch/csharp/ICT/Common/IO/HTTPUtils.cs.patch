@@ -1,5 +1,5 @@
---- openpetraNow.freeze2014_05/csharp/ICT/Common/IO/HTTPUtils.cs	2014-05-16 08:51:14.000000000 +0200
-+++ openpetraNow.PatchRemoting/csharp/ICT/Common/IO/HTTPUtils.cs	2014-05-15 22:04:07.000000000 +0200
+--- openpetraNow.freeze2014_05/csharp/ICT/Common/IO/HTTPUtils.cs	2014-06-23 12:34:11.000000000 +0200
++++ openpetraNow.PatchRemoting/csharp/ICT/Common/IO/HTTPUtils.cs	2014-06-23 12:36:33.000000000 +0200
 @@ -4,7 +4,7 @@
  // @Authors:
  //       timop
@@ -317,7 +317,7 @@
          }
  
          /// <summary>
-@@ -117,23 +314,22 @@
+@@ -117,23 +321,22 @@
          /// <returns></returns>
          public static Boolean DownloadFile(string url, string filename)
          {
