@@ -1,5 +1,5 @@
 --- openpetraNow.freeze2014_05/csharp/ICT/Common/Logging.cs	2014-06-23 12:34:11.000000000 +0200
-+++ openpetraNow.PatchRemoting/csharp/ICT/Common/Logging.cs	2014-06-23 15:04:23.000000000 +0200
++++ openpetraNow.PatchRemoting/csharp/ICT/Common/Logging.cs	2014-06-23 15:18:24.000000000 +0200
 @@ -2,9 +2,9 @@
  // DO NOT REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  //
@@ -78,11 +78,14 @@
          /// Logs a message. Output goes to both Screen and Logfile.
          ///
          /// </summary>
-@@ -268,7 +303,28 @@
+@@ -268,10 +303,32 @@
          /// Note: More than one output destination can be chosen!</param>
          public static void Log(string Text, TLoggingType ALoggingType)
          {
 -            if (((ALoggingType & TLoggingType.ToConsole) != 0)
+-                || ((ALoggingType & TLoggingType.ToLogfile) != 0)
+-                // only in Debugmode write the messages for the statusbar also on the console (e.g. reporting progress)
+-                || (((ALoggingType & TLoggingType.ToStatusBar) != 0) && (TLogging.DebugLevel == TLogging.DEBUGLEVEL_TRACE)))
 +            if (((ALoggingType & TLoggingType.ToConsole) != 0) && (ULogTextAsString != null) && (ULogTextAsString.Length > 0))
 +            {
 +                // log to static string for Windows Forms app
@@ -92,6 +95,7 @@
 +                }
 +
 +                ULogTextAsString += (Utilities.CurrentTime() + "  " + Text + Environment.NewLine);
++
 +                if ((TLogging.Context != null) && (TLogging.Context.Length != 0))
 +                {
 +                    ULogTextAsString += ("  Context: " + TLogging.Context + Environment.NewLine);
@@ -105,10 +109,13 @@
 +                }
 +            }
 +            else if (((ALoggingType & TLoggingType.ToConsole) != 0)
-                 || ((ALoggingType & TLoggingType.ToLogfile) != 0)
-                 // only in Debugmode write the messages for the statusbar also on the console (e.g. reporting progress)
-                 || (((ALoggingType & TLoggingType.ToStatusBar) != 0) && (TLogging.DebugLevel == TLogging.DEBUGLEVEL_TRACE)))
-@@ -416,6 +472,27 @@
++                     || ((ALoggingType & TLoggingType.ToLogfile) != 0)
++                     // only in Debugmode write the messages for the statusbar also on the console (e.g. reporting progress)
++                     || (((ALoggingType & TLoggingType.ToStatusBar) != 0) && (TLogging.DebugLevel == TLogging.DEBUGLEVEL_TRACE)))
+             {
+                 Console.Error.WriteLine(Utilities.CurrentTime() + "  " + Text);
+ 
+@@ -416,6 +473,27 @@
                  Log(aList[Counter].ToString(), Loggingtype);
              }
          }
@@ -116,7 +123,7 @@
 +        private static void TruncateLogString(Int32 ANewSize)
 +        {
 +            int newStartPos = ULogTextAsString.Length - ANewSize;
-+            
++
 +            if (newStartPos > 1024)
 +            {
 +                ULogPageNumber++;
@@ -129,7 +136,7 @@
 +                    newString = newString.Substring(pos + Environment.NewLine.Length);
 +                }
 +
-+                ULogTextAsString = String.Format("Log was truncated.  Starting Page {0} ...{1}{2}", 
++                ULogTextAsString = String.Format("Log was truncated.  Starting Page {0} ...{1}{2}",
 +                    ULogPageNumber.ToString(), Environment.NewLine, newString);
 +            }
 +        }
