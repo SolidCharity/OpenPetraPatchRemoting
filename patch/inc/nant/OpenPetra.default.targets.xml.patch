@@ -1,5 +1,5 @@
---- openpetraNow.freeze2014_05/inc/nant/OpenPetra.default.targets.xml	2014-05-16 08:51:15.000000000 +0200
-+++ openpetraNow.PatchRemoting/inc/nant/OpenPetra.default.targets.xml	2014-05-15 22:04:07.000000000 +0200
+--- openpetraNow.freeze2014_05/inc/nant/OpenPetra.default.targets.xml	2014-06-23 12:34:11.000000000 +0200
++++ openpetraNow.PatchRemoting/inc/nant/OpenPetra.default.targets.xml	2014-06-23 15:10:03.000000000 +0200
 @@ -38,31 +38,34 @@
    </copy>
  </target>
@@ -86,7 +86,7 @@
      <!-- make sure that the Mono files for sqlite are in the bin directory; needed for devzip -->
      <if test="${(DBMS.Type=='sqlite') and (not file::exists(dir.bin + '/Mono.Data.Sqlite.dll'))}">
          <copy file="${dir.3rdParty}/SQLite/Mono.Data.Sqlite.dll" todir="${dir.bin}"/>
-@@ -81,40 +109,121 @@
+@@ -81,40 +109,125 @@
      <if test="${(DBMS.Type=='sqlite') and (not file::exists(dir.bin + '/sqlite3.dll'))}">
          <copy file="${dir.3rdParty}/SQLite/sqlite3.dll" todir="${dir.bin}"/>
      </if>
@@ -132,13 +132,17 @@
 +        </fileset>
 +      </copy>
 +
-+      <echo file="${dir.delivery}/Ict.Tools.OpenPetraWebServer.exe.config">&lt;?xml version="1.0" encoding="utf-8"?&gt;
++      <!-- Create a config file if it does not exist.  The user may add app settings to this file -->
++      <property name="opwsConfig" value="${dir.delivery}/Ict.Tools.OpenPetraWebServer.exe.config"/>
++      <if test="${not file::exists(opwsConfig)}" >
++        <echo file="${opwsConfig}">&lt;?xml version="1.0" encoding="utf-8"?&gt;
 +&lt;configuration>
 +    &lt;startup>
 +        &lt;supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.0" />
 +    &lt;/startup>
 +&lt;/configuration>
-+</echo>
++        </echo>
++      </if>
 +      <!-- maximum runtime of server, eg. on Jenkins, so that the workspace is not blocked forever if the server cannot be stopped -->
 +      <property name="WebServer.MaximumRuntime.InMinutes" value="120" overwrite="false"/>
 +      <property name="WebServer.StartCommandLine" value="Ict.Tools.OpenPetraWebServer.exe -physicalPath:&quot;${dir.delivery}&quot; -port:${Server.Port} -quiet:true -maxRuntimeInMinutes:${WebServer.MaximumRuntime.InMinutes}" overwrite="false"/>
@@ -226,7 +230,7 @@
        <exec program="PetraServerAdminConsole.exe" 
              basedir="${dir.bin}" 
              workingdir="${dir.bin}"
-@@ -132,35 +241,38 @@
+@@ -132,35 +245,38 @@
    </if>
  </target>
  
