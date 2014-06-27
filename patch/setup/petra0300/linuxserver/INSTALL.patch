@@ -1,11 +1,11 @@
 --- openpetraNow.freeze2014_05/setup/petra0300/linuxserver/INSTALL	2014-05-16 08:51:15.000000000 +0200
 +++ openpetraNow.PatchRemoting/setup/petra0300/linuxserver/INSTALL	2014-06-05 22:04:07.000000000 +0200
-@@ -1,42 +1,62 @@
+@@ -1,42 +1,61 @@
  required packages:
   sudo (for the initialisation of the database)
 - mono-2.0-runtime (>= Mono 2.6.7), also winforms (Ict.Common.* dlls depend on it)
 - on Debian eg.: apt-get -t lenny-backports install mono-runtime libmono-data2.0-cil libmono-system-web2.0-cil libmono-system-runtime2.0-cil libmono-winforms2.0-cil
-+ mono-openpetra package, available for Debian, Ubuntu and CentOS from http://software.opensuse.org/download.html?project=home%3Atpokorra%3Aopenpetra&package=mono-openpetra
++ mono-opt package, available for Debian, Ubuntu and CentOS from http://software.opensuse.org/download.html?project=home%3Atpokorra%3Amono&package=mono-opt
   one of the following RDBMS:
     postgresql (recommended, default)
     mysql
@@ -14,20 +14,19 @@
 +The default configuration for the server is to use postgresql. But mysql should theoretically work as well, but might need some testing. Sqlite is not recommended for the use on Linux with this tar.gz file.
 +
 +Installation of Mono for OpenPetra:
-+ Follow the instructions at http://software.opensuse.org/download.html?project=home%3Atpokorra%3Aopenpetra&package=mono-openpetra
-+ For example for CentOS 5 32 bit:
++ Follow the instructions at http://software.opensuse.org/download.html?project=home%3Atpokorra%3Amono&package=mono-opt
++ For example for CentOS 6 64 bit:
 + cd /etc/yum.repos.d/
-+ wget http://download.opensuse.org/repositories/home:tpokorra:openpetra/CentOS_CentOS-5/home:tpokorra:openpetra.repo
-+ rpm -Uhv http://dl.fedoraproject.org/pub/epel/5/i386/epel-release-5-4.noarch.rpm
-+ yum install mono-openpetra mono-openpetra-xsp
++ wget http://download.opensuse.org/repositories/home:tpokorra:openpetra/CentOS_CentOS-6/home:tpokorra:openpetra.repo
++ yum install mono-opt mono-xsp-opt
 +
-+You will need EPEL probably as well:
-+ rpm -Uhv http://dl.fedoraproject.org/pub/epel/5/i386/epel-release-5-4.noarch.rpm
++You will need EPEL probably as well (for lighttpd):
++ rpm -Uhv http://mirror.de.leaseweb.net/epel/6/x86_64/epel-release-6-8.noarch.rpm
 +
-+Installation of Postgresql 9.1:
-+Have a look here for the right URL: http://yum.postgresql.org/
-+ On CentOS 5, 32 bit:
-+ rpm -Uhv http://yum.postgresql.org/9.2/redhat/rhel-5-i386/pgdg-centos92-9.2-6.noarch.rpm
++Installation of Postgresql 9.2:
++Have a look here for the right URL: http://yum.postgresql.org/repopackages.php#pg92
++ On CentOS 6, 64 bit:
++ rpm -Uhv http://yum.postgresql.org/9.2/redhat/rhel-6-x86_64/pgdg-centos92-9.2-6.noarch.rpm
  
  firewall: 
 -in order for clients to connect from outside, you need to open ports 9000 and above (or what you have defined in your config file).
