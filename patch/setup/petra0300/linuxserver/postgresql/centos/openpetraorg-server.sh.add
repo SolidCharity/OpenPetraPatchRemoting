@@ -49,7 +49,8 @@ log_end_msg() { [ $1 -eq 0 ] && RES=OK; logger ${RES:=FAIL}; }
 start() {
     log_daemon_msg "Starting OpenPetra.org server"
 
-    su $userName -c ". $mono_path/env.sh; $FASTCGI_MONO_SERVER /socket=tcp:127.0.0.1:$OPENPETRA_PORT /applications=/:$documentroot /appconfigfile=/home/$userName/etc/PetraServerConsole.config >& /dev/null &"
+    su $userName -c ". $mono_path/env.sh; $FASTCGI_MONO_SERVER /socket=tcp:127.0.0.1:$OPENPETRA_PORT /applications=/:$documentroot /appconfigfile=/home/$userName/etc/PetraServerConsole.config /logfile=/home/$userName/log/mono.log /loglevels=Standard >& /dev/null &"
+    # other options for loglevels: Debug Notice Warning Error Standard(=Notice Warning Error) All(=Debug Standard)
     status=0
     log_end_msg $status
 }
@@ -216,6 +217,7 @@ case "$1" in
         ;;
     restart)
         stop
+        sleep 3
         start
         ;;
     backup)
