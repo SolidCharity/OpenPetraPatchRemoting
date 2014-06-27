@@ -201,6 +201,7 @@ FINISH
     service lighttpd restart
     chkconfig lighttpd on
     chkconfig openpetra-server on
+    chkconfig postgresql-$POSTGRESQLVERSION on
     service openpetra-server start
     ymlgzfile=$OpenPetraOrgPath/db30/base.yml.gz
     loadYmlGz
