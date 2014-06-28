@@ -46,7 +46,7 @@ do
   filename=${f:$strlenPath}
   # remove .delete, 7 characters
   filename=${filename:0:${#filename}-7}
-  echo "deleting binary file $filename"
+  echo "deleting file $filename"
   rm -f $filename
 done
 
