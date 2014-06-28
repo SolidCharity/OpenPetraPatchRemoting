@@ -1,5 +1,5 @@
 --- openpetraNow.freeze2014_05/inc/nant/OpenPetra.default.targets.xml	2014-06-23 12:34:11.000000000 +0200
-+++ openpetraNow.PatchRemoting/inc/nant/OpenPetra.default.targets.xml	2014-06-23 15:10:03.000000000 +0200
++++ openpetraNow.PatchRemoting/inc/nant/OpenPetra.default.targets.xml	2014-06-28 06:56:27.000000000 +0200
 @@ -38,31 +38,34 @@
    </copy>
  </target>

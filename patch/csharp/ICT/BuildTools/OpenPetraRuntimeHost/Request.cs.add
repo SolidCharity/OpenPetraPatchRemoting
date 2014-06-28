@@ -199,7 +199,7 @@ namespace Ict.Tools.OpenPetraRuntimeHost
                     lock (_logfileLock)
                     {
                         DateTime dtNow = DateTime.Now;
-                        _host.LogfileWriter.WriteLine("{0} {1}: {2}  {3}", dtNow.ToShortDateString(), dtNow.ToLongTimeString(), this._verb, this._url);
+                        _host.LogfileWriter.WriteLine("{0} {1}: {2}  {3}  {4}", dtNow.ToShortDateString(), dtNow.ToLongTimeString(), this.GetRemoteAddress(), this._verb, this._url);
                         _host.LogfileWriter.Flush();
                     }
                 }
@@ -689,7 +689,7 @@ namespace Ict.Tools.OpenPetraRuntimeHost
                     else
                     {
                         expandedBytes[pos++] = (byte)'%';
-                        expandedBytes[pos++] = (byte)IntToHex[(b > > 4) & 0xf];
+                        expandedBytes[pos++] = (byte)IntToHex[(b & 0xf0) / 16];
                         expandedBytes[pos++] = (byte)IntToHex[b & 0xf];
                     }
                 }

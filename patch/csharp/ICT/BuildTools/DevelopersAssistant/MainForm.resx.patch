@@ -1,5 +1,5 @@
 --- openpetraNow.freeze2014_05/csharp/ICT/BuildTools/DevelopersAssistant/MainForm.resx	2014-06-23 12:34:11.000000000 +0200
-+++ openpetraNow.PatchRemoting/csharp/ICT/BuildTools/DevelopersAssistant/MainForm.resx	2014-06-23 15:13:09.000000000 +0200
++++ openpetraNow.PatchRemoting/csharp/ICT/BuildTools/DevelopersAssistant/MainForm.resx	2014-06-28 06:56:27.000000000 +0200
 @@ -123,9 +123,6 @@
    <metadata name="ShutdownTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
      <value>107, 17</value>

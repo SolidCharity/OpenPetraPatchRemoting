@@ -1,5 +1,5 @@
 --- openpetraNow.freeze2014_05/csharp/ICT/BuildTools/DevelopersAssistant/MainForm.Designer.cs	2014-06-23 12:34:10.000000000 +0200
-+++ openpetraNow.PatchRemoting/csharp/ICT/BuildTools/DevelopersAssistant/MainForm.Designer.cs	2014-06-23 15:15:47.000000000 +0200
++++ openpetraNow.PatchRemoting/csharp/ICT/BuildTools/DevelopersAssistant/MainForm.Designer.cs	2014-06-28 06:56:27.000000000 +0200
 @@ -80,8 +80,6 @@
              this.cboCodeGeneration = new System.Windows.Forms.ComboBox();
              this.label8 = new System.Windows.Forms.Label();

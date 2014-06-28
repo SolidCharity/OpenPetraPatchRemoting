@@ -1,5 +1,5 @@
---- openpetraNow.freeze2014_05/csharp/ICT/Petra/Client/CommonDialogs/ProgressDialog.cs	2014-05-16 08:51:15.000000000 +0200
-+++ openpetraNow.PatchRemoting/csharp/ICT/Petra/Client/CommonDialogs/ProgressDialog.cs	2014-05-15 22:04:07.000000000 +0200
+--- openpetraNow.freeze2014_05/csharp/ICT/Petra/Client/CommonDialogs/ProgressDialog.cs	2014-06-23 12:34:11.000000000 +0200
++++ openpetraNow.PatchRemoting/csharp/ICT/Petra/Client/CommonDialogs/ProgressDialog.cs	2014-06-28 06:58:28.000000000 +0200
 @@ -4,7 +4,7 @@
  // @Authors:
  //       timop, christiank
@@ -18,9 +18,9 @@
 +                {
 +                    TRemote.MCommon.WebConnectors.CancelJob();
 +                }
-+                catch (Exception ex)
++                catch (Exception Exc)
 +                {
-+                    TLogging.Log("while cancelling, we got " + e.ToString());
++                    TLogging.Log("While cancelling a job from a Progress Dialog we got the following Exception:\r\n" + Exc.ToString());
 +                }
  
                  this.DialogResult = DialogResult.Cancel;

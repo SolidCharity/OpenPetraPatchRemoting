@@ -1,5 +1,5 @@
---- openpetraNow.freeze2014_05/csharp/ICT/Testing/lib/MPartner/server/PartnerEdit/TestPartnerEdit.cs	2014-05-16 08:51:15.000000000 +0200
-+++ openpetraNow.PatchRemoting/csharp/ICT/Testing/lib/MPartner/server/PartnerEdit/TestPartnerEdit.cs	2014-05-15 22:04:07.000000000 +0200
+--- openpetraNow.freeze2014_05/csharp/ICT/Testing/lib/MPartner/server/PartnerEdit/TestPartnerEdit.cs	2014-06-23 12:34:11.000000000 +0200
++++ openpetraNow.PatchRemoting/csharp/ICT/Testing/lib/MPartner/server/PartnerEdit/TestPartnerEdit.cs	2014-06-28 06:58:29.000000000 +0200
 @@ -63,20 +63,13 @@
      public class TPartnerEditTest
      {
@@ -19,23 +19,6 @@
              new TLogging("../../log/TestServer.log");
 -            FServerManager = TPetraServerConnector.Connect("../../etc/TestServer.config");
 +            TPetraServerConnector.Connect("../../etc/TestServer.config");
-         }
- 
-         /// <summary>
-@@ -727,6 +720,7 @@
-             TSubmitChangesResult result;
-             Int64 PartnerKey;
- 
-+            DBAccess.GDBAccessObj.BeginTransaction(IsolationLevel.Serializable);
-             TPartnerEditUIConnector connector = new TPartnerEditUIConnector();
- 
-             PartnerEditTDS MainDS = new PartnerEditTDS();
-@@ -776,6 +770,8 @@
- 
-             // check that Bank record is really deleted
-             Assert.IsTrue(!TPartnerServerLookups.VerifyPartner(PartnerKey));
-+
-+            DBAccess.GDBAccessObj.CommitTransaction();
          }
  
          /// <summary>

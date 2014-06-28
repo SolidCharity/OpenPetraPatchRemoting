@@ -1,5 +1,5 @@
 --- openpetraNow.freeze2014_05/csharp/ICT/BuildTools/DevelopersAssistant/Program.cs	2014-06-23 12:34:11.000000000 +0200
-+++ openpetraNow.PatchRemoting/csharp/ICT/BuildTools/DevelopersAssistant/Program.cs	2014-06-23 15:12:09.000000000 +0200
++++ openpetraNow.PatchRemoting/csharp/ICT/BuildTools/DevelopersAssistant/Program.cs	2014-06-28 06:56:27.000000000 +0200
 @@ -40,10 +40,6 @@
          /// </summary>
          public static uint UM_START_SERVER = 0x2100;

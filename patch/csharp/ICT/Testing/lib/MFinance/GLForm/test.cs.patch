@@ -1,5 +1,5 @@
---- openpetraNow.freeze2014_05/csharp/ICT/Testing/lib/MFinance/GLForm/test.cs	2014-05-16 08:51:15.000000000 +0200
-+++ openpetraNow.PatchRemoting/csharp/ICT/Testing/lib/MFinance/GLForm/test.cs	2014-05-15 22:04:07.000000000 +0200
+--- openpetraNow.freeze2014_05/csharp/ICT/Testing/lib/MFinance/GLForm/test.cs	2014-06-23 12:34:11.000000000 +0200
++++ openpetraNow.PatchRemoting/csharp/ICT/Testing/lib/MFinance/GLForm/test.cs	2014-06-28 06:58:34.000000000 +0200
 @@ -4,7 +4,7 @@
  // @Authors:
  //       timop, christophert
@@ -18,7 +18,33 @@
              TPetraConnector.Connect("../../etc/TestClient.config");
              FLedgerNumber = Convert.ToInt32(TAppSettingsManager.GetValue("LedgerNumber"));
          }
-@@ -238,13 +238,14 @@
+@@ -87,6 +87,8 @@
+ 
+             Assert.AreEqual(true, btnSave.Properties.Enabled, "Save button should be enabled since there was a change");
+             btnSave.Click();
++            
++            frmBatch.Close();
+         }
+ 
+         /// <summary>
+@@ -137,6 +139,8 @@
+             btnSave.Click();
+ 
+             Assert.AreEqual(false, btnSave.Properties.Enabled, "Save button should be disabled because all changes have been saved");
++            
++            frmBatch.Close();
+         }
+ 
+         /// <summary>
+@@ -232,19 +236,22 @@
+             // and now try to create a new batch, bug https://sourceforge.net/apps/mantisbt/openpetraorg/view.php?id=1058
+             btnNewBatch.Click();
+             btnSave.Click();
++            
++            frmBatch.Close();
+         }
+ 
+         /// <summary>
          /// test the import and export of gl batches
          /// </summary>
          [Test]
@@ -34,7 +60,7 @@
  
              TestFile = Path.GetFullPath(TestFile);
              Assert.IsTrue(File.Exists(TestFile), "File does not exist: " + TestFile);
-@@ -361,6 +362,7 @@
+@@ -361,6 +368,7 @@
          /// simple test to view the transactions of a posted batch and then add a new batch
          /// </summary>
          [Test]
@@ -42,7 +68,7 @@
          public void TestViewPostedBatchTransactionsAndAddBatch()
          {
              //This test adds a new batch, saves and posts it, then views it and then tries to add a new batch
-@@ -448,6 +450,7 @@
+@@ -448,6 +456,7 @@
              btnPostBatch.Click();
  
              //Make sure the grid is clear
@@ -50,7 +76,7 @@
              RadioButtonTester rbtPosting = new RadioButtonTester("rbtPosting");
              rbtPosting.Properties.Checked = true;
  
-@@ -474,6 +477,7 @@
+@@ -474,6 +483,7 @@
          /// simple test to create a batch and save it
          /// </summary>
          [Test]
@@ -58,7 +84,7 @@
          public void TestAnalysisAttributes()
          {
              // At the moment the initial state is unknown so we make a relative test
-@@ -513,7 +517,7 @@
+@@ -513,7 +523,7 @@
              // and save everything
              btnSave.Click();
              // Press the delete Button for the values
@@ -67,7 +93,7 @@
              ModalFormHandler = delegate(string name, IntPtr hWnd, Form form)
              {
                  MessageBoxTester tester = new MessageBoxTester(hWnd);
-@@ -530,7 +534,8 @@
+@@ -530,7 +540,8 @@
              };
              btnDeleteValue.Click();
              // Press the delete Button for the types

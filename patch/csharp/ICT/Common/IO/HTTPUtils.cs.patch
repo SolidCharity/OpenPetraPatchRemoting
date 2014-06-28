@@ -1,5 +1,5 @@
 --- openpetraNow.freeze2014_05/csharp/ICT/Common/IO/HTTPUtils.cs	2014-06-23 12:34:11.000000000 +0200
-+++ openpetraNow.PatchRemoting/csharp/ICT/Common/IO/HTTPUtils.cs	2014-06-23 12:36:33.000000000 +0200
++++ openpetraNow.PatchRemoting/csharp/ICT/Common/IO/HTTPUtils.cs	2014-06-28 06:56:27.000000000 +0200
 @@ -4,7 +4,7 @@
  // @Authors:
  //       timop
