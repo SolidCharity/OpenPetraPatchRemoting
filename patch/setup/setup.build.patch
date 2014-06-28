@@ -1,5 +1,5 @@
---- openpetraNow.freeze2014_05/setup/setup.build	2014-06-23 12:34:11.000000000 +0200
-+++ openpetraNow.PatchRemoting/setup/setup.build	2014-06-28 07:46:00.000000000 +0200
+--- openpetraNow.freeze2014_05/setup/setup.build	2014-06-28 08:34:37.000000000 +0200
++++ openpetraNow.PatchRemoting/setup/setup.build	2014-06-28 12:12:39.000000000 +0200
 @@ -119,6 +119,7 @@
  
  <!-- Windows -->
@@ -245,7 +245,7 @@
      <ExecCmd program="sh" commandline="/C &quot;cd ${setupDir}/..; tar czpf ${dir.delivery}/openpetraorg-client-${OrgNameWithoutSpace}-${ReleaseID}.tar.gz openpetraorg-${ReleaseID}&quot;"/>
    </if>
    <if test="${platform::is-windows()}">
-@@ -374,15 +434,6 @@
+@@ -374,21 +434,13 @@
    <copy file="${dir.bin}/Ict.Tools.PatchTool.exe" tofile="${setupDir}/bin30/Ict.Tools.PatchTool.exe" overwrite="true"/>
    <copy file="${dir.bin}/Ict.Tools.PatchTool.Library.dll" tofile="${setupDir}/bin30/Ict.Tools.PatchTool.Library.dll" overwrite="true"/>
  
@@ -261,7 +261,14 @@
    <if test="${BuildArchive == 'server'}">
      <delete>
        <fileset>
-@@ -404,13 +455,24 @@
+         <include name="${setupDir}/bin30/Ict.Petra.Client*" />
+         <include name="${setupDir}/bin30/PetraClient*" />
+         <include name="${setupDir}/bin30/UINavigation.yml" />
++        <include name="${setupDir}/bin30/sqlite3.dll" />
+       </fileset>
+     </delete>
+   </if>
+@@ -404,13 +456,24 @@
        </fileset>
      </delete>
    </if>
@@ -291,7 +298,7 @@
    <copy todir="${setupDir}/manuals30">
      <fileset basedir="${dir.root}/setup/petra${PetraRelease}/releasenotes/">
        <include name="*.html" />
-@@ -419,31 +481,42 @@
+@@ -419,31 +482,42 @@
    <copy todir="${setupDir}/reports30">
      <fileset basedir="${dir.root}/XmlReports/">
        <include name="*.dtd" />
@@ -348,7 +355,7 @@
      </if>
      <if test="${file::exists(Config.file)}">
          <copy file="${Config.file}"
-@@ -482,29 +555,27 @@
+@@ -482,29 +556,27 @@
        </fileset>
      </copy>
  
