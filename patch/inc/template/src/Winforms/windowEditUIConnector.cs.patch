@@ -1,0 +1,23 @@
+--- openpetra.freeze/inc/template/src/Winforms/windowEditUIConnector.cs	2014-07-24 14:18:45.000000000 +0200
++++ openpetra.patched/inc/template/src/Winforms/windowEditUIConnector.cs	2014-07-24 14:21:43.000000000 +0200
+@@ -73,8 +73,6 @@
+       {#INITACTIONSTATE}
+       
+       FUIConnector = {#UICONNECTORCREATE}();
+-      // Register Object with the TEnsureKeepAlive Class so that it doesn't get GC'd
+-      TEnsureKeepAlive.Register(FUIConnector);
+ {#IFDEF MASTERTABLE OR DETAILTABLE}
+ 
+       BuildValidationControlsDict();
+@@ -145,8 +143,9 @@
+     {
+         if (FUIConnector != null)
+         {
+-            // UnRegister Object from the TEnsureKeepAlive Class so that the Object can get GC'd on the PetraServer
+-            TEnsureKeepAlive.UnRegister(FUIConnector);
++            // 'Release' instantiated UIConnector Object on the server side so it can get Garbage Collected there
++            TUIConnectorLifetimeHandling.ReleaseUIConnector((IDisposable)FUIConnector);
++            // Make the client-side UIConnector Object elegible for Garbage Collection, too
+             FUIConnector = null;
+         }
+     }

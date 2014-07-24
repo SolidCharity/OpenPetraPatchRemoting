@@ -1,5 +1,5 @@
---- openpetraNow.freeze2014_05/csharp/ICT/Common/Remoting/Server/DomainManager.cs	2014-05-16 08:51:14.000000000 +0200
-+++ openpetraNow.PatchRemoting/csharp/ICT/Common/Remoting/Server/DomainManager.cs	2014-05-15 22:04:07.000000000 +0200
+--- openpetra.freeze/csharp/ICT/Common/Remoting/Server/DomainManager.cs	2014-07-24 14:18:45.000000000 +0200
++++ openpetra.patched/csharp/ICT/Common/Remoting/Server/DomainManager.cs	2014-07-24 14:21:43.000000000 +0200
 @@ -2,9 +2,9 @@
  // DO NOT REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  //
@@ -12,7 +12,7 @@
  //
  // This file is part of OpenPetra.org.
  //
-@@ -22,506 +22,58 @@
+@@ -22,506 +22,59 @@
  // along with OpenPetra.org.  If not, see <http://www.gnu.org/licenses/>.
  //
  using System;
@@ -32,6 +32,7 @@
 -using Ict.Common.Remoting.Server;
 -using Ict.Common.Remoting.Shared;
 -using Ict.Common.Remoting.Sinks.Encryption;
++using Ict.Common.Exceptions;
 +using Ict.Common.Session;
  
  namespace Ict.Common.Remoting.Server
@@ -394,7 +395,7 @@
 -            {
 -                TLogging.Log("TClientDomainManager.StopClientAppDomain: after UClientManagerCallForwarderRef := nil",
 -                    TLoggingType.ToConsole | TLoggingType.ToLogfile);
-+                throw new Exception("invalid session, does not have a client ID");
++                throw new EOPDBInvalidSessionException("Session is invalid - it does not have a Client ID");
              }
 -        }
 -

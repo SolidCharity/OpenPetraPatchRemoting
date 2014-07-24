@@ -1,6 +1,39 @@
 --- openpetra.freeze/csharp/ICT/Petra/Client/MReporting/logic/Calculator.cs	2014-07-24 14:18:45.000000000 +0200
-+++ openpetra.patched/csharp/ICT/Petra/Client/MReporting/logic/Calculator.cs	2014-07-24 14:19:19.000000000 +0200
-@@ -522,9 +522,6 @@
++++ openpetra.patched/csharp/ICT/Petra/Client/MReporting/logic/Calculator.cs	2014-07-24 14:21:43.000000000 +0200
+@@ -61,7 +61,7 @@
+ 
+         /// <summary>how long did it take to calculate the report</summary>
+         protected TimeSpan Duration;
+-        private IReportingUIConnectorsReportGenerator FReportingGenerator;
++        private TMReportingNamespace.TReportingUIConnectorsNamespace.TReportGeneratorUIConnector FReportingGenerator;
+         private Boolean FKeepUpProgressCheck;
+ 
+         /// <summary>
+@@ -469,11 +469,9 @@
+             Thread ProgressCheckThread;
+ 
+             ReturnValue = false;
+-            FReportingGenerator = TRemote.MReporting.UIConnectors.ReportGenerator();
++            FReportingGenerator = (TMReportingNamespace.TReportingUIConnectorsNamespace.TReportGeneratorUIConnector)TRemote.MReporting.UIConnectors.ReportGenerator();
+             FKeepUpProgressCheck = true;
+ 
+-            // Register Object with the TEnsureKeepAlive Class so that it doesn't get GC'd
+-            TEnsureKeepAlive.Register(FReportingGenerator);
+             try
+             {
+                 this.Results = new TResultList();
+@@ -485,8 +483,8 @@
+             {
+                 TLogging.Log(e.Message);
+ 
+-                // UnRegister Object from the TEnsureKeepAlive Class so that the Object can get GC'd on the PetraServer
+-                TEnsureKeepAlive.UnRegister(FReportingGenerator);
++                // 'Release' instantiated UIConnector Object on the server side so it can get Garbage Collected there
++                TUIConnectorLifetimeHandling.ReleaseUIConnector(FReportingGenerator);
+             }
+ 
+             // todo: allow canceling of the calculation of a report
+@@ -522,9 +520,6 @@
  
          private void AsyncProgressCheckThread()
          {
@@ -10,7 +43,7 @@
              String OldLoggingText;
              DateTime startTime;
  
-@@ -533,38 +530,34 @@
+@@ -533,38 +528,34 @@
  
              while (FKeepUpProgressCheck)
              {
@@ -47,8 +80,6 @@
 -                            TLogging.Log(ProgressInformation, TLoggingType.ToStatusBar);
 -                            OldLoggingText = ProgressInformation;
 -                        }
--
--                        break;
 +                    if (FReportingGenerator.GetSuccess() == true)
 +                    {
 +                        this.Parameters.LoadFromDataTable(FReportingGenerator.GetParameter());
@@ -59,9 +90,10 @@
 +                    {
 +                        TLogging.Log(FReportingGenerator.GetErrorMessage());
 +                    }
-+
-+                    // UnRegister Object from the TEnsureKeepAlive Class so that the Object can get GC'd on the PetraServer
-+                    TEnsureKeepAlive.UnRegister(FReportingGenerator);
+ 
+-                        break;
++                    // 'Release' instantiated UIConnector Object on the server side so it can get Garbage Collected there
++                    TUIConnectorLifetimeHandling.ReleaseUIConnector(FReportingGenerator);
 +                    FKeepUpProgressCheck = false;
 +                }
 +                else
