@@ -105,7 +105,7 @@ namespace Ict.Common.Remoting.Server
             }
         }
 
-        /// <summary>Serverassigned name of the Client</summary>
+        /// <summary>Server-assigned name of the Client</summary>
         public String ClientName
         {
             get
@@ -286,7 +286,6 @@ namespace Ict.Common.Remoting.Server
 
             // TODORemoting
             // release all UIConnector objects
-            // stop clientstillalivecheck
 
             // close db connection
             if (DBAccess.GDBAccessObj != null)
