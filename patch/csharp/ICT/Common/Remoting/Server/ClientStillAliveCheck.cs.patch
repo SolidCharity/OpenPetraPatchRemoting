@@ -1,5 +1,5 @@
 --- openpetra.freeze/csharp/ICT/Common/Remoting/Server/ClientStillAliveCheck.cs	2014-07-24 14:18:45.000000000 +0200
-+++ openpetra.patched/csharp/ICT/Common/Remoting/Server/ClientStillAliveCheck.cs	2014-07-24 14:44:28.000000000 +0200
++++ openpetra.patched/csharp/ICT/Common/Remoting/Server/ClientStillAliveCheck.cs	2014-07-24 14:47:27.000000000 +0200
 @@ -2,9 +2,9 @@
  // DO NOT REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  //
@@ -153,7 +153,7 @@
 -                            {
 -                                Console.WriteLine("{0} TClientStillAliveCheck: ClientStillAliveCheckThread: re-awakening...", DateTime.Now);
 -                            }
-+                            TLogging.LogAtLevel(2, "TClientStillAliveCheck (for ClientName '" + ClientName + "'): ClientStillAliveCheckThread: re-awakening...");                            
++                            TLogging.LogAtLevel(12, "TClientStillAliveCheck (for ClientName '" + ClientName + "'): ClientStillAliveCheckThread: re-awakening...");                            
                          }
                          catch (ThreadAbortException)
                          {
@@ -181,7 +181,7 @@
  
                          /*
                           * Timeout has been exceeded, this means the Client didn't make a call
-@@ -225,80 +186,13 @@
+@@ -225,81 +186,23 @@
                           */
                          UKeepServerAliveCheck = false;
  
@@ -210,7 +210,8 @@
 -                {
 -                    Console.WriteLine("{0} TClientStillAliveCheck: ClientStillAliveCheckThread: Thread stopped!", DateTime.Now);
 -                }
--            }
++                TLogging.LogAtLevel(12, "TClientStillAliveCheck (for ClientName '" + ClientName + "'): ClientStillAliveCheckThread: Thread stopped!");
+             }
 -
 -            /**
 -             * Stops the ClientStillAliveCheckThread.
@@ -220,8 +221,13 @@
 -             * disconnected, re-starting the Thread is not necessary.
 -             *
 -             */
--            public static void StopClientStillAliveCheckThread()
--            {
++            
++            /// <summary>
++            /// Causes the KeepServerAliveCheck Thread to no longer execute anything the next time it 'wakes up', 
++            /// and to end then.
++            /// </summary>
+             public static void StopClientStillAliveCheckThread()
+             {
 -                Boolean JoinTimeoutNotExceeded;
 -
 -                if (UClientStillAliveCheckThread != null)
@@ -261,7 +267,10 @@
 -                            DateTime.Now);
 -                    }
 -                }
-+                TLogging.LogAtLevel(2, "TClientStillAliveCheck (for ClientName '" + ClientName + "'): ClientStillAliveCheckThread: Thread stopped!");
++                UKeepServerAliveCheck = false;
              }
-         }
+-        }
++        }        
      }
+ }
+\ No newline at end of file

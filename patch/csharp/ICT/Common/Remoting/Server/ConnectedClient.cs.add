@@ -280,22 +280,31 @@ namespace Ict.Common.Remoting.Server
         {
             if (FAppDomainStatus == TSessionStatus.adsStopped)
             {
-                TLogging.Log("Session " + this.ClientName + " has been stopped already!");
+                TLogging.Log("EndSession (for client '" + this.ClientName + "'): Session has been stopped already!");
                 return;
             }
 
+            TLogging.Log("EndSession (for client '" + this.ClientName + "'): Session is about to getting stopped!");
+            
             // TODORemoting
             // release all UIConnector objects
-
+            ClientStillAliveCheck.TClientStillAliveCheck.StopClientStillAliveCheckThread();
+            
+            TLogging.Log("EndSession (for client '" + this.ClientName + "'): Checking whether there is a DB connection");
+            
             // close db connection
             if (DBAccess.GDBAccessObj != null)
             {
+                TLogging.Log("EndSession (for client '" + this.ClientName + "'): Closing DB connection");
                 DBAccess.GDBAccessObj.CloseDBConnection();
             }
 
+            TLogging.Log("EndSession (for client '" + this.ClientName + "'): Checking whether there is a HttpSession.Current object");
+            
             // clear the session object
             if (HttpContext.Current != null)
             {
+                TLogging.Log("EndSession (for client '" + this.ClientName + "'): Clearing Session");
                 TSession.Clear();
             }
 
