@@ -1,6 +1,14 @@
---- openpetraNow.freeze2014_05/csharp/ICT/Petra/Server/lib/MFinance/AP/AP.Find.cs	2014-05-16 08:51:15.000000000 +0200
-+++ openpetraNow.PatchRemoting/csharp/ICT/Petra/Server/lib/MFinance/AP/AP.Find.cs	2014-05-15 22:04:07.000000000 +0200
-@@ -70,25 +70,20 @@
+--- openpetraNow.freeze2014_05/csharp/ICT/Petra/Server/lib/MFinance/AP/AP.Find.cs	2014-07-24 12:24:11.000000000 +0200
++++ openpetraNow.PatchRemoting/csharp/ICT/Petra/Server/lib/MFinance/AP/AP.Find.cs	2014-07-24 13:20:30.000000000 +0200
+@@ -35,6 +35,7 @@
+ using Ict.Common.Verification;
+ using Ict.Common.Remoting.Shared;
+ using Ict.Common.Remoting.Server;
++using Ict.Common.Session;
+ using Ict.Petra.Server.MCommon;
+ using Ict.Petra.Shared.MCommon;
+ using Ict.Petra.Shared.MFinance;
+@@ -70,25 +71,20 @@
      ///          However, Server Objects that derive from these objects and that
      ///          are also UIConnectors are feasible.
      ///</summary>
@@ -30,7 +38,7 @@
              }
          }
  
-@@ -173,17 +168,8 @@
+@@ -173,17 +169,8 @@
          /// <param name="ACriteriaData">HashTable containing non-empty Find parameters</param>
          public void PerformSearch(DataTable ACriteriaData)
          {
@@ -48,15 +56,29 @@
              DataRow CriteriaRow = PrepareDataRow(ACriteriaData);
              Int32 ledgerNumber = (Int32)CriteriaRow["LedgerNumber"];
  
-@@ -291,6 +277,7 @@
+@@ -284,13 +271,19 @@
+                     FPagedDataSetObject.FindParameters.FSearchName = "Suppliers";
+                 }
+             }
+-
++            
++            string session = TSession.GetSessionID();
++            
+             //
+             // Start the Find Thread
+             //
              try
              {
-                 FFindThread = new Thread(new ThreadStart(FPagedDataSetObject.ExecuteQuery));
+-                FFindThread = new Thread(new ThreadStart(FPagedDataSetObject.ExecuteQuery));
++                ThreadStart myThreadStart = delegate {
++                                FPagedDataSetObject.ExecuteQuery(session);
++                };                
++                FFindThread = new Thread(myThreadStart);
 +                FFindThread.Name = "APFind" + Guid.NewGuid().ToString();
                  FFindThread.Start();
              }
              catch (Exception)
-@@ -302,8 +289,6 @@
+@@ -302,8 +295,6 @@
          /// <summary>
          /// Stops the query execution.
          ///
@@ -65,7 +87,7 @@
          /// @comment It might take some time until the executing query is cancelled by
          /// the DB, but this procedure returns immediately. The reason for this is that
          /// we consider the query cancellation as done since the application can
-@@ -312,11 +297,7 @@
+@@ -312,11 +303,7 @@
          /// errors that state that a ADO.NET command is still executing!).
          ///
          /// </summary>
@@ -78,7 +100,7 @@
          {
              Thread StopQueryThread;
  
-@@ -325,6 +306,7 @@
+@@ -325,6 +312,7 @@
              ThreadStart ThreadStartDelegate = new ThreadStart(FPagedDataSetObject.StopQuery);
  
              StopQueryThread = new Thread(ThreadStartDelegate);
