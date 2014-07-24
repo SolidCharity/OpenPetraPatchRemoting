@@ -58,6 +58,8 @@ namespace Ict.Common.Session
 
             if ((sessionId != null) && (sessionId.Length > 0))
             {
+                TLogging.Log("FindSessionID: Session ID found in thread. SessionID = " + sessionId);
+                
                 return sessionId;
             }
 
@@ -71,7 +73,7 @@ namespace Ict.Common.Session
         /// <param name="ASessionID"></param>
         public static void InitThread(string ASessionID)
         {
-            TLogging.Log("Running InitThread");
+            TLogging.Log("Running InitThread for ASessionID = " + ASessionID);
                          
             FSessionID = ASessionID;
         }
@@ -85,7 +87,7 @@ namespace Ict.Common.Session
 
             if ((sessionID != string.Empty) && !FSessionObjects.ContainsKey(sessionID))
             {
-                TLogging.Log("GetSessionID: client is using a session ID that is not valid anymore => throwing away current session id!");
+                TLogging.Log("GetSessionID: client is using a session ID that is not valid anymore! (sessionID = " + sessionID + ") => throwing away current session id!");
                 
                 // the client is using a session ID that is not valid anymore
                 // throw away current session id
@@ -101,7 +103,7 @@ namespace Ict.Common.Session
 
             if (sessionID == string.Empty)
             {
-                TLogging.Log("GetSessionID: sessionID == string.Empty!");
+                TLogging.Log("GetSessionID: sessionID == string.Empty! --> creating new session");
                 
                 sessionID = Guid.NewGuid().ToString();
 
@@ -112,6 +114,9 @@ namespace Ict.Common.Session
                 }
 
                 FSessionObjects.Add(sessionID, new SortedList <string, object>());
+                
+                TLogging.Log("GetSessionID: new sessionID = " + sessionID);
+                
                 InitThread(sessionID);
             }
             else
@@ -190,13 +195,20 @@ namespace Ict.Common.Session
         static public void Clear()
         {
             // HttpContext.Current.Session.Clear();
+            
+            TLogging.Log("TSession.Clear got called");
+            
             string sessionId = GetSessionID();
 
+            TLogging.Log("TSession.Clear: sessionID = " + sessionId);
+                
             if (sessionId.Length > 0)
             {
                 FSessionObjects.Remove(sessionId);
                 HttpContext.Current.Request.Cookies.Remove("OpenPetraSessionID");
                 HttpContext.Current.Response.Cookies.Remove("OpenPetraSessionID");
+                
+                TLogging.Log("TSession.Clear: cleared session with sessionID = " + sessionId);
             }
         }
     }

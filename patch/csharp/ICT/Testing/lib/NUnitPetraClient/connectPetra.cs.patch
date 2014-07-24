@@ -1,5 +1,5 @@
---- openpetraNow.freeze2014_05/csharp/ICT/Testing/lib/NUnitPetraClient/connectPetra.cs	2014-05-16 08:51:15.000000000 +0200
-+++ openpetraNow.PatchRemoting/csharp/ICT/Testing/lib/NUnitPetraClient/connectPetra.cs	2014-05-15 22:04:07.000000000 +0200
+--- openpetraNow.freeze2014_05/csharp/ICT/Testing/lib/NUnitPetraClient/connectPetra.cs	2014-07-24 12:24:11.000000000 +0200
++++ openpetraNow.PatchRemoting/csharp/ICT/Testing/lib/NUnitPetraClient/connectPetra.cs	2014-07-24 13:22:04.000000000 +0200
 @@ -4,7 +4,7 @@
  // @Authors:
  //       timop
@@ -9,7 +9,7 @@
  //
  // This file is part of OpenPetra.org.
  //
-@@ -28,6 +28,7 @@
+@@ -28,10 +28,12 @@
  using System.Runtime.Remoting;
  using System.Threading;
  using System.Windows.Forms;
@@ -17,7 +17,12 @@
  using Ict.Common;
  using Ict.Common.DB.Exceptions;
  using Ict.Common.Exceptions;
-@@ -53,7 +54,7 @@
+ using Ict.Common.Data;
++using Ict.Common.IO;
+ using Ict.Common.Remoting.Shared;
+ using Ict.Common.Remoting.Client;
+ using Ict.Petra.Shared;
+@@ -53,7 +55,7 @@
      public class TPetraConnector
      {
          /// connect to the server
@@ -26,7 +31,7 @@
          {
              TUnhandledThreadExceptionHandler UnhandledThreadExceptionHandler;
  
-@@ -70,7 +71,6 @@
+@@ -70,7 +72,6 @@
  
              Catalog.Init();
              TClientTasksQueue.ClientTasksInstanceType = typeof(TClientTaskInstance);
@@ -34,11 +39,14 @@
              TConnectionManagementBase.GConnectionManagement = new TConnectionManagement();
  
              new TClientSettings();
-@@ -83,63 +83,67 @@
+@@ -83,63 +84,70 @@
              TSharedFinanceValidationHelper.GetValidPostingDateRangeDelegate = @TServerLookup.TMFinance.GetCurrentPostingRangeDates;
              TSharedFinanceValidationHelper.GetValidPeriodDatesDelegate = @TServerLookup.TMFinance.GetCurrentPeriodDates;
  
 -            Connect(TAppSettingsManager.GetValue("AutoLogin"), TAppSettingsManager.GetValue("AutoLoginPasswd"),
++            // Ensure we throw away the previous client session cookies!
++            THTTPUtils.OverallSessionCookieContainer = null;
++            
 +            eLoginEnum Result = Connect(TAppSettingsManager.GetValue("AutoLogin"), TAppSettingsManager.GetValue("AutoLoginPasswd"),
                  TAppSettingsManager.GetInt64("SiteKey"));
 +
