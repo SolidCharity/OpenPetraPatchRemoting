@@ -1,6 +1,6 @@
---- openpetraNow.freeze2014_05/csharp/ICT/Petra/Client/app/MainWindow/PetraClientMain.cs	2014-07-24 12:24:11.000000000 +0200
-+++ openpetraNow.PatchRemoting/csharp/ICT/Petra/Client/app/MainWindow/PetraClientMain.cs	2014-07-24 13:23:23.000000000 +0200
-@@ -175,48 +175,11 @@
+--- openpetraNow.freeze2014_05/csharp/ICT/Petra/Client/app/MainWindow/PetraClientMain.cs
++++ openpetraNow.PatchRemoting/csharp/ICT/Petra/Client/app/MainWindow/PetraClientMain.cs
+@@ -175,48 +175,11 @@ namespace Ict.Petra.Client.App.PetraClient
          }
  
          /// <summary>
@@ -50,16 +50,16 @@
  #if TODO
              // We can't minimize the command window for the PostgreSql server directly after starting.
              // So we do it here.
-@@ -355,6 +318,8 @@
-                 }
- 
-                 Catalog.Init();
-+                
+@@ -358,13 +321,16 @@ namespace Ict.Petra.Client.App.PetraClient
+ #if DEBUG
+                 TApplicationVCSInfo.DetermineApplicationVCSInfo();
+ #endif
++
 +                UserInfo.RunningOnClientSide = true;
- 
++
                  // Register Types that can throw Error Codes (Ict.Common.CommonErrorCodes is automatically added)
                  ErrorCodeInventory.RegisteredTypes.Add(new Ict.Petra.Shared.PetraErrorCodes().GetType());
-@@ -362,7 +327,7 @@
+                 ErrorCodeInventory.RegisteredTypes.Add(new Ict.Common.Verification.TStringChecks().GetType());
  
                  // Initialize the client
                  TClientTasksQueue.ClientTasksInstanceType = typeof(TClientTaskInstance);
@@ -68,3 +68,10 @@
                  TConnectionManagementBase.GConnectionManagement = new TConnectionManagement();
  
  
+@@ -804,4 +770,4 @@ namespace Ict.Petra.Client.App.PetraClient
+             }
+         }
+     }
+-}
+\ No newline at end of file
++}
