@@ -1,5 +1,5 @@
---- openpetraNow.freeze2014_05/csharp/ICT/Common/Remoting/Server/ClientManager.cs	2014-05-16 08:51:14.000000000 +0200
-+++ openpetraNow.PatchRemoting/csharp/ICT/Common/Remoting/Server/ClientManager.cs	2014-05-15 22:04:07.000000000 +0200
+--- openpetra.freeze/csharp/ICT/Common/Remoting/Server/ClientManager.cs	2014-07-24 14:18:45.000000000 +0200
++++ openpetra.patched/csharp/ICT/Common/Remoting/Server/ClientManager.cs	2014-07-24 14:51:37.000000000 +0200
 @@ -26,12 +26,11 @@
  using System.Configuration;
  using System.Data;
@@ -935,15 +935,14 @@
  
                      // Retrieve Welcome message
                      try
-@@ -1474,108 +1001,10 @@
+@@ -1474,107 +1001,9 @@
                      }
                      catch (Exception)
                      {
 -                        ((TRunningAppDomain)UClientObjects[(object)AClientID]).AppDomainStatus = TAppDomainStatus.adsStopped;
-+                        ConnectedClient.SessionStatus = TSessionStatus.adsStopped;
-                         throw;
-                     }
- 
+-                        throw;
+-                    }
+-
 -                    if (TLogging.DL >= 10)
 -                    {
 -                        TLogging.Log(
@@ -1021,8 +1020,9 @@
 -                            ServerDisconnectClient(AClientID, out CantDisconnectReason);
 -                        }
 -
--                        throw;
--                    }
++                        ConnectedClient.SessionStatus = TSessionStatus.adsStopped;
+                         throw;
+                     }
 -                    #endregion
 -
 -                    if (TLogging.DL >= 10)
@@ -1041,10 +1041,9 @@
 -                    ((TRunningAppDomain)UClientObjects[(object)AClientID]).PassInClientRemotingInfo(RemotingURL_RemotedObject,
 -                        ClientDomainManager);
 -                    ((TRunningAppDomain)UClientObjects[(object)AClientID]).AppDomainStatus = TAppDomainStatus.adsConnectingAppDomainSetupOK;
--
+ 
                      /*
                       * Uncomment the following statement to be able to better test how the
-                      * Client reacts when it tries to connect and receives a
 @@ -1588,27 +1017,23 @@
                       * Notify all waiting Clients (that have not timed out yet) that they can
                       * now try to connect...
@@ -1074,7 +1073,7 @@
 -            ((TRunningAppDomain)UClientObjects[(object)AClientID]).AppDomainStatus = TAppDomainStatus.adsActive;
 -            ((TRunningAppDomain)UClientObjects[(object)AClientID]).FClientConnectionFinishedTime = DateTime.Now;
 -
-+            ConnectedClient.StartSession();
++            ConnectedClient.StartSession(new TDelegateTearDownAppDomain(DisconnectClient));
  
              #region Logging
  
@@ -1160,7 +1159,7 @@
  
 -            AppDomainEntry = (TRunningAppDomain)UClientObjects[(object)AClientID];
 +            SessionEntry = (TConnectedClient)UClientObjects[(object)AClientID];
-+
++            TLogging.Log("DisconnectClient: SessionEntry.ClientName='" + SessionEntry.ClientName + "'");
 +            if (SessionEntry == null)
 +            {
 +                ACantDisconnectReason = "Can't disconnect ClientID: " + AClientID.ToString() +

@@ -251,7 +251,7 @@ namespace Ict.Common.Remoting.Server
         }
 
         /// start the session
-        public void StartSession()
+        public void StartSession(TDelegateTearDownAppDomain ATearDownAppDomain)
         {
             FTasksManager = new TClientTasksManager();
             FPollClientTasks = new TPollClientTasks(FTasksManager);
@@ -259,7 +259,7 @@ namespace Ict.Common.Remoting.Server
             FClientConnectionStartTime = DateTime.Now;
 
             // Start ClientStillAliveCheck Thread
-            new ClientStillAliveCheck.TClientStillAliveCheck(this, FClientServerConnectionType);
+            new ClientStillAliveCheck.TClientStillAliveCheck(this, FClientServerConnectionType, ATearDownAppDomain);
 
             SessionStatus = TSessionStatus.adsActive;
             FClientConnectionFinishedTime = DateTime.Now;
