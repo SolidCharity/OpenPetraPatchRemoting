@@ -1,5 +1,5 @@
 --- openpetraNow.freeze2014_05/csharp/ICT/Common/IO/HTTPUtils.cs	2014-07-24 12:24:11.000000000 +0200
-+++ openpetraNow.PatchRemoting/csharp/ICT/Common/IO/HTTPUtils.cs	2014-07-24 13:30:17.000000000 +0200
++++ openpetraNow.PatchRemoting/csharp/ICT/Common/IO/HTTPUtils.cs	2014-07-24 13:31:12.000000000 +0200
 @@ -4,7 +4,7 @@
  // @Authors:
  //       timop
@@ -181,7 +181,7 @@
              }
              catch (System.Net.WebException e)
              {
-@@ -75,37 +197,165 @@
+@@ -75,37 +197,167 @@
                          e.Message, TLoggingType.ToLogfile);
                  }
              }
@@ -226,7 +226,9 @@
              }
 -            return ReturnValue;
 +
-+            if ((OverallCookie == null) && !url.Contains("Login"))
++            if ((OverallCookie == null) 
++                && !(url.Contains("Login")
++                     || (url.Contains("serverMServerAdmin.asmx"))))
 +            {
 +                throw new Exception("Cannot connect to the server without a cookie");
 +            }
@@ -363,7 +365,7 @@
          }
  
          /// <summary>
-@@ -117,23 +367,20 @@
+@@ -117,23 +369,20 @@
          /// <returns></returns>
          public static Boolean DownloadFile(string url, string filename)
          {
