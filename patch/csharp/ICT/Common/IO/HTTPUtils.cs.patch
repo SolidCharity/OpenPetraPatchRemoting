@@ -1,5 +1,5 @@
 --- openpetraNow.freeze2014_05/csharp/ICT/Common/IO/HTTPUtils.cs	2014-07-24 12:24:11.000000000 +0200
-+++ openpetraNow.PatchRemoting/csharp/ICT/Common/IO/HTTPUtils.cs	2014-07-24 12:31:30.000000000 +0200
++++ openpetraNow.PatchRemoting/csharp/ICT/Common/IO/HTTPUtils.cs	2014-07-24 13:27:46.000000000 +0200
 @@ -4,7 +4,7 @@
  // @Authors:
  //       timop
@@ -21,7 +21,7 @@
  
  namespace Ict.Common.IO
  {
-@@ -35,6 +38,111 @@
+@@ -35,6 +38,117 @@
      public class THTTPUtils
      {
          /// <summary>
@@ -98,23 +98,23 @@
 +                    TimeSpan.FromMinutes(TAppSettingsManager.GetInt32("WebRequestTimeOutInMinutes", 15)).
 +                    TotalMilliseconds);
 +
-+                // TODO Set HttpWebRequest.KeepAlive property to false to avoid  “The request was aborted: The request was canceled.” when multiple Threads run on one TCP Session ?????
++                // TODO Set HttpWebRequest.KeepAlive property to false to avoid  â€œThe request was aborted: The request was canceled.â€ when multiple Threads run on one TCP Session ?????
 +                // see http://www.jaxidian.org/update/2007/05/05/8/
-+                
++
 +                var castRequest = request as HttpWebRequest;
 +
 +                if (castRequest != null)
-+                {                    
++                {
 +                    castRequest.CookieContainer = this.CookieContainer;
-+                    
++
 +                    foreach (Cookie IndivCookie in castRequest.CookieContainer.GetCookies(address))
 +                    {
 +                        TLogging.Log("GetWebRequest: castRequest.CookieContainer cookie\r\n" +
 +                            "Name: " + IndivCookie.Name + "\r\n" +
 +                            "Value: " + IndivCookie.Value + "\r\n" +
 +                            "Path: " + IndivCookie.Path + "\r\n" +
-+                            "Domain: " + IndivCookie.Domain);                        
-+                    }                    
++                            "Domain: " + IndivCookie.Domain);
++                    }
 +                }
 +
 +                return request;
@@ -127,13 +127,19 @@
 +        /// Single Session Cookie Container instance that is populated once at connection time
 +        /// for the storage of the single cookie that stores the Session ID.
 +        /// </summary>
-+        public static CookieContainer OverallSessionCookieContainer = null;
++        //public static CookieContainer OverallSessionCookieContainer = null;
++        public static Cookie OverallCookie = null;
++
++        public static void ResetSession()
++        {
++            OverallCookie = null;
++        }
 +
 +        /// <summary>
          /// read from a website;
          /// used to check for available patches
          /// </summary>
-@@ -42,24 +150,36 @@
+@@ -42,24 +156,38 @@
          /// <returns></returns>
          public static string ReadWebsite(string url)
          {
@@ -176,10 +182,12 @@
 +                {
 +                    TLogging.Log("server did not return anything? timeout?");
 +                }
++
++                StoreSessionCookie(WClient.CookieContainer, url);
              }
              catch (System.Net.WebException e)
              {
-@@ -75,37 +195,148 @@
+@@ -75,37 +203,165 @@
                          e.Message, TLoggingType.ToLogfile);
                  }
              }
@@ -218,58 +226,52 @@
 -        /// </summary>
 -        public static string ReadWebsite(string url, SortedList <string, string>AParameters)
 +        private static WebClientWithSession GetNewWebClient(string url)
-         {
--            string urlWithParameters = url;
-+            CookieContainer CookieCont;
-+            
++        {
++            CookieContainer CookieCont = new CookieContainer();
++
 +            TLogging.Log("SetWebClient: url argument is: " + url);
-+            
-+            if (OverallSessionCookieContainer != null)
++
++            if (url.StartsWith("Login"))
 +            {
-+                TLogging.Log("SetWebClient: OverallSessionCookieContainer exists - copying!");
++                ResetSession();
++            }
++
++            if ((OverallCookie == null) && !url.Contains("Login"))
++            {
++                throw new Exception("Cannot connect to the server without a cookie");
++            }
++
++            if (OverallCookie != null)
++            {
++                TLogging.Log("SetWebClient: OverallCookie exists - copying!");
 +                CookieCont = new CookieContainer();
- 
--            bool firstParameter = true;
-+                foreach (Cookie c in OverallSessionCookieContainer.GetCookies(new Uri(url)))
-+                {
-+                    if (c.Name == "OpenPetraSessionID")
-+                    {
-+                        TLogging.Log("GetNewWebClient: copying cookie\r\n" +
-+                            "Name: " + c.Name + "\r\n" +
-+                            "Value: " + c.Value + "\r\n" +
-+                            "Path: " + c.Path + "\r\n" +
-+                            "Domain: " + c.Domain);
-+                            
-+                        CookieCont.Add(
-+                            new Cookie(c.Name, c.Value, c.Path, c.Domain));
-+                    }
-+                }
++                CookieCont.Add(new Cookie(OverallCookie.Name, OverallCookie.Value, OverallCookie.Path, OverallCookie.Domain));
++                TLogging.Log("GetNewWebClient: copying cookie\r\n" +
++                    "Name: " + OverallCookie.Name + "\r\n" +
++                    "Value: " + OverallCookie.Value + "\r\n" +
++                    "Path: " + OverallCookie.Path + "\r\n" +
++                    "Domain: " + OverallCookie.Domain);
 +            }
-+            else
-+            {
-+                TLogging.Log("SetWebClient: OverallSessionCookieContainer doesn't exist yet - creating it!");
-+                OverallSessionCookieContainer = new CookieContainer();
-+                                
-+                CookieCont = OverallSessionCookieContainer;
-+            }
- 
--            foreach (string parameterName in AParameters.Keys)
++
 +            return new WebClientWithSession(CookieCont);
 +        }
 +
 +        private static string WebClientUploadValues(string url, NameValueCollection parameters, int ANumberOfAttempts = 0)
-+        {
+         {
+-            string urlWithParameters = url;
 +            byte[] buf;
-+
+ 
+-            bool firstParameter = true;
 +            WebClientWithSession WClient = GetNewWebClient(url);
-+
+ 
+-            foreach (string parameterName in AParameters.Keys)
 +            try
-             {
--                if (firstParameter)
++            {
 +                buf = WClient.Get(url, parameters);
 +            }
 +            catch (System.Net.WebException ex)
-+            {
+             {
+-                if (firstParameter)
 +                HttpWebResponse httpWebResponse = (HttpWebResponse)ex.Response;
 +
 +                if (httpWebResponse != null)
@@ -290,24 +292,45 @@
 -                else
 +
 +                if (ANumberOfAttempts > 0)
-                 {
--                    urlWithParameters += "&";
++                {
 +                    // sleep for half a second
 +                    System.Threading.Thread.Sleep(500);
 +                    return WebClientUploadValues(url, parameters, ANumberOfAttempts - 1);
-                 }
- 
--                urlWithParameters += parameterName + "=" + Uri.EscapeDataString(AParameters[parameterName]);
++                }
++
 +                throw;
-             }
- 
--            return ReadWebsite(urlWithParameters);
++            }
++
++            StoreSessionCookie(WClient.CookieContainer, url);
++
 +            if ((buf != null) && (buf.Length > 0))
 +            {
 +                return Encoding.ASCII.GetString(buf, 0, buf.Length);
 +            }
 +
 +            return String.Empty;
++        }
++
++        private static void StoreSessionCookie(CookieContainer AContainer, string AUrl)
++        {
++            // store the session cookie only if we don't have one
++            if (OverallCookie == null)
++            {
++                foreach (Cookie c in AContainer.GetCookies(new Uri(AUrl)))
+                 {
+-                    urlWithParameters += "&";
++                    if (c.Name == "OpenPetraSessionID")
++                    {
++                        TLogging.Log("returned cookie\r\n" +
++                            "Name: " + c.Name + "\r\n" +
++                            "Value: " + c.Value + "\r\n" +
++                            "Path: " + c.Path + "\r\n" +
++                            "Domain: " + c.Domain);
++
++                        OverallCookie = new Cookie(c.Name, c.Value, c.Path, c.Domain);
++                    }
+                 }
++            }
 +        }
 +
 +        /// <summary>
@@ -331,20 +354,22 @@
 +                LogRequest(url, parameters);
 +                TLogging.Log(e.Message);
 +                TLogging.Log("Error message from server:");
-+
+ 
+-                urlWithParameters += parameterName + "=" + Uri.EscapeDataString(AParameters[parameterName]);
 +                if (e.Response != null)
 +                {
 +                    StreamReader sr = new StreamReader(e.Response.GetResponseStream());
 +                    TLogging.Log(sr.ReadToEnd());
 +                    sr.Close();
 +                }
-+            }
-+
+             }
+ 
+-            return ReadWebsite(urlWithParameters);
 +            return String.Empty;
          }
  
          /// <summary>
-@@ -117,23 +348,20 @@
+@@ -117,23 +373,20 @@
          /// <returns></returns>
          public static Boolean DownloadFile(string url, string filename)
          {
@@ -354,15 +379,14 @@
 -
 -            Boolean ReturnValue = false;
 -            WebClient client = new WebClient();
--
 +            WebClientWithSession WClient = GetNewWebClient(url);
-+            
+ 
              try
              {
 -                client.DownloadFile(url, filename);
 -                ReturnValue = true;
 +                WClient.DownloadFile(url, filename);
-+                
++                StoreSessionCookie(WClient.CookieContainer, url);
 +                return true;
              }
              catch (Exception e)

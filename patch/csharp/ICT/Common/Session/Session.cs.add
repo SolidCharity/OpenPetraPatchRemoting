@@ -2,7 +2,7 @@
 // DO NOT REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 //
 // @Authors:
-//       timop
+//       timop, christiank
 //
 // Copyright 2004-2014 by OM International
 //
@@ -52,18 +52,23 @@ namespace Ict.Common.Session
                 return HttpContext.Current.Request.Cookies["OpenPetraSessionID"].Value;
             }
 
-            TLogging.Log("FindSessionID: Session ID not found in the http context, checking the thread");
+            //TLogging.Log("FindSessionID: Session ID not found in the http context, checking the thread");
+            TLogging.Log("(HttpContext.Current != null) : " + (HttpContext.Current != null).ToString());
+            if (HttpContext.Current != null)
+                {
+            TLogging.Log("(HttpContext.Current.Request.Cookies[OpenPetraSessionID] != null) : " + (HttpContext.Current.Request.Cookies["OpenPetraSessionID"] != null).ToString());
+                }
             
             string sessionId = FSessionID;
 
             if ((sessionId != null) && (sessionId.Length > 0))
             {
-                TLogging.Log("FindSessionID: Session ID found in thread. SessionID = " + sessionId);
+                //TLogging.Log("FindSessionID: Session ID found in thread. SessionID = " + sessionId);
                 
                 return sessionId;
             }
 
-            TLogging.Log("FindSessionID: Session ID not found in the http context AND ALSO NOT in the thread!!!");
+            TLogging.Log("FindSessionID: Session ID not found in the http context AND ALSO NOT in the thread!!! thread id: " + Thread.CurrentThread.ManagedThreadId.ToString());
             return string.Empty;
         }
 
@@ -74,6 +79,7 @@ namespace Ict.Common.Session
         public static void InitThread(string ASessionID)
         {
             TLogging.Log("Running InitThread for ASessionID = " + ASessionID);
+            TLogging.Log("thread id " + Thread.CurrentThread.ManagedThreadId.ToString());
                          
             FSessionID = ASessionID;
         }
@@ -104,7 +110,8 @@ namespace Ict.Common.Session
             if (sessionID == string.Empty)
             {
                 TLogging.Log("GetSessionID: sessionID == string.Empty! --> creating new session");
-                
+                TLogging.Log("FSessionObjects.count " + FSessionObjects.Count.ToString());
+                TLogging.Log("thread id " + Thread.CurrentThread.ManagedThreadId.ToString());
                 sessionID = Guid.NewGuid().ToString();
 
                 if (HttpContext.Current != null)
@@ -121,7 +128,7 @@ namespace Ict.Common.Session
             }
             else
             {
-                TLogging.Log("GetSessionID: sessionID = " + sessionID);
+                // TLogging.Log("GetSessionID: sessionID = " + sessionID);
             }
 
             return sessionID;
