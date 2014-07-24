@@ -1,6 +1,6 @@
---- openpetraNow.freeze2014_05/csharp/ICT/Petra/Client/MPartner/Gui/UC_PartnerFind_ByPartnerDetails.cs	2014-05-16 08:51:15.000000000 +0200
-+++ openpetraNow.PatchRemoting/csharp/ICT/Petra/Client/MPartner/Gui/UC_PartnerFind_ByPartnerDetails.cs	2014-05-15 22:04:07.000000000 +0200
-@@ -1348,7 +1348,7 @@
+--- openpetra.freeze/csharp/ICT/Petra/Client/MPartner/Gui/UC_PartnerFind_ByPartnerDetails.cs	2014-07-24 14:18:45.000000000 +0200
++++ openpetra.patched/csharp/ICT/Petra/Client/MPartner/Gui/UC_PartnerFind_ByPartnerDetails.cs	2014-07-24 14:19:19.000000000 +0200
+@@ -1375,7 +1375,7 @@
                  Application.DoEvents();
  
                  // Stop asynchronous search operation
@@ -9,7 +9,7 @@
              }
          }
  
-@@ -1744,7 +1744,7 @@
+@@ -1771,7 +1771,7 @@
                  // Enable/disable according to how the search operation ended
                  if (Convert.ToBoolean(AEnable))
                  {
@@ -18,7 +18,7 @@
                      {
                          // Search operation ended without interruption
                          if (FPagedDataTable.Rows.Count > 0)
-@@ -1935,54 +1935,36 @@
+@@ -1962,54 +1962,36 @@
          /// <returns>void</returns>
          private void SearchFinishedCheckThread()
          {

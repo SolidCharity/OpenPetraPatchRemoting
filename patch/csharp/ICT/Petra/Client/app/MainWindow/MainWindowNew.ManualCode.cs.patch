@@ -1,5 +1,5 @@
---- openpetraNow.freeze2014_05/csharp/ICT/Petra/Client/app/MainWindow/MainWindowNew.ManualCode.cs	2014-05-16 08:51:15.000000000 +0200
-+++ openpetraNow.PatchRemoting/csharp/ICT/Petra/Client/app/MainWindow/MainWindowNew.ManualCode.cs	2014-05-15 22:04:07.000000000 +0200
+--- openpetra.freeze/csharp/ICT/Petra/Client/app/MainWindow/MainWindowNew.ManualCode.cs	2014-07-24 14:18:45.000000000 +0200
++++ openpetra.patched/csharp/ICT/Petra/Client/app/MainWindow/MainWindowNew.ManualCode.cs	2014-07-24 14:19:19.000000000 +0200
 @@ -68,7 +68,9 @@
  
          private static bool FConferenceSelected = false;
@@ -10,7 +10,7 @@
  
          /// <summary>
          /// The currently selected Ledger
-@@ -144,6 +146,7 @@
+@@ -136,6 +138,7 @@
          {
              string DisconnectTimeFromCommandLine = TAppSettingsManager.GetValue("DisconnectTime");
  
@@ -18,7 +18,7 @@
              if (TAppSettingsManager.GetBoolean("RunAutoTests", false) == true)
              {
                  // We need to manually 'fix up' the value of DisconnectTime that we get from .NET when we request
-@@ -165,7 +168,10 @@
+@@ -157,7 +160,10 @@
                  TestRunner.ClientID = TConnectionManagementBase.GConnectionManagement.ClientID;
                  TestRunner.Start(this);
              }

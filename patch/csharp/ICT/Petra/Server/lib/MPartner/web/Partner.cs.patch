@@ -1,8 +1,8 @@
---- openpetraNow.freeze2014_05/csharp/ICT/Petra/Server/lib/MPartner/web/Partner.cs	2014-05-16 08:51:15.000000000 +0200
-+++ openpetraNow.PatchRemoting/csharp/ICT/Petra/Server/lib/MPartner/web/Partner.cs	2014-05-15 22:04:07.000000000 +0200
-@@ -28,6 +28,7 @@
- using Ict.Common;
+--- openpetra.freeze/csharp/ICT/Petra/Server/lib/MPartner/web/Partner.cs	2014-07-24 14:18:45.000000000 +0200
++++ openpetra.patched/csharp/ICT/Petra/Server/lib/MPartner/web/Partner.cs	2014-07-24 14:19:19.000000000 +0200
+@@ -29,6 +29,7 @@
  using Ict.Common.Verification;
+ using Ict.Common.Verification.Exceptions;
  using Ict.Common.DB;
 +using Ict.Common.Remoting.Server;
  using Ict.Petra.Shared;

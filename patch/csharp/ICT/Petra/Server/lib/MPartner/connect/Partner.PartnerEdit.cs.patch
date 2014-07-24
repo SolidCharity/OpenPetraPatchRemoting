@@ -1,6 +1,6 @@
---- a/csharp/ICT/Petra/Server/lib/MPartner/connect/Partner.PartnerEdit.cs
-+++ b/csharp/ICT/Petra/Server/lib/MPartner/connect/Partner.PartnerEdit.cs
-@@ -86,7 +86,7 @@ namespace Ict.Petra.Server.MPartner.Partner.UIConnectors
+--- openpetra.freeze/csharp/ICT/Petra/Server/lib/MPartner/connect/Partner.PartnerEdit.cs	2014-07-24 14:18:45.000000000 +0200
++++ openpetra.patched/csharp/ICT/Petra/Server/lib/MPartner/connect/Partner.PartnerEdit.cs	2014-07-24 14:19:19.000000000 +0200
+@@ -86,7 +86,7 @@
      ///          are also UIConnectors are feasible.
      ///
      /// </summary>

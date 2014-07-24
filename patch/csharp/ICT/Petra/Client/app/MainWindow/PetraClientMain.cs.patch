@@ -1,6 +1,6 @@
---- openpetraNow.freeze2014_05/csharp/ICT/Petra/Client/app/MainWindow/PetraClientMain.cs
-+++ openpetraNow.PatchRemoting/csharp/ICT/Petra/Client/app/MainWindow/PetraClientMain.cs
-@@ -175,48 +175,11 @@ namespace Ict.Petra.Client.App.PetraClient
+--- openpetra.freeze/csharp/ICT/Petra/Client/app/MainWindow/PetraClientMain.cs	2014-07-24 14:18:45.000000000 +0200
++++ openpetra.patched/csharp/ICT/Petra/Client/app/MainWindow/PetraClientMain.cs	2014-07-24 14:19:19.000000000 +0200
+@@ -175,48 +175,11 @@
          }
  
          /// <summary>
@@ -50,7 +50,7 @@
  #if TODO
              // We can't minimize the command window for the PostgreSql server directly after starting.
              // So we do it here.
-@@ -358,13 +321,16 @@ namespace Ict.Petra.Client.App.PetraClient
+@@ -358,13 +321,16 @@
  #if DEBUG
                  TApplicationVCSInfo.DetermineApplicationVCSInfo();
  #endif
@@ -68,7 +68,7 @@
                  TConnectionManagementBase.GConnectionManagement = new TConnectionManagement();
  
  
-@@ -804,4 +770,4 @@ namespace Ict.Petra.Client.App.PetraClient
+@@ -804,4 +770,4 @@
              }
          }
      }

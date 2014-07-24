@@ -1,5 +1,5 @@
---- a/csharp/ICT/Petra/Server/lib/MCommon/Main.cs
-+++ b/csharp/ICT/Petra/Server/lib/MCommon/Main.cs
+--- openpetra.freeze/csharp/ICT/Petra/Server/lib/MCommon/Main.cs	2014-07-24 14:18:45.000000000 +0200
++++ openpetra.patched/csharp/ICT/Petra/Server/lib/MCommon/Main.cs	2014-07-24 14:19:19.000000000 +0200
 @@ -4,7 +4,7 @@
  // @Authors:
  //       christiank, timop
@@ -9,7 +9,7 @@
  //
  // This file is part of OpenPetra.org.
  //
-@@ -27,7 +27,6 @@ using System.Collections.Specialized;
+@@ -27,7 +27,6 @@
  using System.Data;
  using System.Data.Common;
  using System.Data.Odbc;
@@ -17,7 +17,7 @@
  using Ict.Common;
  using Ict.Common.Data;
  using Ict.Common.DB;
-@@ -35,7 +34,10 @@ using Ict.Common.Exceptions;
+@@ -35,7 +34,10 @@
  using Ict.Common.Remoting.Server;
  using Ict.Common.Remoting.Shared;
  using Ict.Common.Remoting.Client;
@@ -28,7 +28,7 @@
  using Ict.Petra.Shared.MPartner.Partner.Data;
  using Ict.Petra.Server.MPartner.Partner.Data.Access;
  using Npgsql;
-@@ -253,10 +255,9 @@ namespace Ict.Petra.Server.MCommon
+@@ -253,10 +255,9 @@
      /// in a separate Thread!
      ///
      /// </summary>
@@ -41,7 +41,7 @@
  
          /// <summary>An instance of TAsyncFindParameters containing parameters for the query execution</summary>
          TAsyncFindParameters FFindParameters;
-@@ -296,17 +297,12 @@ namespace Ict.Petra.Server.MCommon
+@@ -296,17 +297,12 @@
              }
          }
  
@@ -62,7 +62,7 @@
              }
          }
  
-@@ -369,12 +365,30 @@ namespace Ict.Petra.Server.MCommon
+@@ -369,12 +365,30 @@
          /// exist before this procedure can get called!
          /// </remarks>
          /// <returns>void</returns>
@@ -96,7 +96,7 @@
  
                  // Create SQL statement and execute it to return all records
                  ExecuteFullQuery();
-@@ -384,7 +398,7 @@ namespace Ict.Petra.Server.MCommon
+@@ -384,7 +398,7 @@
                  TLogging.Log(this.GetType().FullName + ".ExecuteQuery:  Exception occured: " + exp.ToString());
  
                  // Inform the caller that something has gone wrong...
@@ -105,7 +105,7 @@
  
                  /*
                   *     WE MUST 'SWALLOW' ANY EXCEPTION HERE, OTHERWISE THE WHOLE
-@@ -396,6 +410,11 @@ namespace Ict.Petra.Server.MCommon
+@@ -396,6 +410,11 @@
                   *
                   */
              }
@@ -117,7 +117,7 @@
          }
  
          private void ExecuteFullQuery()
-@@ -467,16 +486,16 @@ namespace Ict.Petra.Server.MCommon
+@@ -467,16 +486,16 @@
                      TLogging.Log(this.GetType().FullName + ".ExecuteFullQuery: Query got cancelled; general NpgsqlException occured: " + Exp.ToString());
                  }
  
@@ -138,7 +138,7 @@
  
                  return;
              }
-@@ -488,30 +507,13 @@ namespace Ict.Petra.Server.MCommon
+@@ -488,30 +507,13 @@
                  }
              }
  
@@ -171,7 +171,7 @@
          }
  
          /// <summary>
-@@ -591,9 +593,8 @@ namespace Ict.Petra.Server.MCommon
+@@ -591,9 +593,8 @@
                  }
              }
  
@@ -183,7 +183,7 @@
              return FPageDataTable;
          }
  
-@@ -661,26 +662,39 @@ namespace Ict.Petra.Server.MCommon
+@@ -661,26 +662,39 @@
          /// <returns>void</returns>
          public void StopQuery()
          {
@@ -234,7 +234,7 @@
              }
              catch (Exception exp)
              {
-@@ -772,142 +786,6 @@ namespace Ict.Petra.Server.MCommon
+@@ -772,142 +786,6 @@
      }
      #endregion
  
@@ -377,7 +377,7 @@
      #region TDynamicSearchHelper
  
      /// <summary>
-@@ -1254,4 +1132,4 @@ namespace Ict.Petra.Server.MCommon
+@@ -1254,4 +1132,4 @@
              return resultTable;
          }
      }

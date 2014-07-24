@@ -1,6 +1,6 @@
---- openpetraNow.freeze2014_05/csharp/ICT/Petra/Client/MFinance/Gui/AP/UC_Suppliers.ManualCode.cs	2014-05-16 08:51:15.000000000 +0200
-+++ openpetraNow.PatchRemoting/csharp/ICT/Petra/Client/MFinance/Gui/AP/UC_Suppliers.ManualCode.cs	2014-05-16 08:52:09.000000000 +0200
-@@ -229,7 +229,7 @@
+--- openpetra.freeze/csharp/ICT/Petra/Client/MFinance/Gui/AP/UC_Suppliers.ManualCode.cs	2014-07-24 14:18:45.000000000 +0200
++++ openpetra.patched/csharp/ICT/Petra/Client/MFinance/Gui/AP/UC_Suppliers.ManualCode.cs	2014-07-24 14:19:19.000000000 +0200
+@@ -206,7 +206,7 @@
          /// <returns>void</returns>
          private void SearchFinishedCheckThread()
          {
@@ -9,7 +9,7 @@
  
              // Check whether this thread should still execute
              while (FKeepUpSearchFinishedCheck)
-@@ -241,7 +241,7 @@
+@@ -218,7 +218,7 @@
                  {
                      /* The next line of code calls a function on the PetraServer
                       * > causes a bit of data traffic everytime! */
@@ -18,7 +18,7 @@
                  }
                  catch (NullReferenceException)
                  {
-@@ -253,34 +253,32 @@
+@@ -230,34 +230,32 @@
                      throw;
                  }
  
