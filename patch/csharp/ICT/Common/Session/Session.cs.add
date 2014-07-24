@@ -52,6 +52,8 @@ namespace Ict.Common.Session
                 return HttpContext.Current.Request.Cookies["OpenPetraSessionID"].Value;
             }
 
+            TLogging.Log("FindSessionID: Session ID not found in the http context, checking the thread");
+            
             string sessionId = FSessionID;
 
             if ((sessionId != null) && (sessionId.Length > 0))
@@ -59,6 +61,7 @@ namespace Ict.Common.Session
                 return sessionId;
             }
 
+            TLogging.Log("FindSessionID: Session ID not found in the http context AND ALSO NOT in the thread!!!");
             return string.Empty;
         }
 
@@ -68,6 +71,8 @@ namespace Ict.Common.Session
         /// <param name="ASessionID"></param>
         public static void InitThread(string ASessionID)
         {
+            TLogging.Log("Running InitThread");
+                         
             FSessionID = ASessionID;
         }
 
@@ -80,6 +85,8 @@ namespace Ict.Common.Session
 
             if ((sessionID != string.Empty) && !FSessionObjects.ContainsKey(sessionID))
             {
+                TLogging.Log("GetSessionID: client is using a session ID that is not valid anymore => throwing away current session id!");
+                
                 // the client is using a session ID that is not valid anymore
                 // throw away current session id
                 InitThread(string.Empty);
@@ -94,6 +101,8 @@ namespace Ict.Common.Session
 
             if (sessionID == string.Empty)
             {
+                TLogging.Log("GetSessionID: sessionID == string.Empty!");
+                
                 sessionID = Guid.NewGuid().ToString();
 
                 if (HttpContext.Current != null)
@@ -104,6 +113,10 @@ namespace Ict.Common.Session
 
                 FSessionObjects.Add(sessionID, new SortedList <string, object>());
                 InitThread(sessionID);
+            }
+            else
+            {
+                TLogging.Log("GetSessionID: sessionID = " + sessionID);
             }
 
             return sessionID;

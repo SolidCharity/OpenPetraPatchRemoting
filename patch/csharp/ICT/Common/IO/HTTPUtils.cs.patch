@@ -1,5 +1,5 @@
---- openpetraNow.freeze2014_05/csharp/ICT/Common/IO/HTTPUtils.cs	2014-06-23 12:34:11.000000000 +0200
-+++ openpetraNow.PatchRemoting/csharp/ICT/Common/IO/HTTPUtils.cs	2014-06-28 06:56:27.000000000 +0200
+--- openpetraNow.freeze2014_05/csharp/ICT/Common/IO/HTTPUtils.cs	2014-07-24 12:24:11.000000000 +0200
++++ openpetraNow.PatchRemoting/csharp/ICT/Common/IO/HTTPUtils.cs	2014-07-24 12:31:30.000000000 +0200
 @@ -4,7 +4,7 @@
  // @Authors:
  //       timop
@@ -21,7 +21,7 @@
  
  namespace Ict.Common.IO
  {
-@@ -35,6 +38,93 @@
+@@ -35,6 +38,111 @@
      public class THTTPUtils
      {
          /// <summary>
@@ -63,18 +63,18 @@
 +                get; set;
 +            }
 +
-+            private bool FInUse = false;
-+            public bool InUse {
-+                get
-+                {
-+                    return FInUse;
-+                }
-+            }
++//            private bool FInUse = false;
++//            public bool InUse {
++//                get
++//                {
++//                    return FInUse;
++//                }
++//            }
 +
 +            public byte[] Get(string AUrl, NameValueCollection AParameters = null)
 +            {
 +                byte[] result = null;
-+                FInUse = true;
++//                FInUse = true;
 +
 +                if (AParameters == null)
 +                {
@@ -85,37 +85,55 @@
 +                    result = UploadValues(AUrl, AParameters);
 +                }
 +
-+                FInUse = false;
++//                FInUse = false;
 +                return result;
 +            }
 +
 +            protected override WebRequest GetWebRequest(Uri address)
 +            {
++                TLogging.Log("GetWebRequest: got called for URI: " + address.ToString());
 +                WebRequest request = base.GetWebRequest(address);
 +
 +                request.Timeout = Convert.ToInt32(
 +                    TimeSpan.FromMinutes(TAppSettingsManager.GetInt32("WebRequestTimeOutInMinutes", 15)).
 +                    TotalMilliseconds);
 +
++                // TODO Set HttpWebRequest.KeepAlive property to false to avoid  “The request was aborted: The request was canceled.” when multiple Threads run on one TCP Session ?????
++                // see http://www.jaxidian.org/update/2007/05/05/8/
++                
 +                var castRequest = request as HttpWebRequest;
 +
 +                if (castRequest != null)
-+                {
++                {                    
 +                    castRequest.CookieContainer = this.CookieContainer;
++                    
++                    foreach (Cookie IndivCookie in castRequest.CookieContainer.GetCookies(address))
++                    {
++                        TLogging.Log("GetWebRequest: castRequest.CookieContainer cookie\r\n" +
++                            "Name: " + IndivCookie.Name + "\r\n" +
++                            "Value: " + IndivCookie.Value + "\r\n" +
++                            "Path: " + IndivCookie.Path + "\r\n" +
++                            "Domain: " + IndivCookie.Domain);                        
++                    }                    
 +                }
 +
 +                return request;
 +            }
 +        }
 +
-+        private static WebClientWithSession FWebClient = null;
-+        private static CookieContainer SessionCookieContainer = null;
++//        private static WebClientWithSession FWebClient = null;
++
++        /// <summary>
++        /// Single Session Cookie Container instance that is populated once at connection time
++        /// for the storage of the single cookie that stores the Session ID.
++        /// </summary>
++        public static CookieContainer OverallSessionCookieContainer = null;
 +
 +        /// <summary>
          /// read from a website;
          /// used to check for available patches
          /// </summary>
-@@ -42,24 +132,36 @@
+@@ -42,24 +150,36 @@
          /// <returns></returns>
          public static string ReadWebsite(string url)
          {
@@ -131,7 +149,7 @@
 -            client = new WebClient();
 -            ReturnValue = null;
 +
-+            SetWebClient(url);
++            WebClientWithSession WClient = GetNewWebClient(url);
 +
 +            if (TLogging.DebugLevel > 0)
 +            {
@@ -148,7 +166,7 @@
              try
              {
 -                buf = client.DownloadData(url);
-+                buf = FWebClient.Get(url);
++                buf = WClient.Get(url);
  
                  if ((buf != null) && (buf.Length > 0))
                  {
@@ -161,7 +179,7 @@
              }
              catch (System.Net.WebException e)
              {
-@@ -75,37 +177,139 @@
+@@ -75,37 +195,148 @@
                          e.Message, TLoggingType.ToLogfile);
                  }
              }
@@ -175,7 +193,7 @@
 +            TLogging.Log(url);
 +
 +            foreach (string k in parameters.Keys)
-+            {
+             {
 +                if (k.ToLower().Contains("password"))
 +                {
 +                    TLogging.Log(" " + k + " = *****");
@@ -191,34 +209,6 @@
 +                        TLogging.Log(" " + k + " = " + parameters[k].Substring(0, 1000) + " [..]");
 +                    }
 +                }
-+            }
-+        }
-+
-+        private static void SetWebClient(string url)
-+        {
-+            if (FWebClient == null)
-             {
-+                FWebClient = new WebClientWithSession();
-+            }
-+            else if (FWebClient.InUse)
-+            {
-+                if (SessionCookieContainer == null)
-+                {
-+                    SessionCookieContainer = new CookieContainer();
-+
-+                    CookieContainer cc = FWebClient.CookieContainer;
-+
-+                    foreach (Cookie c in cc.GetCookies(new Uri(url)))
-+                    {
-+                        if (c.Name == "OpenPetraSessionID")
-+                        {
-+                            SessionCookieContainer.Add(
-+                                new Cookie(c.Name, c.Value, c.Path, c.Domain));
-+                        }
-+                    }
-+                }
-+
-+                FWebClient = new WebClientWithSession(SessionCookieContainer);
              }
 -            return ReturnValue;
          }
@@ -227,19 +217,56 @@
 -        /// overload: encode all the values for the parameters and retrieve the website
 -        /// </summary>
 -        public static string ReadWebsite(string url, SortedList <string, string>AParameters)
-+        private static string WebClientUploadValues(string url, NameValueCollection parameters, int ANumberOfAttempts = 0)
++        private static WebClientWithSession GetNewWebClient(string url)
          {
 -            string urlWithParameters = url;
-+            byte[] buf;
++            CookieContainer CookieCont;
++            
++            TLogging.Log("SetWebClient: url argument is: " + url);
++            
++            if (OverallSessionCookieContainer != null)
++            {
++                TLogging.Log("SetWebClient: OverallSessionCookieContainer exists - copying!");
++                CookieCont = new CookieContainer();
  
 -            bool firstParameter = true;
-+            SetWebClient(url);
++                foreach (Cookie c in OverallSessionCookieContainer.GetCookies(new Uri(url)))
++                {
++                    if (c.Name == "OpenPetraSessionID")
++                    {
++                        TLogging.Log("GetNewWebClient: copying cookie\r\n" +
++                            "Name: " + c.Name + "\r\n" +
++                            "Value: " + c.Value + "\r\n" +
++                            "Path: " + c.Path + "\r\n" +
++                            "Domain: " + c.Domain);
++                            
++                        CookieCont.Add(
++                            new Cookie(c.Name, c.Value, c.Path, c.Domain));
++                    }
++                }
++            }
++            else
++            {
++                TLogging.Log("SetWebClient: OverallSessionCookieContainer doesn't exist yet - creating it!");
++                OverallSessionCookieContainer = new CookieContainer();
++                                
++                CookieCont = OverallSessionCookieContainer;
++            }
  
 -            foreach (string parameterName in AParameters.Keys)
++            return new WebClientWithSession(CookieCont);
++        }
++
++        private static string WebClientUploadValues(string url, NameValueCollection parameters, int ANumberOfAttempts = 0)
++        {
++            byte[] buf;
++
++            WebClientWithSession WClient = GetNewWebClient(url);
++
 +            try
              {
 -                if (firstParameter)
-+                buf = FWebClient.Get(url, parameters);
++                buf = WClient.Get(url, parameters);
 +            }
 +            catch (System.Net.WebException ex)
 +            {
@@ -272,8 +299,9 @@
  
 -                urlWithParameters += parameterName + "=" + Uri.EscapeDataString(AParameters[parameterName]);
 +                throw;
-+            }
-+
+             }
+ 
+-            return ReadWebsite(urlWithParameters);
 +            if ((buf != null) && (buf.Length > 0))
 +            {
 +                return Encoding.ASCII.GetString(buf, 0, buf.Length);
@@ -310,14 +338,13 @@
 +                    TLogging.Log(sr.ReadToEnd());
 +                    sr.Close();
 +                }
-             }
- 
--            return ReadWebsite(urlWithParameters);
++            }
++
 +            return String.Empty;
          }
  
          /// <summary>
-@@ -117,23 +321,22 @@
+@@ -117,23 +348,20 @@
          /// <returns></returns>
          public static Boolean DownloadFile(string url, string filename)
          {
@@ -327,16 +354,15 @@
 -
 -            Boolean ReturnValue = false;
 -            WebClient client = new WebClient();
-+            if (FWebClient == null)
-+            {
-+                FWebClient = new WebClientWithSession();
-+            }
- 
+-
++            WebClientWithSession WClient = GetNewWebClient(url);
++            
              try
              {
 -                client.DownloadFile(url, filename);
 -                ReturnValue = true;
-+                FWebClient.DownloadFile(url, filename);
++                WClient.DownloadFile(url, filename);
++                
 +                return true;
              }
              catch (Exception e)

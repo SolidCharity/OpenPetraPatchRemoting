@@ -395,6 +395,7 @@ namespace Ict.Petra.Server.App.WebService
             {
                 if (UserInfo.GUserInfo == null)
                 {
+                    TLogging.Log("PollClientTasks: GUserInfo == null!");
                     return THttpBinarySerializer.SerializeObject(false);
                 }
 

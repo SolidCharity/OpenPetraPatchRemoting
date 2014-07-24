@@ -1,5 +1,5 @@
---- openpetraNow.freeze2014_05/csharp/ICT/Common/Remoting/Server/PollClientTasks.cs	2014-05-16 08:51:15.000000000 +0200
-+++ openpetraNow.PatchRemoting/csharp/ICT/Common/Remoting/Server/PollClientTasks.cs	2014-05-15 22:04:07.000000000 +0200
+--- openpetraNow.freeze2014_05/csharp/ICT/Common/Remoting/Server/PollClientTasks.cs	2014-07-24 12:24:11.000000000 +0200
++++ openpetraNow.PatchRemoting/csharp/ICT/Common/Remoting/Server/PollClientTasks.cs	2014-07-24 12:31:30.000000000 +0200
 @@ -4,7 +4,7 @@
  // @Authors:
  //       christiank, timop
@@ -47,18 +47,21 @@
              if (TLogging.DL >= 10)
              {
                  Console.WriteLine("{0} TPollClientTasks created", DateTime.Now);
-@@ -73,17 +76,17 @@
+@@ -73,64 +76,39 @@
           */
          public DataTable PollClientTasks()
          {
 -            DataTable ReturnValue;
 +            DataTable ReturnValue = null;
  
-             if (TLogging.DL >= 10)
-             {
+-            if (TLogging.DL >= 10)
+-            {
 -                Console.WriteLine("{0} TPollClientTasks: PollClientTasks called", DateTime.Now);
+-            }
++//            if (TLogging.DL >= 10)
++//            {
 +                TLogging.Log("TPollClientTasks: PollClientTasks called");
-             }
++//            }
  
 -            ULastPollingTime = DateTime.Now;
 +            FLastPollingTime = DateTime.Now;
@@ -69,13 +72,16 @@
              {
                  // This argument is set to null instead of transfering an empty DataTable to
                  // reduce the number of bytes that are transfered to the Client!
-@@ -91,46 +94,21 @@
+                 ReturnValue = null;
  
-                 if (TLogging.DL > 9)
-                 {
+-                if (TLogging.DL > 9)
+-                {
 -                    Console.WriteLine("{0} TPollClientTasks: Client Tasks Table is empty!", DateTime.Now);
+-                }
++//                if (TLogging.DL > 9)
++//                {
 +                    TLogging.Log("TPollClientTasks: Client Tasks Table is empty!");
-                 }
++//                }
              }
              else
              {
@@ -83,11 +89,14 @@
 -                ReturnValue = UClientTasksManager.ClientTasksNewDataTable;
 +                ReturnValue = FClientTasksManager.ClientTasksNewDataTable;
  
-                 if (TLogging.DL >= 9)
-                 {
+-                if (TLogging.DL >= 9)
+-                {
 -                    Console.WriteLine("TPollClientTasks: Client Tasks Table has " + (ReturnValue.Rows.Count).ToString() + " entries!");
+-                }
++//                if (TLogging.DL >= 9)
++//                {
 +                    TLogging.Log("TPollClientTasks: Client Tasks Table has " + (ReturnValue.Rows.Count).ToString() + " entries!");
-                 }
++//                }
              }
  
              return ReturnValue;

@@ -1,5 +1,5 @@
---- openpetraNow.freeze2014_05/csharp/ICT/Common/Remoting/Client/PollClientTasks.cs	2014-05-16 08:51:14.000000000 +0200
-+++ openpetraNow.PatchRemoting/csharp/ICT/Common/Remoting/Client/PollClientTasks.cs	2014-05-15 22:04:07.000000000 +0200
+--- openpetraNow.freeze2014_05/csharp/ICT/Common/Remoting/Client/PollClientTasks.cs	2014-07-24 12:24:11.000000000 +0200
++++ openpetraNow.PatchRemoting/csharp/ICT/Common/Remoting/Client/PollClientTasks.cs	2014-07-24 12:31:30.000000000 +0200
 @@ -2,9 +2,9 @@
  // DO NOT REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  //
@@ -53,7 +53,7 @@
              TheThread.Start();
          }
  
-@@ -95,6 +89,16 @@
+@@ -95,6 +89,25 @@
          }
  
          /// <summary>
@@ -61,16 +61,25 @@
 +        /// </summary>
 +        private DataTable RemotePollClientTasks()
 +        {
++            DataTable ResultDT = null;
 +            // TODORemoting --- The following call breaks NUnitForms Tests 'at random'!
-+            // return (DataTable)THttpConnector.CallWebConnector("SessionManager", "PollClientTasks", null, "binary")[0];
-+            return null;
++            TLogging.Log("RemotePollClientTasks: About to call SessionManager.PollClientTasks...");
++            ResultDT = (DataTable)THttpConnector.CallWebConnector("SessionManager", "PollClientTasks", null, "binary")[0];
++            TLogging.Log("RemotePollClientTasks: Finished calling SessionManager.PollClientTasks...");
++            
++            if (ResultDT != null) 
++            {
++                TLogging.Log("RemotePollClientTasks: ResultDT has " + ResultDT.Rows.Count.ToString() + " rows!");
++            }
++            
++            return ResultDT; 
 +        }
 +
 +        /// <summary>
          /// Thread that calls a Method of the server-side Class TPollClientTasks in
          /// regular intervals.
          ///
-@@ -121,7 +125,7 @@
+@@ -121,7 +134,7 @@
                      // and it's AppDomain alive.
                      // The value of the AClientTasksDataTable parameter is always null, except when
                      // the Server has a queued ClientTask that the Client needs to read.
@@ -79,7 +88,7 @@
  
                      if (ClientTasksDataTable != null)
                      {
-@@ -131,6 +135,7 @@
+@@ -131,6 +144,7 @@
                          // without the risk of being interrupted!
                          ClientTasksQueueInstance = new TClientTasksQueue(FClientID, ClientTasksDataTable);
                          ClientTaskQueueThread = new Thread(new ThreadStart(ClientTasksQueueInstance.QueueClientTasks));
@@ -87,17 +96,19 @@
                          ClientTaskQueueThread.Start();
                      }
                  }
-@@ -150,11 +155,18 @@
-                 }
+@@ -151,10 +165,20 @@
                  catch (Exception Exp)
                  {
+                     TLogging.Log("Exception in TPollClientTasks.PollClientTasksThread: " + Exp.ToString(), TLoggingType.ToLogfile);
++                    
 +                    if (Exp.Message == THTTPUtils.SESSION_ALREADY_CLOSED)
 +                    {
 +                        // TODORemoting close the client
++                        
++                        TLogging.Log("TPollClientTasks: Should have closed the Client here!!!");
++                        
 +                        return;
 +                    }
-+
-                     TLogging.Log("Exception in TPollClientTasks.PollClientTasksThread: " + Exp.ToString(), TLoggingType.ToLogfile);
                  }
  
                  // Sleep for some time. After that, this function is called again automatically.
