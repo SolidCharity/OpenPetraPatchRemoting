@@ -1,5 +1,5 @@
 --- openpetraNow.freeze2014_05/csharp/ICT/Testing/lib/NUnitPetraClient/connectPetra.cs	2014-07-24 12:24:11.000000000 +0200
-+++ openpetraNow.PatchRemoting/csharp/ICT/Testing/lib/NUnitPetraClient/connectPetra.cs	2014-07-24 13:27:46.000000000 +0200
++++ openpetraNow.PatchRemoting/csharp/ICT/Testing/lib/NUnitPetraClient/connectPetra.cs	2014-07-24 13:30:17.000000000 +0200
 @@ -4,7 +4,7 @@
  // @Authors:
  //       timop
@@ -45,7 +45,7 @@
  
 -            Connect(TAppSettingsManager.GetValue("AutoLogin"), TAppSettingsManager.GetValue("AutoLoginPasswd"),
 +            // Ensure we throw away the previous client session cookies!
-+            THTTPUtils.OverallCookie = null;
++            THTTPUtils.ResetSession();
 +            
 +            eLoginEnum Result = Connect(TAppSettingsManager.GetValue("AutoLogin"), TAppSettingsManager.GetValue("AutoLoginPasswd"),
                  TAppSettingsManager.GetInt64("SiteKey"));

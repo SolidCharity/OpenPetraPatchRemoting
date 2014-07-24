@@ -1,5 +1,5 @@
 --- openpetraNow.freeze2014_05/csharp/ICT/Common/IO/HTTPUtils.cs	2014-07-24 12:24:11.000000000 +0200
-+++ openpetraNow.PatchRemoting/csharp/ICT/Common/IO/HTTPUtils.cs	2014-07-24 13:27:46.000000000 +0200
++++ openpetraNow.PatchRemoting/csharp/ICT/Common/IO/HTTPUtils.cs	2014-07-24 13:30:17.000000000 +0200
 @@ -4,7 +4,7 @@
  // @Authors:
  //       timop
@@ -21,7 +21,7 @@
  
  namespace Ict.Common.IO
  {
-@@ -35,6 +38,117 @@
+@@ -35,6 +38,111 @@
      public class THTTPUtils
      {
          /// <summary>
@@ -63,18 +63,9 @@
 +                get; set;
 +            }
 +
-+//            private bool FInUse = false;
-+//            public bool InUse {
-+//                get
-+//                {
-+//                    return FInUse;
-+//                }
-+//            }
-+
 +            public byte[] Get(string AUrl, NameValueCollection AParameters = null)
 +            {
 +                byte[] result = null;
-+//                FInUse = true;
 +
 +                if (AParameters == null)
 +                {
@@ -85,7 +76,6 @@
 +                    result = UploadValues(AUrl, AParameters);
 +                }
 +
-+//                FInUse = false;
 +                return result;
 +            }
 +
@@ -98,7 +88,7 @@
 +                    TimeSpan.FromMinutes(TAppSettingsManager.GetInt32("WebRequestTimeOutInMinutes", 15)).
 +                    TotalMilliseconds);
 +
-+                // TODO Set HttpWebRequest.KeepAlive property to false to avoid  â€œThe request was aborted: The request was canceled.â€ when multiple Threads run on one TCP Session ?????
++                // TODO Set HttpWebRequest.KeepAlive property to false to avoid  'The request was aborted: The request was canceled.' when multiple Threads run on one TCP Session ?????
 +                // see http://www.jaxidian.org/update/2007/05/05/8/
 +
 +                var castRequest = request as HttpWebRequest;
@@ -120,16 +110,20 @@
 +                return request;
 +            }
 +        }
-+
-+//        private static WebClientWithSession FWebClient = null;
-+
++        
 +        /// <summary>
-+        /// Single Session Cookie Container instance that is populated once at connection time
-+        /// for the storage of the single cookie that stores the Session ID.
++        /// Storage of the single cookie that stores the Session ID.
 +        /// </summary>
-+        //public static CookieContainer OverallSessionCookieContainer = null;
++        /// <remarks>
++        /// Set in <see cref="StoreSessionCookie" /> if we don't have a session cookie yet,
++        /// and set to null only in <see cref="ResetSession" />. Other than that this
++        /// static Field is only read!
++        /// </remarks>
 +        public static Cookie OverallCookie = null;
 +
++        /// <summary>
++        /// Throws away the previous client session cookies!
++        /// </summary>
 +        public static void ResetSession()
 +        {
 +            OverallCookie = null;
@@ -139,7 +133,7 @@
          /// read from a website;
          /// used to check for available patches
          /// </summary>
-@@ -42,24 +156,38 @@
+@@ -42,24 +150,38 @@
          /// <returns></returns>
          public static string ReadWebsite(string url)
          {
@@ -187,7 +181,7 @@
              }
              catch (System.Net.WebException e)
              {
-@@ -75,37 +203,165 @@
+@@ -75,37 +197,165 @@
                          e.Message, TLoggingType.ToLogfile);
                  }
              }
@@ -201,7 +195,7 @@
 +            TLogging.Log(url);
 +
 +            foreach (string k in parameters.Keys)
-             {
++            {
 +                if (k.ToLower().Contains("password"))
 +                {
 +                    TLogging.Log(" " + k + " = *****");
@@ -217,14 +211,9 @@
 +                        TLogging.Log(" " + k + " = " + parameters[k].Substring(0, 1000) + " [..]");
 +                    }
 +                }
-             }
--            return ReturnValue;
-         }
- 
--        /// <summary>
--        /// overload: encode all the values for the parameters and retrieve the website
--        /// </summary>
--        public static string ReadWebsite(string url, SortedList <string, string>AParameters)
++            }
++        }
++
 +        private static WebClientWithSession GetNewWebClient(string url)
 +        {
 +            CookieContainer CookieCont = new CookieContainer();
@@ -232,9 +221,10 @@
 +            TLogging.Log("SetWebClient: url argument is: " + url);
 +
 +            if (url.StartsWith("Login"))
-+            {
+             {
 +                ResetSession();
-+            }
+             }
+-            return ReturnValue;
 +
 +            if ((OverallCookie == null) && !url.Contains("Login"))
 +            {
@@ -254,8 +244,12 @@
 +            }
 +
 +            return new WebClientWithSession(CookieCont);
-+        }
-+
+         }
+ 
+-        /// <summary>
+-        /// overload: encode all the values for the parameters and retrieve the website
+-        /// </summary>
+-        public static string ReadWebsite(string url, SortedList <string, string>AParameters)
 +        private static string WebClientUploadValues(string url, NameValueCollection parameters, int ANumberOfAttempts = 0)
          {
 -            string urlWithParameters = url;
@@ -369,7 +363,7 @@
          }
  
          /// <summary>
-@@ -117,23 +373,20 @@
+@@ -117,23 +367,20 @@
          /// <returns></returns>
          public static Boolean DownloadFile(string url, string filename)
          {
