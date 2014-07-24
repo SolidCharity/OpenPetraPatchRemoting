@@ -150,7 +150,12 @@ namespace Ict.Petra.Server.App.WebService
                     HttpContext.Current.Response.End();
                 }
 
-                DomainManager.CurrentClient.UpdateLastAccessTime();
+//                TLogging.Log("Init(): WebService Method name that got called: " + HttpContext.Current.Request.PathInfo);
+                
+                if (HttpContext.Current.Request.PathInfo != "/PollClientTasks") 
+                {
+                    DomainManager.CurrentClient.UpdateLastAccessTime();    
+                }                
             }
 
             return false;
