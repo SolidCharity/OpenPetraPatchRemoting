@@ -1,7 +1,7 @@
 #!/bin/bash
-Repo=$1
-before=$2
-patched=$3
+Repo=${1%/}
+before=${2%/}
+patched=${3%/}
 if [ "$#" -ne 3 ]
 then
   echo "Please pass parameters for valid Patch directory, eg. OpenPetraPatchSomething before patched"
