@@ -13,6 +13,8 @@ then
 fi
 mkdir -p $Repo/patch
 filename=
+# make sure that diff shows english messages
+export LC_ALL=C
 while read line; do
   if [[ "${line:0:9}" == "diff -uNr" ]]
   then
@@ -95,5 +97,5 @@ while read line; do
       touch $Repo/patch/$filename.delete
     fi
   fi
-done < <(diff -uNr -x .bzr -x .git $before $patched )
+done < <(diff -uNr -x .bzr -x .git $before $patched | grep -E "Binary files|diff -uNr")
 rm -Rf $Repo/patchOld
