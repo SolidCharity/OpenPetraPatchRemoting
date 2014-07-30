@@ -1,5 +1,5 @@
 --- openpetra.freeze/csharp/ICT/Petra/Server/lib/MFinance/connect/Gift.GiftDetailFind.cs	2014-07-24 14:18:45.000000000 +0200
-+++ openpetra.patched/csharp/ICT/Petra/Server/lib/MFinance/connect/Gift.GiftDetailFind.cs	2014-07-30 20:08:07.000000000 +0200
++++ openpetra.patched/csharp/ICT/Petra/Server/lib/MFinance/connect/Gift.GiftDetailFind.cs	2014-07-30 20:33:27.000000000 +0200
 @@ -4,7 +4,7 @@
  // @Authors:
  //       christiank, timop
@@ -9,7 +9,15 @@
  //
  // This file is part of OpenPetra.org.
  //
-@@ -55,7 +55,7 @@
+@@ -24,6 +24,7 @@
+ using System;
+ using System.Data;
+ 
++using Ict.Common;
+ using Ict.Common.Remoting.Shared;
+ using Ict.Common.Remoting.Server;
+ using Ict.Petra.Server.MCommon;
+@@ -55,7 +56,7 @@
      ///          However, Server Objects that derive from these objects and that
      ///          are also UIConnectors are feasible.
      /// </summary>
@@ -18,7 +26,7 @@
      {
          private TGiftDetailFind FGiftDetailFind = new TGiftDetailFind();
  
-@@ -66,14 +66,12 @@
+@@ -66,14 +67,12 @@
          {
          }
  
@@ -36,7 +44,7 @@
              }
          }
  
-@@ -130,4 +128,4 @@
+@@ -130,4 +129,4 @@
              FGiftDetailFind.StopSearch(ASender, AArgs);
          }
      }
