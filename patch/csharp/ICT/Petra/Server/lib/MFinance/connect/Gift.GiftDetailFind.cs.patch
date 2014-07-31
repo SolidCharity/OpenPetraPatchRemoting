@@ -1,5 +1,5 @@
 --- openpetra.freeze/csharp/ICT/Petra/Server/lib/MFinance/connect/Gift.GiftDetailFind.cs	2014-07-24 14:18:45.000000000 +0200
-+++ openpetra.patched/csharp/ICT/Petra/Server/lib/MFinance/connect/Gift.GiftDetailFind.cs	2014-07-30 20:33:27.000000000 +0200
++++ openpetra.patched/csharp/ICT/Petra/Server/lib/MFinance/connect/Gift.GiftDetailFind.cs	2014-07-31 06:56:07.000000000 +0200
 @@ -4,7 +4,7 @@
  // @Authors:
  //       christiank, timop
@@ -44,8 +44,19 @@
              }
          }
  
-@@ -130,4 +129,4 @@
-             FGiftDetailFind.StopSearch(ASender, AArgs);
+@@ -121,13 +120,9 @@
+         /// errors that state that a ADO.NET command is still executing!).
+         ///
+         /// </summary>
+-        /// <param name="ASender">Object that requested the stopping (not evaluated)</param>
+-        /// <param name="AArgs">(not evaluated)
+-        /// </param>
+-        /// <returns>void</returns>
+-        public void StopSearch(object ASender, EventArgs AArgs)
++        public void StopSearch()
+         {
+-            FGiftDetailFind.StopSearch(ASender, AArgs);
++            FGiftDetailFind.StopSearch();
          }
      }
 -}
