@@ -125,7 +125,7 @@
 -                TLogging.Log("KeepAlive Register: " + ARemotedObject.GetType().ToString() + " does not implement IKeepAlive");
 -            }
 +            ARemotedObject.Dispose();
-+            TLogging.Log("TUIConnectorLifetimeHandling.ReleaseUIConnector: " + ARemotedObject.GetType().ToString() + ": Dispose() got called on the 'client-glue' Object.");
++            TLogging.LogAtLevel(4, "TUIConnectorLifetimeHandling.ReleaseUIConnector: " + ARemotedObject.GetType().ToString() + ": Dispose() got called on the 'client-glue' Object.");
          }
 -
 -        /// <summary>

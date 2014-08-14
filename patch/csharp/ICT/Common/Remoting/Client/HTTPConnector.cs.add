@@ -243,7 +243,7 @@ namespace Ict.Common.Remoting.Client
 
             result = TrimResult(result);
 
-            TLogging.Log(String.Format("CreateUIConnector called for Module '{0}' and Class '{1}'",
+            TLogging.LogAtLevel(4, String.Format("CreateUIConnector called for Module '{0}' and Class '{1}'",
                 AModuleName, classname));
 
             return THttpBinarySerializer.DeserializeObject(result, "System.String").ToString();
@@ -257,7 +257,7 @@ namespace Ict.Common.Remoting.Client
             SortedList <string, object>Parameters = new SortedList <string, object>();
             Parameters.Add("UIConnectorObjectID", ObjectID.ToString());
 
-            TLogging.Log(String.Format("DisconnectUIConnector called for Module '{0}' with ObjectID '{1}'",
+            TLogging.LogAtLevel(4, String.Format("DisconnectUIConnector called for Module '{0}' with ObjectID '{1}'",
                 AModuleName, ObjectID));
             
             CallWebConnector(AModuleName, "DisconnectUIConnector", Parameters, "void");

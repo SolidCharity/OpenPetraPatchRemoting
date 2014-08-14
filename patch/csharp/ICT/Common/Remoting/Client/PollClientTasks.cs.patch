@@ -64,13 +64,13 @@
 +            DataTable ResultDT = null;
 +            
 +            // TODORemoting --- The following call breaks NUnitForms Tests 'at random'!
-+            TLogging.Log("RemotePollClientTasks: About to call SessionManager.PollClientTasks...");
++            TLogging.LogAtLevel(4, "RemotePollClientTasks: About to call SessionManager.PollClientTasks...");
 +            ResultDT = (DataTable)THttpConnector.CallWebConnector("SessionManager", "PollClientTasks", null, "binary")[0];
-+            TLogging.Log("RemotePollClientTasks: Finished calling SessionManager.PollClientTasks...");
++            TLogging.LogAtLevel(4, "RemotePollClientTasks: Finished calling SessionManager.PollClientTasks...");
 +            
 +            if (ResultDT != null) 
 +            {
-+                TLogging.Log("RemotePollClientTasks: ResultDT has " + ResultDT.Rows.Count.ToString() + " rows!");
++                TLogging.LogAtLevel(4, "RemotePollClientTasks: ResultDT has " + ResultDT.Rows.Count.ToString() + " rows!");
 +            }
 +            
 +            return ResultDT; 
@@ -90,7 +90,7 @@
                      if (ClientTasksDataTable != null)
                      {
 -                        // MessageBox.Show('Client Tasks Table has ' + (ClientTasksDataTable.Rows.Count).ToString + ' entries!');
-+                        TLogging.Log("Client Tasks Table has " + ClientTasksDataTable.Rows.Count.ToString() + " entries!");
++                        TLogging.LogAtLevel(4, "Client Tasks Table has " + ClientTasksDataTable.Rows.Count.ToString() + " entries!");
 +                        
                          // Queue new ClientTasks and execute them.
                          // This is done in a separate Thread to make sure the PollClientTasks thread can run
