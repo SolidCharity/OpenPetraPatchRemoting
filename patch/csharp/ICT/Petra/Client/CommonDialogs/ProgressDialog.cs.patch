@@ -1,5 +1,7 @@
---- openpetraNow.freeze2014_05/csharp/ICT/Petra/Client/CommonDialogs/ProgressDialog.cs	2014-06-23 12:34:11.000000000 +0200
-+++ openpetraNow.PatchRemoting/csharp/ICT/Petra/Client/CommonDialogs/ProgressDialog.cs	2014-06-28 06:58:28.000000000 +0200
+diff --git a/csharp/ICT/Petra/Client/CommonDialogs/ProgressDialog.cs b/csharp/ICT/Petra/Client/CommonDialogs/ProgressDialog.cs
+index a2562f4..014b9ab 100644
+--- a/csharp/ICT/Petra/Client/CommonDialogs/ProgressDialog.cs
++++ b/csharp/ICT/Petra/Client/CommonDialogs/ProgressDialog.cs
 @@ -4,7 +4,7 @@
  // @Authors:
  //       timop, christiank
@@ -9,19 +11,26 @@
  //
  // This file is part of OpenPetra.org.
  //
-@@ -101,7 +101,14 @@
- 
-             if (CancelConfirmationResult == DialogResult.Yes)
+@@ -108,7 +108,14 @@ namespace Ict.Petra.Client.CommonDialogs
              {
--                TRemote.MCommon.WebConnectors.CancelJob();
-+                try
-+                {
-+                    TRemote.MCommon.WebConnectors.CancelJob();
-+                }
-+                catch (Exception Exc)
-+                {
-+                    TLogging.Log("While cancelling a job from a Progress Dialog we got the following Exception:\r\n" + Exc.ToString());
-+                }
- 
-                 this.DialogResult = DialogResult.Cancel;
- 
+                 if (FQueryServerForProgress)
+                 {
+-                    TRemote.MCommon.WebConnectors.CancelJob();
++                    try
++                    {
++                        TRemote.MCommon.WebConnectors.CancelJob();
++                    }
++                    catch (Exception Exc)
++                    {
++                        TLogging.Log("While cancelling a job from a Progress Dialog we got the following Exception:\r\n" + Exc.ToString());
++                    }
+                 }
+                 else
+                 {
+@@ -231,4 +238,4 @@ namespace Ict.Petra.Client.CommonDialogs
+             }
+         }
+     }
+-}
+\ No newline at end of file
++}
