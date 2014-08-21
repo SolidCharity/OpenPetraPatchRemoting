@@ -91,10 +91,8 @@ namespace Ict.Common.Remoting.Client
         private static string TrimResult(string result)
         {
             // returns <string xmlns="...">someresulttext</string>
-            if (TLogging.DebugLevel > 0)
-            {
-                TLogging.Log("returned from server (unmodified): " + result);
-            }
+            TLogging.LogAtLevel(1, "returned from server (unmodified): " + 
+                                (result.Length > 600 ? result.Substring(0, 600) + " ...":result));
 
             string OrigResult = result;
             try
@@ -264,3 +262,4 @@ namespace Ict.Common.Remoting.Client
         }
     }
 }
+

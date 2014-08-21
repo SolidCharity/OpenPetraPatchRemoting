@@ -1,5 +1,5 @@
---- openpetra.freeze/csharp/ICT/Common/IO/HTTPUtils.cs	2014-07-24 14:18:45.000000000 +0200
-+++ openpetra.patched/csharp/ICT/Common/IO/HTTPUtils.cs	2014-07-24 14:46:03.000000000 +0200
+--- openpetra.orig/csharp/ICT/Common/IO/HTTPUtils.cs	2014-08-21 16:23:06.000000000 +0200
++++ openpetra.freeze/csharp/ICT/Common/IO/HTTPUtils.cs	2014-08-21 16:18:28.000000000 +0200
 @@ -4,7 +4,7 @@
  // @Authors:
  //       timop
@@ -81,7 +81,7 @@
 +
 +            protected override WebRequest GetWebRequest(Uri address)
 +            {
-+                TLogging.Log("GetWebRequest: got called for URI: " + address.ToString());
++                TLogging.LogAtLevel(1, "GetWebRequest: got called for URI: " + address.ToString());
 +                WebRequest request = base.GetWebRequest(address);
 +
 +                request.Timeout = Convert.ToInt32(
@@ -99,7 +99,7 @@
 +
 +                    foreach (Cookie IndivCookie in castRequest.CookieContainer.GetCookies(address))
 +                    {
-+                        TLogging.Log("GetWebRequest: castRequest.CookieContainer cookie\r\n" +
++                        TLogging.LogAtLevel(1, "GetWebRequest: castRequest.CookieContainer cookie\r\n" +
 +                            "Name: " + IndivCookie.Name + "\r\n" +
 +                            "Value: " + IndivCookie.Value + "\r\n" +
 +                            "Path: " + IndivCookie.Path + "\r\n" +
@@ -218,7 +218,7 @@
 +        {
 +            CookieContainer CookieCont = new CookieContainer();
 +
-+            TLogging.Log("SetWebClient: url argument is: " + url);
++            TLogging.LogAtLevel(1, "SetWebClient: url argument is: " + url);
 +
 +            if (url.StartsWith("Login"))
              {
@@ -236,10 +236,10 @@
 +
 +            if (OverallCookie != null)
 +            {
-+                TLogging.Log("SetWebClient: OverallCookie exists - copying!");
++                TLogging.LogAtLevel(1, "SetWebClient: OverallCookie exists - copying!");
 +                CookieCont = new CookieContainer();
 +                CookieCont.Add(new Cookie(OverallCookie.Name, OverallCookie.Value, OverallCookie.Path, OverallCookie.Domain));
-+                TLogging.Log("GetNewWebClient: copying cookie\r\n" +
++                TLogging.LogAtLevel(1, "GetNewWebClient: copying cookie\r\n" +
 +                    "Name: " + OverallCookie.Name + "\r\n" +
 +                    "Value: " + OverallCookie.Value + "\r\n" +
 +                    "Path: " + OverallCookie.Path + "\r\n" +
@@ -318,7 +318,7 @@
 -                    urlWithParameters += "&";
 +                    if (c.Name == "OpenPetraSessionID")
 +                    {
-+                        TLogging.Log("returned cookie\r\n" +
++                        TLogging.LogAtLevel(1, "returned cookie\r\n" +
 +                            "Name: " + c.Name + "\r\n" +
 +                            "Value: " + c.Value + "\r\n" +
 +                            "Path: " + c.Path + "\r\n" +
@@ -395,5 +395,6 @@
 +            return false;
          }
      }
- }
+-}
 \ No newline at end of file
++}

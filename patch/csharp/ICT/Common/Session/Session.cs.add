@@ -49,26 +49,36 @@ namespace Ict.Common.Session
         {
             if ((HttpContext.Current != null) && (HttpContext.Current.Request.Cookies["OpenPetraSessionID"] != null))
             {
+                TLogging.LogAtLevel(4, "using session id from HttpContext");
                 return HttpContext.Current.Request.Cookies["OpenPetraSessionID"].Value;
             }
 
-            //TLogging.Log("FindSessionID: Session ID not found in the http context, checking the thread");
+            // Session ID not found in the http context, checking the thread
             TLogging.LogAtLevel(4, "(HttpContext.Current != null) : " + (HttpContext.Current != null).ToString());
             if (HttpContext.Current != null)
             {
                 TLogging.LogAtLevel(4, "(HttpContext.Current.Request.Cookies[OpenPetraSessionID] != null) : " + (HttpContext.Current.Request.Cookies["OpenPetraSessionID"] != null).ToString());
             }
             
-            string sessionId = FSessionID;
-
-            if ((sessionId != null) && (sessionId.Length > 0))
+            // only look in thread if there is no HttpContext.Current; otherwise Threads are reused.
+            if (HttpContext.Current == null)
             {
-                //TLogging.Log("FindSessionID: Session ID found in thread. SessionID = " + sessionId);
+                string sessionId = FSessionID;
+    
+                if ((sessionId != null) && (sessionId.Length > 0))
+                {
+                    TLogging.LogAtLevel(4, "FindSessionID: Session ID found in thread. SessionID = " + sessionId);
+                    
+                    return sessionId;
+                }
                 
-                return sessionId;
+                TLogging.LogAtLevel(1, "FindSessionID: Session ID not found in the thread!!! thread id: " + Thread.CurrentThread.ManagedThreadId.ToString());
+            }
+            else
+            {
+                TLogging.LogAtLevel(1, "FindSessionID: Session ID not found in the http context");
             }
 
-            TLogging.LogAtLevel(4, "FindSessionID: Session ID not found in the http context AND ALSO NOT in the thread!!! thread id: " + Thread.CurrentThread.ManagedThreadId.ToString());
             return string.Empty;
         }
 
@@ -78,8 +88,8 @@ namespace Ict.Common.Session
         /// <param name="ASessionID"></param>
         public static void InitThread(string ASessionID)
         {
-            TLogging.LogAtLevel(4, "Running InitThread for ASessionID = " + ASessionID);
-            TLogging.LogAtLevel(4, "thread id " + Thread.CurrentThread.ManagedThreadId.ToString());
+            TLogging.LogAtLevel(1, "Running InitThread for ASessionID = " + ASessionID);
+            TLogging.LogAtLevel(1, "thread id " + Thread.CurrentThread.ManagedThreadId.ToString());
                          
             FSessionID = ASessionID;
         }
@@ -93,7 +103,7 @@ namespace Ict.Common.Session
 
             if ((sessionID != string.Empty) && !FSessionObjects.ContainsKey(sessionID))
             {
-                TLogging.LogAtLevel(4, "GetSessionID: client is using a session ID that is not valid anymore! (sessionID = " + sessionID + ") => throwing away current session id!");
+                TLogging.LogAtLevel(1, "GetSessionID: client is using a session ID that is not valid anymore! (sessionID = " + sessionID + ") => throwing away current session id!");
                 
                 // the client is using a session ID that is not valid anymore
                 // throw away current session id
@@ -109,9 +119,9 @@ namespace Ict.Common.Session
 
             if (sessionID == string.Empty)
             {
-                TLogging.LogAtLevel(4, "GetSessionID: sessionID == string.Empty! --> creating new session");
-                TLogging.LogAtLevel(4, "FSessionObjects.count " + FSessionObjects.Count.ToString());
-                TLogging.LogAtLevel(4, "thread id " + Thread.CurrentThread.ManagedThreadId.ToString());
+                TLogging.LogAtLevel(1, "GetSessionID: sessionID == string.Empty! --> creating new session");
+                TLogging.LogAtLevel(1, "FSessionObjects.count " + FSessionObjects.Count.ToString());
+                TLogging.LogAtLevel(1, "thread id " + Thread.CurrentThread.ManagedThreadId.ToString());
                 sessionID = Guid.NewGuid().ToString();
 
                 if (HttpContext.Current != null)
@@ -122,13 +132,13 @@ namespace Ict.Common.Session
 
                 FSessionObjects.Add(sessionID, new SortedList <string, object>());
                 
-                TLogging.LogAtLevel(4, "GetSessionID: new sessionID = " + sessionID);
+                TLogging.LogAtLevel(1, "GetSessionID: new sessionID = " + sessionID);
                 
                 InitThread(sessionID);
             }
             else
             {
-                // TLogging.Log("GetSessionID: sessionID = " + sessionID);
+                // TLogging.LogAtLevel(4, "GetSessionID: sessionID = " + sessionID);
             }
 
             return sessionID;
@@ -203,20 +213,22 @@ namespace Ict.Common.Session
         {
             // HttpContext.Current.Session.Clear();
             
-            TLogging.LogAtLevel(4, "TSession.Clear got called");
+            TLogging.LogAtLevel(1, "TSession.Clear got called");
             
             string sessionId = GetSessionID();
 
-            TLogging.LogAtLevel(4, "TSession.Clear: sessionID = " + sessionId);
+            TLogging.LogAtLevel(1, "TSession.Clear: sessionID = " + sessionId);
                 
             if (sessionId.Length > 0)
             {
                 FSessionObjects.Remove(sessionId);
                 HttpContext.Current.Request.Cookies.Remove("OpenPetraSessionID");
                 HttpContext.Current.Response.Cookies.Remove("OpenPetraSessionID");
-                
-                TLogging.LogAtLevel(4, "TSession.Clear: cleared session with sessionID = " + sessionId);
+                // thread might be reused???
+                FSessionID = null;
+                TLogging.LogAtLevel(1, "TSession.Clear: cleared session with sessionID = " + sessionId);
             }
         }
     }
 }
+
