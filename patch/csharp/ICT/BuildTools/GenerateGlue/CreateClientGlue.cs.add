@@ -4,7 +4,7 @@
 // @Authors:
 //       timop
 //
-// Copyright 2004-2013 by OM International
+// Copyright 2004-2014 by OM International
 //
 // This file is part of OpenPetra.org.
 //
@@ -57,9 +57,19 @@ public class GenerateClientGlue
         {
             returntype = returntype == "string" || returntype == "String" ? "System.String" : returntype;
             returntype = returntype == "bool" || returntype == "Boolean" ? "System.Boolean" : returntype;
-            returntype = returntype.Contains("Int32") || returntype == "int" ? "System.Int32" : returntype;
-            returntype = returntype.Contains("Int16") || returntype == "short" ? "System.Int16" : returntype;
-            returntype = returntype.Contains("Int64") || returntype == "long" ? "System.Int64" : returntype;
+            if (returntype.Contains("UINT") || returntype.Contains("unsigned"))
+            {
+                returntype = returntype.Contains("UInt32") || returntype == "unsigned int" ? "System.UInt32" : returntype;
+                returntype = returntype.Contains("UInt16") || returntype == "unsigned short" ? "System.UInt16" : returntype;
+                returntype = returntype.Contains("UInt64") || returntype == "unsigned long" ? "System.UInt64" : returntype;
+            }
+            else
+            {
+                returntype = returntype.Contains("Int32") || returntype == "int" ? "System.Int32" : returntype;
+                returntype = returntype.Contains("Int16") || returntype == "short" ? "System.Int16" : returntype;
+                returntype = returntype.Contains("Int64") || returntype == "long" ? "System.Int64" : returntype;
+            }
+            returntype = returntype.Contains("Decimal") || returntype == "decimal" ? "System.Decimal" : returntype;
         }
 
         if (ResultCounter > 0)
@@ -67,6 +77,8 @@ public class GenerateClientGlue
             expectedreturntype = "list";
         }
         else if ((returntype == "System.Int64") || (returntype == "System.Int32") || (returntype == "System.Int16")
+                 || (returntype == "System.UInt64") || (returntype == "System.UInt32") || (returntype == "System.UInt16")
+                 || (returntype == "System.Decimal")
                  || (returntype == "System.String") || (returntype == "System.Boolean") || (returntype == "void"))
         {
             expectedreturntype = returntype;
@@ -118,9 +130,19 @@ public class GenerateClientGlue
         {
             returntype = returntype == "string" || returntype == "String" ? "System.String" : returntype;
             returntype = returntype == "bool" || returntype == "Boolean" ? "System.Boolean" : returntype;
-            returntype = returntype.Contains("Int32") || returntype == "int" ? "System.Int32" : returntype;
-            returntype = returntype.Contains("Int16") || returntype == "short" ? "System.Int16" : returntype;
-            returntype = returntype.Contains("Int64") || returntype == "long" ? "System.Int64" : returntype;
+            if (returntype.Contains("UINT") || returntype.Contains("unsigned"))
+            {
+                returntype = returntype.Contains("UInt32") || returntype == "unsigned int" ? "System.UInt32" : returntype;
+                returntype = returntype.Contains("UInt16") || returntype == "unsigned short" ? "System.UInt16" : returntype;
+                returntype = returntype.Contains("UInt64") || returntype == "unsigned long" ? "System.UInt64" : returntype;
+            }
+            else
+            {
+                returntype = returntype.Contains("Int32") || returntype == "int" ? "System.Int32" : returntype;
+                returntype = returntype.Contains("Int16") || returntype == "short" ? "System.Int16" : returntype;
+                returntype = returntype.Contains("Int64") || returntype == "long" ? "System.Int64" : returntype;
+            }
+            returntype = returntype.Contains("Decimal") || returntype == "decimal" ? "System.Decimal" : returntype;
         }
 
         snippet.SetCodelet("RETURN", returntype != "void" ? "return " : string.Empty);

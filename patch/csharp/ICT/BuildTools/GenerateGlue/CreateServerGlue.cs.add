@@ -175,9 +175,19 @@ public class GenerateServerGlue
 
                 parametertype = parametertype == "string" || parametertype == "String" ? "System.String" : parametertype;
                 parametertype = parametertype == "bool" || parametertype == "Boolean" ? "System.Boolean" : parametertype;
-                parametertype = parametertype.Contains("Int32") || parametertype == "int" ? "System.Int32" : parametertype;
-                parametertype = parametertype.Contains("Int16") || parametertype == "short" ? "System.Int16" : parametertype;
-                parametertype = parametertype.Contains("Int64") || parametertype == "long" ? "System.Int64" : parametertype;
+                if (parametertype.Contains("UINT") || parametertype.Contains("unsigned"))
+                {
+                    parametertype = parametertype.Contains("UInt32") || parametertype == "unsigned int" ? "System.UInt32" : parametertype;
+                    parametertype = parametertype.Contains("UInt16") || parametertype == "unsigned short" ? "System.UInt16" : parametertype;
+                    parametertype = parametertype.Contains("UInt64") || parametertype == "unsigned long" ? "System.UInt64" : parametertype;
+                }
+                else
+                {
+                    parametertype = parametertype.Contains("Int32") || parametertype == "int" ? "System.Int32" : parametertype;
+                    parametertype = parametertype.Contains("Int16") || parametertype == "short" ? "System.Int16" : parametertype;
+                    parametertype = parametertype.Contains("Int64") || parametertype == "long" ? "System.Int64" : parametertype;
+                }
+                parametertype = parametertype.Contains("Decimal") || parametertype == "decimal" ? "System.Decimal" : parametertype;
 
                 if (ArrayParameter
                     && !(parametertype.EndsWith("[]")))
@@ -278,9 +288,19 @@ public class GenerateServerGlue
             {
                 returntype = returntype == "string" || returntype == "String" ? "System.String" : returntype;
                 returntype = returntype == "bool" || returntype == "Boolean" ? "System.Boolean" : returntype;
-                returntype = returntype.Contains("Int32") || returntype == "int" ? "System.Int32" : returntype;
-                returntype = returntype.Contains("Int16") || returntype == "short" ? "System.Int16" : returntype;
-                returntype = returntype.Contains("Int64") || returntype == "long" ? "System.Int64" : returntype;
+                if (returntype.Contains("UINT") || returntype.Contains("unsigned"))
+                {
+                    returntype = returntype.Contains("UInt32") || returntype == "unsigned int" ? "System.UInt32" : returntype;
+                    returntype = returntype.Contains("UInt16") || returntype == "unsigned short" ? "System.UInt16" : returntype;
+                    returntype = returntype.Contains("UInt64") || returntype == "unsigned long" ? "System.UInt64" : returntype;
+                }
+                else
+                {
+                    returntype = returntype.Contains("Int32") || returntype == "int" ? "System.Int32" : returntype;
+                    returntype = returntype.Contains("Int16") || returntype == "short" ? "System.Int16" : returntype;
+                    returntype = returntype.Contains("Int64") || returntype == "long" ? "System.Int64" : returntype;
+                }
+                returntype = returntype.Contains("Decimal") || returntype == "decimal" ? "System.Decimal" : returntype;
             }
 
             if (returnCode.Length > 0)
@@ -293,6 +313,8 @@ public class GenerateServerGlue
                 returntype = "string";
             }
             else if (!((returntype == "System.Int64") || (returntype == "System.Int32") || (returntype == "System.Int16")
+                       || (returntype == "System.UInt64") || (returntype == "System.UInt32") || (returntype == "System.UInt16")
+                       || (returntype == "System.Decimal")
                        || (returntype == "System.String") || (returntype == "System.Boolean")) && (returntype != "void"))
             {
                 returntype = "string";
@@ -456,9 +478,19 @@ public class GenerateServerGlue
             {
                 propertytype = propertytype == "string" || propertytype == "String" ? "System.String" : propertytype;
                 propertytype = propertytype == "bool" || propertytype == "Boolean" ? "System.Boolean" : propertytype;
-                propertytype = propertytype.Contains("Int32") || propertytype == "int" ? "System.Int32" : propertytype;
-                propertytype = propertytype.Contains("Int16") || propertytype == "short" ? "System.Int16" : propertytype;
-                propertytype = propertytype.Contains("Int64") || propertytype == "long" ? "System.Int64" : propertytype;
+                if (propertytype.Contains("UINT") || propertytype.Contains("unsigned"))
+                {
+                    propertytype = propertytype.Contains("UInt32") || propertytype == "unsigned int" ? "System.UInt32" : propertytype;
+                    propertytype = propertytype.Contains("UInt16") || propertytype == "unsigned short" ? "System.UInt16" : propertytype;
+                    propertytype = propertytype.Contains("UInt64") || propertytype == "unsigned long" ? "System.UInt64" : propertytype;
+                }
+                else
+                {
+                    propertytype = propertytype.Contains("Int32") || propertytype == "int" ? "System.Int32" : propertytype;
+                    propertytype = propertytype.Contains("Int16") || propertytype == "short" ? "System.Int16" : propertytype;
+                    propertytype = propertytype.Contains("Int64") || propertytype == "long" ? "System.Int64" : propertytype;
+                }
+                propertytype = propertytype.Contains("Decimal") || propertytype == "decimal" ? "System.Decimal" : propertytype;
             }
 
             bool BinaryReturn = !((propertytype == "System.Int64") || (propertytype == "System.Int32") || (propertytype == "System.Int16")

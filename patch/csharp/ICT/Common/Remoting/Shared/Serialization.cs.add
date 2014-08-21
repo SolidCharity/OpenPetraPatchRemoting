@@ -106,6 +106,10 @@ namespace Ict.Common.Remoting.Shared
 //                       || o.GetType() == typeof(Int64[])
                        || o.GetType() == typeof(bool)
 //                       || o.GetType() == typeof(bool[])
+                       ||o.GetType() == typeof(UInt16)
+                       ||o.GetType() == typeof(UInt32)
+                       ||o.GetType() == typeof(UInt64)
+                       ||o.GetType() == typeof(Decimal)
                        );
         }
 
@@ -170,9 +174,25 @@ namespace Ict.Common.Remoting.Shared
             {
                 return Convert.ToInt16(s);
             }
+            else if (type == "System.UInt64")
+            {
+                return Convert.ToUInt64(s);
+            }
+            else if (type == "System.UInt32")
+            {
+                return Convert.ToUInt32(s);
+            }
+            else if (type == "System.UInt16")
+            {
+                return Convert.ToUInt16(s);
+            }
             else if (type == "System.Boolean")
             {
                 return Convert.ToBoolean(s);
+            }
+            else if (type == "System.Decimal")
+            {
+                return Convert.ToDecimal(s);
             }
             else if (type == "System.String")
             {
