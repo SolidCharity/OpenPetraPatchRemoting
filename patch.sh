@@ -10,7 +10,7 @@ then
 fi
 
 cd $curDir/$TrunkRepo
-for f in `find $curDir/$PatchRepo/patch -name *.patch`
+for f in `find $curDir/$PatchRepo/patch -name *.patch | sort -V`
 do 
   patch -p1 < $f || exit -1
 done
