@@ -5,6 +5,7 @@
 //       timop
 //
 // Copyright 2004-2014 by OM International
+// Copyright 2013-2014 by SolidCharity
 //
 // This file is part of OpenPetra.org.
 //
@@ -32,18 +33,89 @@ using System.Collections.Specialized;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Reflection;
+using System.Web;
+using System.Web.Script.Serialization;
 using Ict.Common;
 using Ict.Common.IO;
 
 namespace Ict.Common.Remoting.Shared
 {
-    /// serialize and deserialize complex types in binary
+    /// serialize and deserialize complex types using JSON
+    /// TODO: rename the class
     public class THttpBinarySerializer
     {
+        static private bool isJSClient()
+        {
+            return HttpContext.Current!=null && !HttpContext.Current.Request.UserAgent.Contains("OpenPetra");
+        }
+
+        static private string DataSetToJson(DataSet ADataset)
+        {
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+
+            Dictionary <string, List <Dictionary <string, object>>>dataset =
+                new Dictionary <string, List <Dictionary <string, object>>>();
+            List <Dictionary <string, object>>table = null;
+            Dictionary <string, object>row = null;
+
+            foreach (DataTable dt in ADataset.Tables)
+            {
+                table = new List <Dictionary <string, object>>();
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    row = new Dictionary <string, object>();
+
+                    foreach (DataColumn col in dt.Columns)
+                    {
+                        row.Add(col.ColumnName.Trim(), dr[col]);
+                    }
+
+                    table.Add(row);
+                }
+
+                dataset.Add(dt.TableName, table);
+            }
+
+            return serializer.Serialize(dataset);
+        }
+
+        static private string DataTableToJson(DataTable ATable)
+        {
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+
+            List <Dictionary <string, object>>table = null;
+            Dictionary <string, object>row = null;
+
+            table = new List <Dictionary <string, object>>();
+
+            foreach (DataRow dr in ATable.Rows)
+            {
+                row = new Dictionary <string, object>();
+
+                foreach (DataColumn col in ATable.Columns)
+                {
+                    row.Add(col.ColumnName.Trim(), dr[col]);
+                }
+
+                table.Add(row);
+            }
+
+            return serializer.Serialize(table);
+        }
+
+        /// <summary>
+        /// serialize any object. if it is a complex type, use JSON or Base64 (fat client)
+        /// </summary>
+        static public string SerializeObject(object o, bool binary)
+        {
+            return THttpBinarySerializer.isJSClient()? SerializeObjectJSON(o, binary): SerializeObjectBase64(o, binary);
+        }
+
         /// <summary>
         /// serialize any object. if it is a complex type, use Base64
         /// </summary>
-        static public string SerializeObject(object o, bool binary)
+        static public string SerializeObjectBase64(object o, bool binary)
         {
             if (!binary)
             {
@@ -58,6 +130,63 @@ namespace Ict.Common.Remoting.Shared
             if (o == null)
             {
                 return "null";
+            }
+
+            MemoryStream memoryStream = new MemoryStream();
+            BinaryFormatter binaryFormatter = new BinaryFormatter();
+            try
+            {
+                binaryFormatter.Serialize(memoryStream, o);
+            }
+            catch (Exception e)
+            {
+                TLogging.Log("cannot serialize object of type " + o.GetType().ToString());
+
+                TLogging.Log(e.ToString());
+            }
+            string encoded = Convert.ToBase64String(memoryStream.ToArray()) + ":binary";
+
+            if (encoded.Length > 1024 * 1024 * 4)
+            {
+                TLogging.Log("Warning: THttpBinarySerializer.SerializeObject: Binary parameter is too long: " + encoded.Length.ToString());
+            }
+
+            return encoded;
+        }
+
+        /// <summary>
+        /// serialize any object. if it is a complex type, use JSON
+        /// </summary>
+        static public string SerializeObjectJSON(object o, bool binary)
+        {
+            if (!binary)
+            {
+                if (o.GetType() == typeof(bool))
+                {
+                    return o.ToString().ToLower();
+                }
+
+                return o.ToString();
+            }
+
+            if (o == null)
+            {
+                return "null";
+            }
+
+            if (o is Type)
+            {
+                return o.ToString();
+            }
+
+            if (o is DataSet)
+            {
+                return DataSetToJson((DataSet)o);
+            }
+
+            if (o is DataTable)
+            {
+                return DataTableToJson((DataTable)o);
             }
 
             MemoryStream memoryStream = new MemoryStream();
@@ -136,6 +265,17 @@ namespace Ict.Common.Remoting.Shared
 
             string result = SerializeObject(o, binary);
 
+            if (THttpBinarySerializer.isJSClient())
+            {
+                if ((result.Length > 0) && (result[0] != '{') && (result[0] != '['))
+                {
+                    result = "\"" + result + "\"";
+                }
+
+                return result;
+            }
+            
+            // fat client
             if (result.EndsWith(":binary"))
             {
                 return result;
@@ -154,6 +294,16 @@ namespace Ict.Common.Remoting.Shared
             if (s == "null")
             {
                 return null;
+            }
+
+            if (s == null)
+            {
+                return null;
+            }
+
+            if ((type == "System.String") && s.EndsWith(":base64"))
+            {
+                return System.Text.UTF8Encoding.ASCII.GetString(Convert.FromBase64String(s.Substring(0, s.Length - ":base65".Length)));
             }
 
             if (s.EndsWith(":binary"))
@@ -222,12 +372,16 @@ namespace Ict.Common.Remoting.Shared
 
                 throw new Exception("THttpBinarySerializer.DeserializeObject: unknown enum " + type);
             }
-            else // if (type == "binary" || true)
+            else if ((s != null) && (s.Length > 9)) // if (type == "binary" || true)
             {
                 MemoryStream memoryStream = new MemoryStream(Convert.FromBase64String(s));
                 memoryStream.Seek(0, SeekOrigin.Begin);
                 BinaryFormatter binaryFormatter = new BinaryFormatter();
                 return binaryFormatter.Deserialize(memoryStream);
+            }
+            else
+            {
+                return null;
             }
         }
     }
