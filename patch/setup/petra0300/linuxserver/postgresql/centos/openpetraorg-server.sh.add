@@ -8,8 +8,10 @@
 NAME=`basename $0`
 if [ ${NAME:0:1} = "S" -o ${NAME:0:1} = "K" ]
 then
-        NAME=${NAME:3}
+    NAME=${NAME:3}
 fi
+
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PATH
 
 if [ -z "$OpenPetraOrgPath" ]
 then
@@ -141,13 +143,21 @@ init() {
     echo "creating database..."
     service postgresql-$POSTGRESQLVERSION initdb
     service postgresql-$POSTGRESQLVERSION start
+    chkconfig postgresql-$POSTGRESQLVERSION on
 
-    echo "local  $OPENPETRA_DBNAME $OPENPETRA_DBUSER   md5" > /var/lib/pgsql/$POSTGRESQLVERSION/data/pg_hba.conf.new
-    echo "host  $OPENPETRA_DBNAME $OPENPETRA_DBUSER  ::1/128   md5" >> /var/lib/pgsql/$POSTGRESQLVERSION/data/pg_hba.conf.new
-    echo "host  $OPENPETRA_DBNAME $OPENPETRA_DBUSER  127.0.0.1/32   md5" >> /var/lib/pgsql/$POSTGRESQLVERSION/data/pg_hba.conf.new
-    cat /var/lib/pgsql/$POSTGRESQLVERSION/data/pg_hba.conf >> /var/lib/pgsql/$POSTGRESQLVERSION/data/pg_hba.conf.new
-    mv -f /var/lib/pgsql/$POSTGRESQLVERSION/data/pg_hba.conf.new /var/lib/pgsql/$POSTGRESQLVERSION/data/pg_hba.conf
-    /etc/init.d/postgresql-$POSTGRESQLVERSION restart
+    if [ ! "`cat /var/lib/pgsql/$POSTGRESQLVERSION/data/pg_hba.conf | grep '^host  '$OPENPETRA_DBNAME' '$OPENPETRA_DBUSER'  ::1/128   md5'`" ]; then 
+       echo "local  $OPENPETRA_DBNAME $OPENPETRA_DBUSER   md5" > /var/lib/pgsql/$POSTGRESQLVERSION/data/pg_hba.conf.new 
+       echo "host  $OPENPETRA_DBNAME $OPENPETRA_DBUSER  ::1/128   md5" >> /var/lib/pgsql/$POSTGRESQLVERSION/data/pg_hba.conf.new 
+       echo "host  $OPENPETRA_DBNAME $OPENPETRA_DBUSER  127.0.0.1/32   md5" >> /var/lib/pgsql/$POSTGRESQLVERSION/data/pg_hba.conf.new 
+       cat /var/lib/pgsql/$POSTGRESQLVERSION/data/pg_hba.conf >> /var/lib/pgsql/$POSTGRESQLVERSION/data/pg_hba.conf.new 
+       mv -f /var/lib/pgsql/$POSTGRESQLVERSION/data/pg_hba.conf.new /var/lib/pgsql/$POSTGRESQLVERSION/data/pg_hba.conf 
+       /etc/init.d/postgresql-$POSTGRESQLVERSION restart 
+       su postgres -c "psql -q -p $OPENPETRA_DBPORT -c \"CREATE USER \\\"$OPENPETRA_DBUSER\\\" PASSWORD '$OPENPETRA_DBPWD'\"" 
+       su postgres -c "createdb -p $OPENPETRA_DBPORT -T template0 -O $OPENPETRA_DBUSER $OPENPETRA_DBNAME" 
+    else 
+       # there has already been an installation. 
+       service ${NAME} stop 
+    fi 
 
     su postgres -c "psql -q -p $OPENPETRA_DBPORT -c \"CREATE USER \\\"$OPENPETRA_DBUSER\\\" PASSWORD '$OPENPETRA_DBPWD'\""
     su postgres -c "createdb -p $OPENPETRA_DBPORT -T template0 -O $OPENPETRA_DBUSER $OPENPETRA_DBNAME"
@@ -166,12 +176,13 @@ init() {
        | sed -e "s/USERNAME/$userName/" \
        > /home/$userName/etc/PetraServerConsole.config
     cat $OpenPetraOrgPath/etc30/PetraServerAdminConsole.config \
-       | sed -e "s/DOMAINNAME/`hostname`/" \
        | sed -e "s/USERNAME/$userName/" \
        | sed -e "s/OPENPETRA_PORT/$OPENPETRA_PORT/" \
        > /home/$userName/etc/PetraServerAdminConsole.config
 
-    echo "*:$OPENPETRA_DBPORT:$OPENPETRA_DBNAME:$OPENPETRA_DBUSER:$OPENPETRA_DBPWD" >> /home/$userName/.pgpass
+    if [ ! "`cat /home/$userName/.pgpass | grep '^*:'$OPENPETRA_DBPORT':'$OPENPETRA_DBNAME':'$OPENPETRA_DBUSER':'`" ]; then
+       echo "*:$OPENPETRA_DBPORT:$OPENPETRA_DBNAME:$OPENPETRA_DBUSER:$OPENPETRA_DBPWD" >> /home/$userName/.pgpass
+    fi
     chown -R $userName:$userName /home/$userName
     chmod 600 /home/$userName/.pgpass
     chown $userName /home/$userName/.pgpass
@@ -186,7 +197,7 @@ init() {
 \$HTTP["url"] =~ "^/openpetra$OPENPETRA_PORT" {
   var.server_name = "openpetra$OPENPETRA_PORT"
 
-  server.name = "$hostname/openpetra$OPENPETRA_PORT"
+  server.name = "localhost/openpetra$OPENPETRA_PORT"
 
   server.document-root = "$documentroot"
 
@@ -199,16 +210,21 @@ init() {
   )
 }
 FINISH
+    sed -i 's~"mod_fastcgi",~#"mod_fastcgi",~g' /etc/lighttpd/modules.conf
     sed -i 's~server.modules = (~server.modules = (\n  "mod_fastcgi",~g' /etc/lighttpd/modules.conf
     sed -i 's/server.use-ipv6 = "enable"/server.use-ipv6 = "disable"/g' /etc/lighttpd/lighttpd.conf
     sed -i 's/server.max-connections = 1024/server.max-connections = 512/g' /etc/lighttpd/lighttpd.conf
-    echo 'include_shell "cat /etc/lighttpd/vhosts.d/*.conf"' >> /etc/lighttpd/lighttpd.conf
+    sed -i 's~#include_shell "cat /etc/lighttpd/vhosts\.d/\*\.conf"~include_shell "cat /etc/lighttpd/vhosts.d/*.conf"~g' /etc/lighttpd/lighttpd.conf
     service lighttpd restart
     chkconfig lighttpd on
-    chkconfig openpetra-server on
+    chkconfig ${NAME} on
     chkconfig postgresql-$POSTGRESQLVERSION on
-    service openpetra-server start
-    ymlgzfile=$OpenPetraOrgPath/db30/base.yml.gz
+    service ${NAME} start
+    ymlgzfile=$OpenPetraOrgPath/db30/demo.yml.gz
+    if [ ! -f $ymlgzfile ]
+    then
+      ymlgzfile=$OpenPetraOrgPath/db30/base.yml.gz
+    fi
     loadYmlGz
 }
 
