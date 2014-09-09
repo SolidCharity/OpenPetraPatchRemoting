@@ -363,10 +363,15 @@ public class GenerateServerGlue
 
                 returntype = "string";
             }
+            else if (returntype == "System.String")
+            {
+                returntype = "string";
+                returnCode = "THttpBinarySerializer.SerializeObjectWithType(Result)";
+            }
             else if (!((returntype == "System.Int64") || (returntype == "System.Int32") || (returntype == "System.Int16")
                        || (returntype == "System.UInt64") || (returntype == "System.UInt32") || (returntype == "System.UInt16")
                        || (returntype == "System.Decimal")
-                       || (returntype == "System.String") || (returntype == "System.Boolean")) && (returntype != "void"))
+                       || (returntype == "System.Boolean")) && (returntype != "void"))
             {
                 returntype = "string";
                 returnCodeFatClient = returnCodeJSClient = "THttpBinarySerializer.SerializeObject(Result)";
