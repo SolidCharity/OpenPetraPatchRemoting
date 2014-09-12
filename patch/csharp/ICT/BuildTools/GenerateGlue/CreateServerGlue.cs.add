@@ -5,7 +5,6 @@
 //       timop
 //
 // Copyright 2004-2014 by OM International
-// Copyright 2013-2014 by SolidCharity
 //
 // This file is part of OpenPetra.org.
 //
@@ -367,6 +366,7 @@ public class GenerateServerGlue
             {
                 returntype = "string";
                 returnCodeFatClient = "THttpBinarySerializer.SerializeObjectWithType(Result)";
+                returnCodeJSClient = "Result";
             }
             else if (!((returntype == "System.Int64") || (returntype == "System.Int32") || (returntype == "System.Int16")
                        || (returntype == "System.UInt64") || (returntype == "System.UInt32") || (returntype == "System.UInt16")
