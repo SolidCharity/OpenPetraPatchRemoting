@@ -366,7 +366,7 @@ public class GenerateServerGlue
             else if (returntype == "System.String")
             {
                 returntype = "string";
-                returnCode = "THttpBinarySerializer.SerializeObjectWithType(Result)";
+                returnCodeFatClient = "THttpBinarySerializer.SerializeObjectWithType(Result)";
             }
             else if (!((returntype == "System.Int64") || (returntype == "System.Int32") || (returntype == "System.Int16")
                        || (returntype == "System.UInt64") || (returntype == "System.UInt32") || (returntype == "System.UInt16")
