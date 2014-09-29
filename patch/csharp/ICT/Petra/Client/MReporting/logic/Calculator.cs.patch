@@ -1,5 +1,5 @@
---- csharp/ICT/Petra/Client/MReporting/logic/Calculator.cs	2014-09-29 16:46:14.030349092 +0200
-+++ ../Calculator.cs	2014-09-29 16:47:03.578350067 +0200
+--- a/csharp/ICT/Petra/Client/MReporting/logic/Calculator.cs	2014-09-29 16:46:14.030349092 +0200
++++ b/csharp/ICT/Petra/Client/MReporting/logic/Calculator.cs	2014-09-29 16:47:03.578350067 +0200
 @@ -4,7 +4,7 @@
  // @Authors:
  //       timop
