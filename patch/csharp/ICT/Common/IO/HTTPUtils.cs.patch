@@ -183,7 +183,7 @@
              }
              catch (System.Net.WebException e)
              {
-@@ -75,37 +197,168 @@
+@@ -75,37 +197,169 @@
                          e.Message, TLoggingType.ToLogfile);
                  }
              }
@@ -228,7 +228,8 @@
              }
 -            return ReturnValue;
 +
-+            if ((OverallCookie == null) 
++            if ((OverallCookie == null)
++                && url.StartsWith("OpenPetra.HTTPServer")
 +                && !(url.Contains("Login")
 +                     || (url.Contains("serverMServerAdmin.asmx"))))
 +            {
