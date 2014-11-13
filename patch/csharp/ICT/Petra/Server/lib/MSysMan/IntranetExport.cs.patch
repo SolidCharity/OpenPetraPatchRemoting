@@ -1,11 +1,11 @@
---- openpetraNow.freeze2014_05/csharp/ICT/Petra/Server/lib/MCommon/IntranetExport.cs	2014-05-16 08:51:15.000000000 +0200
-+++ openpetraNow.PatchRemoting/csharp/ICT/Petra/Server/lib/MCommon/IntranetExport.cs	2014-05-15 22:04:07.000000000 +0200
+--- openpetraNow.freeze2014_05/csharp/ICT/Petra/Server/lib/MSysMan/IntranetExport.cs	2014-05-16 08:51:15.000000000 +0200
++++ openpetraNow.PatchRemoting/csharp/ICT/Petra/Server/lib/MSysMan/IntranetExport.cs	2014-05-15 22:04:07.000000000 +0200
 @@ -4,7 +4,7 @@
  // @Authors:
  //       Tim Ingham
  //
 -// Copyright 2012 by OM International
-+// Copyright 2013 by OM International
++// Copyright 2014 by OM International
  //
  // This file is part of OpenPetra.org.
  //

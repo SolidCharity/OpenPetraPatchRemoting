@@ -1,15 +1,6 @@
---- openpetra.freeze/csharp/ICT/Common/DB/Access.cs	2014-07-24 14:18:45.000000000 +0200
-+++ openpetra.patched/csharp/ICT/Common/DB/Access.cs	2014-07-24 14:19:19.000000000 +0200
-@@ -4,7 +4,7 @@
- // @Authors:
- //       christiank, timop
- //
--// Copyright 2004-2013 by OM International
-+// Copyright 2004-2014 by OM International
- //
- // This file is part of OpenPetra.org.
- //
-@@ -40,6 +40,7 @@
+--- a/csharp/ICT/Common/DB/Access.cs
++++ b/csharp/ICT/Common/DB/Access.cs
+@@ -40,6 +40,7 @@ using Ict.Common.DB.DBCaching;
  using Ict.Common.DB.Exceptions;
  using Ict.Common.IO;
  using Npgsql;
@@ -17,7 +8,7 @@
  
  namespace Ict.Common.DB
  {
-@@ -81,58 +82,18 @@
+@@ -81,58 +82,17 @@ namespace Ict.Common.DB
          /// <summary>DebugLevel for tracing (most verbose log output): is 10 (was 4 before)</summary>
          public const Int32 DB_DEBUGLEVEL_TRACE = 10;
  
@@ -64,7 +55,6 @@
 -                }
 +                TSession.SetVariable("DBAccessObj", value);
              }
-+
              get
              {
 -                if (MGDBAccessObjDelegateGet == null)
@@ -79,7 +69,7 @@
              }
          }
      }
-@@ -455,7 +416,7 @@
+@@ -455,7 +415,7 @@ namespace Ict.Common.DB
          /// <param name="APassword">Password of the User which should be used for connecting to the DB server</param>
          /// <param name="AConnectionString">If this is not empty, it is prefered over the Dsn and Username and Password</param>
          /// <returns>void</returns>
@@ -88,7 +78,7 @@
          public void EstablishDBConnection(TDBType ADataBaseType,
              String ADsnOrServer,
              String ADBPort,
-@@ -505,17 +466,17 @@
+@@ -505,17 +465,17 @@ namespace Ict.Common.DB
  
                  FSqlConnection = CurrentConnectionInstance.GetConnection(
                      FDataBaseRDBMS,
@@ -113,7 +103,7 @@
                  }
              }
              else
-@@ -527,7 +488,7 @@
+@@ -527,7 +487,7 @@ namespace Ict.Common.DB
              {
                  // always log to console and log file, which database we are connecting to.
                  // see https://sourceforge.net/apps/mantisbt/openpetraorg/view.php?id=156
@@ -122,7 +112,7 @@
  
                  FSqlConnection.Open();
                  FDataBaseRDBMS.InitConnection(FSqlConnection);
-@@ -546,7 +507,7 @@
+@@ -546,7 +506,7 @@ namespace Ict.Common.DB
                  LogException(exp,
                      String.Format("Exception occured while establishing a connection to Database Server. DB Type: {0}", FDbType));
  
@@ -131,7 +121,7 @@
              }
  
              // only check database version once when working with multiple connections
-@@ -600,7 +561,7 @@
+@@ -600,7 +560,7 @@ namespace Ict.Common.DB
          /// Closes the DB connection.
          /// </summary>
          /// <returns>void</returns>
@@ -140,7 +130,7 @@
          /// already/still closed connection.</exception>
          public void CloseDBConnection()
          {
-@@ -614,7 +575,7 @@
+@@ -614,7 +574,7 @@ namespace Ict.Common.DB
          /// Closes the DB connection.
          /// </summary>
          /// <returns>void</returns>
@@ -149,7 +139,7 @@
          /// already/still closed connection.</exception>
          private void CloseDBConnectionInternal()
          {
-@@ -1447,7 +1408,7 @@
+@@ -1325,7 +1285,7 @@ namespace Ict.Common.DB
                      //
                      // Reconnect to the database
                      //
@@ -158,3 +148,10 @@
  
                      if (FSqlConnection == null)
                      {
+@@ -3809,4 +3769,4 @@ namespace Ict.Common.DB
+             };
+         }
+     }
+-}
+\ No newline at end of file
++}

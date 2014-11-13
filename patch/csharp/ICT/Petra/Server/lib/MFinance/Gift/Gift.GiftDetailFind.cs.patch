@@ -1,5 +1,5 @@
---- openpetra.freeze/csharp/ICT/Petra/Server/lib/MFinance/Gift/Gift.GiftDetailFind.cs	2014-07-24 14:18:45.000000000 +0200
-+++ openpetra.patched/csharp/ICT/Petra/Server/lib/MFinance/Gift/Gift.GiftDetailFind.cs	2014-07-30 20:20:01.000000000 +0200
+--- a/csharp/ICT/Petra/Server/lib/MFinance/Gift/Gift.GiftDetailFind.cs
++++ b/csharp/ICT/Petra/Server/lib/MFinance/Gift/Gift.GiftDetailFind.cs
 @@ -4,7 +4,7 @@
  // @Authors:
  //       peters
@@ -9,15 +9,15 @@
  //
  // This file is part of OpenPetra.org.
  //
-@@ -29,6 +29,7 @@
+@@ -29,6 +29,7 @@ using System.Threading;
  
  using Ict.Common;
  using Ict.Common.Data;
 +using Ict.Common.Session;
+ using Ict.Petra.Shared.MFinance;
  using Ict.Petra.Shared.MFinance.Gift.Data;
  using Ict.Petra.Server.MCommon;
- using Ict.Petra.Server.MPartner.DataAggregates;
-@@ -44,18 +45,15 @@
+@@ -45,18 +46,15 @@ namespace Ict.Petra.Server.MFinance.Gift
          /// <summary>Paged query object</summary>
          TPagedDataSet FPagedDataSetObject;
  
@@ -39,7 +39,7 @@
              }
          }
  
-@@ -80,16 +78,8 @@
+@@ -81,16 +79,8 @@ namespace Ict.Petra.Server.MFinance.Gift
              System.Text.StringBuilder sb;
              TLogging.LogAtLevel(7, "TGiftDetailFind.PerformSearch called.");
  
@@ -56,7 +56,7 @@
              // Build WHERE criteria string based on AFindCriteria
              CustomWhereCriteria = BuildCustomWhereCriteria(ACriteriaData, out ParametersArray);
  
-@@ -154,12 +144,18 @@
+@@ -159,12 +149,18 @@ namespace Ict.Petra.Server.MFinance.Gift
                  ColumnNameMapping,
                  ParametersArray);
  
@@ -76,7 +76,7 @@
                  FFindThread.Start();
              }
              catch (Exception)
-@@ -380,8 +376,6 @@
+@@ -405,8 +401,6 @@ namespace Ict.Petra.Server.MFinance.Gift
          /// <summary>
          /// Stops the query execution.
          ///
@@ -85,7 +85,7 @@
          /// @comment It might take some time until the executing query is cancelled by
          /// the DB, but this procedure returns immediately. The reason for this is that
          /// we consider the query cancellation as done since the application can
-@@ -390,11 +384,7 @@
+@@ -415,11 +409,7 @@ namespace Ict.Petra.Server.MFinance.Gift
          /// errors that state that a ADO.NET command is still executing!).
          ///
          /// </summary>
@@ -98,7 +98,7 @@
          {
              Thread StopQueryThread;
  
-@@ -405,6 +395,7 @@
+@@ -430,6 +420,7 @@ namespace Ict.Petra.Server.MFinance.Gift
  
              ThreadStart ThreadStartDelegate = new ThreadStart(FPagedDataSetObject.StopQuery);
              StopQueryThread = new Thread(ThreadStartDelegate);
@@ -106,7 +106,7 @@
              StopQueryThread.Start();
  
              /* It might take some time until the executing query is cancelled by the DB,
-@@ -417,4 +408,4 @@
+@@ -442,4 +433,4 @@ namespace Ict.Petra.Server.MFinance.Gift
              TLogging.LogAtLevel(7, "TGiftDetailFindUIConnector.StopSearch: Query cancelled!");
          }
      }
