@@ -337,13 +337,21 @@
          }
  
          /// <summary>
-@@ -1333,7 +1376,7 @@ namespace Ict.Common.Verification
+@@ -1333,7 +1376,15 @@ namespace Ict.Common.Verification
          /// <param name="value">value to add</param>
          public void Insert(int index, IResultInterface value)
          {
 -            List.Insert(index, value);
 +            FList.Insert(index, value);
          }
++
++        /// <summary>
++        /// remove the value at the given position
++        /// </summary>
++        public void RemoveAt(int index)
++        {
++            FList.RemoveAt(index);
++        }
  
          /// <summary>
 @@ -1350,7 +1393,7 @@ namespace Ict.Common.Verification
