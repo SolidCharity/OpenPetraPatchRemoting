@@ -46,6 +46,7 @@ using Ict.Petra.Shared.Security;
 using Ict.Common.Verification;
 using Ict.Petra.Shared;
 using Ict.Petra.Server.App.Delegates;
+using Ict.Petra.Shared.Interfaces.MCommon;
 
 namespace Ict.Petra.Server.App.WebService
 {
