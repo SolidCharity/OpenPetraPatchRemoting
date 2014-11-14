@@ -47,6 +47,10 @@ do
   # remove .delete, 7 characters
   filename=${filename:0:${#filename}-7}
   echo "deleting file $filename"
+  if [ ! -f $filename ]
+  then
+    echo "  WARNING: $filename does not exist"
+  fi
   rm -f $filename
 done
 
