@@ -159,9 +159,6 @@ init() {
        service ${NAME} stop 
     fi 
 
-    su postgres -c "psql -q -p $OPENPETRA_DBPORT -c \"CREATE USER \\\"$OPENPETRA_DBUSER\\\" PASSWORD '$OPENPETRA_DBPWD'\""
-    su postgres -c "createdb -p $OPENPETRA_DBPORT -T template0 -O $OPENPETRA_DBUSER $OPENPETRA_DBNAME"
-
     useradd --home /home/$userName $userName
     mkdir -p /home/$userName/log
     mkdir -p /home/$userName/tmp
@@ -180,8 +177,16 @@ init() {
        | sed -e "s/OPENPETRA_PORT/$OPENPETRA_PORT/" \
        > /home/$userName/etc/PetraServerAdminConsole.config
 
-    if [ ! "`cat /home/$userName/.pgpass | grep '^*:'$OPENPETRA_DBPORT':'$OPENPETRA_DBNAME':'$OPENPETRA_DBUSER':'`" ]; then
-       echo "*:$OPENPETRA_DBPORT:$OPENPETRA_DBNAME:$OPENPETRA_DBUSER:$OPENPETRA_DBPWD" >> /home/$userName/.pgpass
+    addPwd=1
+    if [ -f /home/$userName/.pgpass ]
+    then
+        if [ "`cat /home/$userName/.pgpass | grep '^*:'$OPENPETRA_DBPORT':'$OPENPETRA_DBNAME':'$OPENPETRA_DBUSER':'`" ]; then
+            addPwd=0
+        fi
+    fi
+    if [ $addPwd -eq 1 ]
+    then
+        echo "*:$OPENPETRA_DBPORT:$OPENPETRA_DBNAME:$OPENPETRA_DBUSER:$OPENPETRA_DBPWD" >> /home/$userName/.pgpass
     fi
     chown -R $userName:$userName /home/$userName
     chmod 600 /home/$userName/.pgpass
