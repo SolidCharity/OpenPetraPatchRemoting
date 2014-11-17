@@ -1,5 +1,5 @@
---- openpetraNow.freeze2014_05/csharp/ICT/Petra/ServerAdmin/PetraServerAdminConsole/Main.cs	2014-05-16 08:51:15.000000000 +0200
-+++ openpetraNow.PatchRemoting/csharp/ICT/Petra/ServerAdmin/PetraServerAdminConsole/Main.cs	2014-05-15 22:04:07.000000000 +0200
+--- a/csharp/ICT/Petra/ServerAdmin/PetraServerAdminConsole/Main.cs
++++ b/csharp/ICT/Petra/ServerAdmin/PetraServerAdminConsole/Main.cs
 @@ -22,15 +22,13 @@
  // along with OpenPetra.org.  If not, see <http://www.gnu.org/licenses/>.
  //
@@ -18,7 +18,7 @@
  
  namespace PetraServerAdminConsole
  {
-@@ -44,6 +42,8 @@
+@@ -44,6 +42,8 @@ public class TAdminConsole
      /// </summary>
      public const String ServerAdminPrompt = "SERVERADMIN> ";
  
@@ -27,7 +27,7 @@
      /// <summary>
      /// todoComment
      /// </summary>
-@@ -67,15 +67,11 @@
+@@ -67,15 +67,11 @@ public class TAdminConsole
      /// <summary>
      /// shut down the server (gets all connected clients to disconnect)
      /// </summary>
@@ -45,7 +45,7 @@
  
          if (AWithUserInteraction == true)
          {
-@@ -96,45 +92,39 @@
+@@ -96,45 +92,39 @@ public class TAdminConsole
          if (ack == true)
          {
              TLogging.Log("CONTROLLED SHUTDOWN PROCEDURE INITIATED...");
@@ -106,7 +106,7 @@
      {
          bool ReturnValue;
          bool ack;
-@@ -160,21 +150,17 @@
+@@ -160,21 +150,17 @@ public class TAdminConsole
          if (ack == true)
          {
              TLogging.Log("SHUTDOWN PROCEDURE INITIATED...");
@@ -137,7 +137,7 @@
              ReturnValue = true;
          }
          else
-@@ -190,9 +176,8 @@
+@@ -190,9 +176,8 @@ public class TAdminConsole
      /// <summary>
      /// disconnect a client
      /// </summary>
@@ -148,7 +148,7 @@
      {
          Int16 ClientID;
          String CantDisconnectReason;
-@@ -221,7 +206,7 @@
+@@ -221,7 +206,7 @@ public class TAdminConsole
          }
      }
  
@@ -157,7 +157,7 @@
      {
          Console.Write("     Please enter filename of yml.gz file: ");
          string backupFile = Path.GetFullPath(Console.ReadLine());
-@@ -241,7 +226,7 @@
+@@ -241,7 +226,7 @@ public class TAdminConsole
          TLogging.Log("backup has been written to " + backupFile);
      }
  
@@ -166,7 +166,7 @@
      {
          string restoreFile = Path.GetFullPath(ARestoreFile);
  
-@@ -280,7 +265,7 @@
+@@ -280,7 +265,7 @@ public class TAdminConsole
          }
      }
  
@@ -175,7 +175,7 @@
      {
          Console.WriteLine(Environment.NewLine + "-> DELETING YOUR DATABASE <-");
          Console.Write("     Enter YES to import the new database (anything else to leave command): ");
-@@ -290,7 +275,7 @@
+@@ -290,7 +275,7 @@ public class TAdminConsole
              Console.Write("     Please enter filename of yml.gz file: ");
              string restoreFile = Console.ReadLine();
  
@@ -184,7 +184,7 @@
          }
          else
          {
-@@ -298,12 +283,12 @@
+@@ -298,12 +283,12 @@ public class TAdminConsole
          }
      }
  
@@ -199,7 +199,7 @@
      {
          TRemote.AddUser(AUserId);
      }
-@@ -311,8 +296,7 @@
+@@ -311,8 +296,7 @@ public class TAdminConsole
      /// <summary>
      /// shows the menu and processes the selections of the administrator
      /// </summary>
@@ -209,7 +209,7 @@
      {
          bool ReadLineLoopEnd;
          bool EntryParsedOK;
-@@ -328,7 +312,7 @@
+@@ -328,7 +312,7 @@ public class TAdminConsole
          // ReadClientID,               used only for repeating invalid command line input
          // ReadClientTaskPriority;     used only for repeating invalid command line input
  
@@ -218,7 +218,7 @@
  
          //
          // Startup done.
-@@ -367,9 +351,12 @@
+@@ -367,9 +351,12 @@ public class TAdminConsole
  
                          Console.WriteLine("     e: export the database to yml.gz");
                          Console.WriteLine("     i: import a yml.gz, which will overwrite the database");
@@ -234,7 +234,7 @@
                          Console.WriteLine("     o: controlled Server shutdown (gets all connected clients to disconnect)");
                          Console.WriteLine("     u: unconditional Server shutdown (forces 'hard' disconnection of all Clients!)");
  
-@@ -393,12 +380,12 @@
+@@ -393,12 +380,12 @@ public class TAdminConsole
                      case 'D':
                          Console.WriteLine(Environment.NewLine + "-> Disconnect a certain Client <-");
  
@@ -249,7 +249,7 @@
                          }
                          else
                          {
-@@ -414,7 +401,7 @@
+@@ -414,7 +401,7 @@ public class TAdminConsole
                      case 'E':
                          Console.WriteLine(Environment.NewLine + "-> Export the database to yml.gz file <-");
  
@@ -258,7 +258,7 @@
  
                          Console.Write(ServerAdminPrompt);
  
-@@ -425,7 +412,7 @@
+@@ -425,7 +412,7 @@ public class TAdminConsole
                      case 'I':
                          Console.WriteLine(Environment.NewLine + "-> Restore the database from yml.gz file <-");
  
@@ -267,7 +267,7 @@
  
                          Console.Write(ServerAdminPrompt);
  
-@@ -436,7 +423,7 @@
+@@ -436,7 +423,7 @@ public class TAdminConsole
                      case 'R':
                          Console.WriteLine(Environment.NewLine + "-> Marking all Cached Tables for Refreshing... <-");
  
@@ -276,7 +276,7 @@
  
                          Console.Write(ServerAdminPrompt);
  
-@@ -444,10 +431,11 @@
+@@ -444,10 +431,11 @@ public class TAdminConsole
  
                      case 'p':
                      case 'P':
@@ -289,7 +289,7 @@
                          Console.WriteLine("    Partner Reminders: " + (TRemote.TimedProcessingJobEnabled("TProcessPartnerReminders") ? "On" : "Off"));
                          Console.WriteLine("    Automatic Intranet Export: " +
                          (TRemote.TimedProcessingJobEnabled("TProcessAutomatedIntranetExport") ? "On" : "Off"));
-@@ -493,8 +481,8 @@
+@@ -493,8 +481,8 @@ public class TAdminConsole
                                  TRemote.PerformTimedProcessingNow("TProcessDataChecks");
                              }
                          }
@@ -299,7 +299,7 @@
                          break;
  
                      case 's':
-@@ -502,7 +490,7 @@
+@@ -502,7 +490,7 @@ public class TAdminConsole
                          Console.WriteLine(Environment.NewLine + "-> Server Status <-");
                          Console.WriteLine();
  
@@ -308,7 +308,7 @@
  
                          Console.Write(ServerAdminPrompt);
  
-@@ -512,7 +500,7 @@
+@@ -512,7 +500,7 @@ public class TAdminConsole
                      case 'Q':
                          Console.WriteLine(Environment.NewLine + "-> Queue a Client Task for a certain Client <-");
  
@@ -317,7 +317,7 @@
                          {
                              Console.WriteLine(TRemote.FormatClientList(false));
  
-@@ -588,7 +576,7 @@
+@@ -588,7 +576,7 @@ public class TAdminConsole
  
                      case 'y':
                      case 'Y':
@@ -326,7 +326,7 @@
                          Console.Write(ServerAdminPrompt);
                          break;
  
-@@ -601,12 +589,12 @@
+@@ -601,12 +589,12 @@ public class TAdminConsole
  
                      case 'o':
                      case 'O':
@@ -341,7 +341,7 @@
                          break;
  
                      case 'x':
-@@ -636,59 +624,57 @@
+@@ -636,60 +624,56 @@ public class TAdminConsole
      /// Retrieve information about connected Clients of the Server we are
      /// connected to.
      /// </summary>
@@ -353,8 +353,11 @@
 -    static void RetrieveConnectedClients(IServerAdminInterface ARemote, out int ATotalConnectedClients, out int ACurrentlyConnectedClients)
 +    static void RetrieveConnectedClients(out int ATotalConnectedClients, out int ACurrentlyConnectedClients)
      {
-         ATotalConnectedClients = -1;
-         ACurrentlyConnectedClients = -1;
+-        ATotalConnectedClients = -1;
+-        ACurrentlyConnectedClients = -1;
++        ATotalConnectedClients = TRemote.GetClientsConnectedTotal();
++        ACurrentlyConnectedClients = TRemote.GetClientsConnected();
++    }
  
 -        try
 -        {
@@ -364,26 +367,16 @@
 -        catch (RemotingException remexp)
 -        {
 -            HandleConnectionError(remexp);
-+        ATotalConnectedClients = TRemote.GetClientsConnectedTotal();
-+        ACurrentlyConnectedClients = TRemote.GetClientsConnected();
-+    }
- 
--            Environment.Exit(0);
 +    private static string SecurityToken = string.Empty;
  
--            // PetraServerAdminConsole application stops here !!!
--        }
--        catch (System.Net.Sockets.SocketException remexp)
--        {
--            HandleConnectionError(remexp);
+-            Environment.Exit(0);
 +    /// we store a token on the file system, which is passed to the server as authorization token
 +    private static string NewSecurityToken()
 +    {
 +        SecurityToken = Guid.NewGuid().ToString();
 +        string TokenFilename = TAppSettingsManager.GetValue("Server.PathTemp") +
 +                               Path.DirectorySeparatorChar + "ServerAdminToken" + SecurityToken + ".txt";
- 
--            Environment.Exit(0);
++
 +        StreamWriter sw = new StreamWriter(TokenFilename);
 +        sw.WriteLine(SecurityToken);
 +        sw.Close();
@@ -392,17 +385,25 @@
  
 -            // PetraServerAdminConsole application stops here !!!
 -        }
--        catch (System.Exception)
+-        catch (System.Net.Sockets.SocketException remexp)
 -        {
--            throw;
--        }
+-            HandleConnectionError(remexp);
 +    private static void ClearSecurityToken()
 +    {
 +        string TokenFilename = TAppSettingsManager.GetValue("Server.PathTemp") +
 +                               Path.DirectorySeparatorChar + "ServerAdminToken" + SecurityToken + ".txt";
-+
+ 
+-            Environment.Exit(0);
 +        File.Delete(TokenFilename);
-     }
++     }
+ 
+-            // PetraServerAdminConsole application stops here !!!
+-        }
+-        catch (System.Exception)
+-        {
+-            throw;
+-        }
+-    }
  
      /// <summary>
      /// Displays information about the Server we are connected to.
@@ -419,6 +420,7 @@
  
 -        TLogging.Log(AServerManager.ServerInfoVersion);
 +        TLogging.Log(TRemote.GetServerInfoVersion());
+         TLogging.Log(Catalog.GetString("Configuration file: " + AServerManager.ConfigurationFileName));
          TLogging.Log("  Clients connections since Server start: " + TotalConnectedClients.ToString());
          TLogging.Log("  Clients currently connected: " + CurrentlyConnectedClients.ToString());
  
@@ -427,7 +429,7 @@
      }
  
      /// <summary>
-@@ -698,10 +684,9 @@
+@@ -699,10 +683,9 @@ public class TAdminConsole
      /// <returns>void</returns>
      public static void Start()
      {
@@ -439,7 +441,7 @@
          SilentSysadm = false;
  
          try
-@@ -739,20 +724,20 @@
+@@ -742,20 +725,20 @@ public class TAdminConsole
                  Console.WriteLine();
              }
  
@@ -466,7 +468,7 @@
                  }
                  else if (TAppSettingsManager.GetValue("Command") == "ConnectedClients")
                  {
-@@ -769,38 +754,33 @@
+@@ -772,38 +755,33 @@ public class TAdminConsole
                  else if (TAppSettingsManager.GetValue("Command") == "DisconnectClient")
                  {
                      ClientID = TAppSettingsManager.GetValue("ClientID");
@@ -514,7 +516,7 @@
          catch (Exception exp)
          {
              if ((!SilentSysadm))
-@@ -811,6 +791,7 @@
+@@ -814,7 +792,8 @@ public class TAdminConsole
              return;
          }
  
@@ -522,3 +524,6 @@
          // THE VERY END OF SERVERADMIN :(
      }
  }
+-}
+\ No newline at end of file
++}
