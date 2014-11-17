@@ -420,7 +420,8 @@
  
 -        TLogging.Log(AServerManager.ServerInfoVersion);
 +        TLogging.Log(TRemote.GetServerInfoVersion());
-         TLogging.Log(Catalog.GetString("Configuration file: " + AServerManager.ConfigurationFileName));
+-        TLogging.Log(Catalog.GetString("Configuration file: " + AServerManager.ConfigurationFileName));
++        TLogging.Log(Catalog.GetString("Configuration file: " + TAppSettingsManager.ConfigFileName));
          TLogging.Log("  Clients connections since Server start: " + TotalConnectedClients.ToString());
          TLogging.Log("  Clients currently connected: " + CurrentlyConnectedClients.ToString());
  
