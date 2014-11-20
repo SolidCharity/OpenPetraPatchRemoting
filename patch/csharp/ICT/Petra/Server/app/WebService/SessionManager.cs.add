@@ -110,6 +110,12 @@ namespace Ict.Petra.Server.App.WebService
                     TotalSeconds);
             }
 
+            // if the Login Method is called: reset cookie, ignore any old session
+            if (HttpContext.Current != null && HttpContext.Current.Request.PathInfo == "/Login")
+            {
+                TSession.Clear();
+            }
+
             if (TServerManager.TheServerManager == null)
             {
                 Catalog.Init();
