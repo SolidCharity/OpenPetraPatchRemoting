@@ -229,7 +229,7 @@
 -            return ReturnValue;
 +
 +            if ((OverallCookie == null)
-+                && url.StartsWith("OpenPetra.HTTPServer")
++                && url.StartsWith(TAppSettingsManager.GetValue("OpenPetra.HTTPServer"))
 +                && !(url.Contains("Login")
 +                     || (url.Contains("serverMServerAdmin.asmx"))))
 +            {
