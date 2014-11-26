@@ -230,7 +230,7 @@
 +
 +            if ((OverallCookie == null)
 +                && url.StartsWith(TAppSettingsManager.GetValue("OpenPetra.HTTPServer"))
-+                && !(url.Contains("Login")
++                && !(url.Contains("Login") || (url.Contains("/client"))
 +                     || (url.Contains("serverMServerAdmin.asmx"))))
 +            {
 +                TLogging.Log("GetNewWebClient: Cannot connect to the server without a cookie!  url=" + url);
