@@ -1,0 +1,11 @@
+--- a/csharp/ICT/Petra/Server/lib/MReporting/FastReportsWebConnector.cs	2014-11-28 12:31:31.750228099 +0100
++++ b/csharp/ICT/Petra/Server/lib/MReporting/FastReportsWebConnector.cs	2014-11-28 12:32:03.738227126 +0100
+@@ -179,7 +179,7 @@
+         [RequireModulePermission("none")]
+         public static Int32 GenerateReportOnClient(String ReportName, String Params)
+         {
+-            return DomainManagerBase.ClientTaskAdd(SharedConstants.CLIENTTASKGROUP_REPORT, ReportName, Params,
++            return DomainManager.CurrentClient.FTasksManager.ClientTaskAdd(SharedConstants.CLIENTTASKGROUP_REPORT, ReportName, Params,
+                 null, null, null, 1);
+         }
+     }
