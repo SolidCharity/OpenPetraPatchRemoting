@@ -1,5 +1,7 @@
---- openpetraNow.freeze2014_05/csharp/ICT/Petra/Client/app/Core/ClientTasks.cs	2014-05-16 08:51:15.000000000 +0200
-+++ openpetraNow.PatchRemoting/csharp/ICT/Petra/Client/app/Core/ClientTasks.cs	2014-05-15 22:04:07.000000000 +0200
+diff --git a/csharp/ICT/Petra/Client/app/Core/ClientTasks.cs b/csharp/ICT/Petra/Client/app/Core/ClientTasks.cs
+index 1f20bb0..19d82f4 100644
+--- a/csharp/ICT/Petra/Client/app/Core/ClientTasks.cs
++++ b/csharp/ICT/Petra/Client/app/Core/ClientTasks.cs
 @@ -4,7 +4,7 @@
  // @Authors:
  //       christiank, timop
@@ -9,7 +11,7 @@
  //
  // This file is part of OpenPetra.org.
  //
-@@ -25,6 +25,7 @@
+@@ -25,6 +25,7 @@ using System;
  using System.Data;
  using System.Threading;
  using Ict.Common;
@@ -17,12 +19,12 @@
  using System.Windows.Forms;
  using Ict.Common.Remoting.Client;
  using Ict.Petra.Shared;
-@@ -87,7 +88,7 @@
-                     TUserInfo.ReloadCachedUserInfo();
-                 }
+@@ -100,7 +101,7 @@ namespace Ict.Petra.Client.App.Core
+                         break;
+                     }
  
--                if (FClientTaskDataRow["TaskGroup"].ToString() == SharedConstants.CLIENTTASKGROUP_DISCONNECT)
-+                if (FClientTaskDataRow["TaskGroup"].ToString() == RemotingConstants.CLIENTTASKGROUP_DISCONNECT)
-                 {
-                     if (FClientTaskDataRow["TaskCode"].ToString() == "IMMEDIATE")
+-                    case SharedConstants.CLIENTTASKGROUP_DISCONNECT:
++                    case RemoteConstants.CLIENTTASKGROUP_DISCONNECT:
                      {
+                         if (FClientTaskDataRow["TaskCode"].ToString() == "IMMEDIATE")
+                         {
