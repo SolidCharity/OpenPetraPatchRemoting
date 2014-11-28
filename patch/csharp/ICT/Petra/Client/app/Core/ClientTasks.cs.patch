@@ -24,7 +24,7 @@ index 1f20bb0..19d82f4 100644
                      }
  
 -                    case SharedConstants.CLIENTTASKGROUP_DISCONNECT:
-+                    case RemoteConstants.CLIENTTASKGROUP_DISCONNECT:
++                    case RemotingConstants.CLIENTTASKGROUP_DISCONNECT:
                      {
                          if (FClientTaskDataRow["TaskCode"].ToString() == "IMMEDIATE")
                          {
